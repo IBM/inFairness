@@ -1,0 +1,15 @@
+# Test dependencies
+pytest
+coverage
+flake8
+setuptools
+wheel
+mock
+
+# Documentation dependencies
+sphinx
+myst-parser
+sphinx-design
+sphinxcontrib-apidoc
+furo
+travis-sphinx
