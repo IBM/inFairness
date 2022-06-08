@@ -11,5 +11,6 @@ sphinx
 myst-parser
 sphinx-design
 sphinxcontrib-apidoc
+sphinxcontrib-gtagjs
 furo
 travis-sphinx
