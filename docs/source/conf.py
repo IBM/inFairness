@@ -41,7 +41,8 @@ extensions = [
     'myst_parser',
     'sphinx.ext.napoleon',
     'sphinx.ext.intersphinx',
-    'sphinx.ext.viewcode'
+    'sphinx.ext.viewcode',
+    'sphinxcontrib.gtagjs'
 ]
 
 # API doc configuration
@@ -49,6 +50,11 @@ apidoc_module_dir = infairness_path
 # apidoc_output_dir = ''
 apidoc_excluded_paths = []
 apidoc_separate_modules = True
+
+# Google analytics tracking
+gtagjs_ids = [
+    'G-3QDFV4L7YB',
+]
 
 
 # Napolean docstring configuration

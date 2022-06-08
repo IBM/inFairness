@@ -1,22 +1,24 @@
+[![Build Status](https://app.travis-ci.com/IBM/inFairness.svg?branch=main)](https://app.travis-ci.com/IBM/inFairness)
 [![Python3.8+](https://img.shields.io/badge/python-3.8+-blue?style=flat-square&logo=python)](https://www.python.org/)
+[![License](https://img.shields.io/badge/license-Apache-yellow?style=flat-square)](https://opensource.org/licenses/Apache-2.0)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg?style=flat-square)](https://github.com/psf/black)
 
 
 # inFairness
 
-inFairness is a Python package that allows training individually fair PyTorch models
+inFairness is a PyTorch package that allows training individually fair PyTorch models
 
 
 ## Installation
 
-<!--inFairness can be installed using `pip`:
+inFairness can be installed using `pip`:
 
 ```
 pip install inFairness
-```-->
+```
 
 
-If you wish to install the latest development version, you can install directly by cloning this repository:
+Alternatively, if you wish to install the latest development version, you can install directly by cloning this repository:
 
 ```
 git clone <git repo url>
@@ -28,17 +30,18 @@ pip install -e .
 
 ## Features
 
-inFairness supports training of individually fair models and includes the following algorithms:
+inFairnesss currently supports:
 
-1. Sensitive Set Invariance (SenSeI): [Paper](https://arxiv.org/abs/2006.14168)
+1. Training of individually fair models : [[Docs]](https://ibm.github.io/inFairness/reference/algorithms.html)
+2. Auditing pre-trained ML models for individual fairness : [[Docs]](https://ibm.github.io/inFairness/reference/auditors.html)
 
 
 ### Coming soon
 
 We plan to extend the package by integrating the following features:
-1. Implement [Sensitive Subspace Robustness (SenSR)](https://arxiv.org/abs/1907.00020) algorithm.
-2. Implement additional individually fair distance metrics
-3. Allowing auditing of models
+1. Post-processing for Individual Fairness : [[Paper]](https://arxiv.org/abs/2110.13796)
+2. Support Individually fair boosting and ranking
+3. Additional individually fair metrics
 
 
 ## Contributing
@@ -59,9 +62,6 @@ We welcome contributions from the community in any form - whether it is through 
 
 The [`examples`](./examples) folder contains tutorials from different fields illustrating how to use the package.
 
-Some of these examples include:
-1. Individually fair sentiment classifier: [Notebook](./examples/sentiment-analysis/sentiment_analysis_demo_api.ipynb)
-
 ### Minimal example
 
 First, you need to import the relevant packages
@@ -71,14 +71,16 @@ from inFairness import distances
 from inFairness.fairalgo import SenSeI
 ```
 
-The `inFairness.auditor.SenSeIAuditor` helps the fairness algorithm compute the adversarial example given the input, `inFairness.distances` implements various distance metrics on the input and the output spaces, and the `inFairness.fairalgo.SenSeI` is the individually fair algorithm that ties all the components together.
+The `inFairness.distances` module implements various distance metrics on the input and the output spaces, and the `inFairness.fairalgo` implements various individually fair learning algorithms with `SenSeI` being one particular algorithm.
 
-Thereafter, we specify the distances, and 
+Thereafter, we instantiate and fit the distance metrics on the training data, and 
 
 
 ```[python]
-distance_x = distances.SVDSensitiveSubspaceDistance(w=0.01, n_components=50, X_train=data)
+distance_x = distances.SVDSensitiveSubspaceDistance()
 distance_y = distances.EuclideanDistance()
+
+distance_x.fit(X_train=data, n_components=50)
 
 # Finally instantiate the fair algorithm
 fairalgo = SenSeI(network, distance_x, distance_y, lossfn, rho=1.0, eps=1e-3, lr=0.01, auditor_nsteps=100, auditor_lr=0.1)
