@@ -1,0 +1,36 @@
+deploy:
+- provider: script
+  script: bash deploy_registry.sh
+  true:
+    branch: deploy
+    condition: $DEPLOYMENT = true
+
+dist: bionic
+
+language: python
+python:
+  - "3.8"
+  - "3.9"
+
+
+install:
+  - pip install -r requirements.txt
+  - pip install --upgrade -r build_requirements.txt
+
+
+script: 
+  - flake8 inFairness/ --exit-zero
+  - coverage run --source inFairness -m pytest tests/
+  - coverage report --sort=cover -m --fail-under=90
+  - cp .pypirc ~ 
+  - cat ~/.pypirc
+
+
+jobs:
+  include:
+    - stage: Build and deploy documentation
+      python: "3.8"
+      script:
+        - travis-sphinx build --nowarn
+      after_success:
+        - travis-sphinx deploy -b "main" -x "github.com"
