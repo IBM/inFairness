@@ -3,11 +3,11 @@
 
 inFairness is a Python package that allows training individually fair PyTorch models
 
-[![Source Code](https://img.shields.io/badge/Code-GitHub-g)](https://github.com/IBM/inFairness)
+[![Source Code](https://img.shields.io/badge/Code-GitHub-g?color=blueviolet)](https://github.com/IBM/inFairness)
 [![Build Status](https://app.travis-ci.com/IBM/inFairness.svg?branch=main)](https://app.travis-ci.com/IBM/inFairness)
-[![License](https://img.shields.io/github/license/ibm/infairness?color=%2334D058)](https://opensource.org/licenses/Apache-2.0)
-[![Package versinon](https://img.shields.io/pypi/v/infairness?color=%2334D058&label=pypi%20package)](https://pypi.org/project/infairness)
-[![Supported Python version](https://img.shields.io/pypi/pyversions/infairness.svg?color=%2334D058)](https://pypi.org/project/infairness)
+[![License](https://img.shields.io/github/license/ibm/infairness?color=informational)](https://opensource.org/licenses/Apache-2.0)
+[![Package versinon](https://img.shields.io/pypi/v/infairness?color=important&label=pypi%20package)](https://pypi.org/project/infairness)
+[![Python3.8+](https://img.shields.io/badge/python-3.8+-informational?logo=python)](https://www.python.org/)
 
 
 ----------------

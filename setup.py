@@ -1,5 +1,8 @@
 from setuptools import setup, find_packages
 
+with open("README.md", "r") as f:
+    long_description = f.read()
+
 setup(
     name="inFairness",
     packages=['inFairness', *["inFairness." + p for p in
@@ -19,7 +22,9 @@ setup(
         "scipy~=1.7.3"
     ],
     description="inFairness is a Python package to train and audit individually fair PyTorch models",
-    version="0.1",
+    long_description=long_description,
+    long_description_content_type='text/markdown',
+    version="0.1.0",
     url="https://github.com/IBM/inFairness",
     author = 'IBM Research',
     author_email = 'mayank.agarwal@ibm.com, aldo.pareja@ibm.com, onkarbhardwaj@ibm.com, mikhail.yurochkin@ibm.com',
