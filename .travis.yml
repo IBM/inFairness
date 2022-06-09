@@ -1,27 +1,37 @@
 dist: bionic
 
 language: python
-python:
-  - "3.8"
-  - "3.9"
 
+python:
+- '3.8'
+- '3.9'
 
 install:
-  - pip install -r requirements.txt
-  - pip install --upgrade -r build_requirements.txt
+- pip install -r requirements.txt
+- pip install --upgrade -r build_requirements.txt
 
-
-script: 
-  - flake8 inFairness/ --exit-zero
-  - coverage run --source inFairness -m pytest tests/
-  - coverage report --sort=cover -m --fail-under=90
-
+script:
+- flake8 inFairness/ --exit-zero
+- coverage run --source inFairness -m pytest tests/
+- coverage report --sort=cover -m --fail-under=90
 
 jobs:
   include:
-    - stage: Build and deploy documentation
-      python: "3.8"
-      script:
-        - travis-sphinx build --nowarn
-      after_success:
-        - travis-sphinx deploy -b "main" -x "github.com"
+  - stage: Build and deploy documentation
+    python: '3.8'
+    script:
+    - travis-sphinx build --nowarn
+    after_success:
+    - travis-sphinx deploy -b "main" -x "github.com"
+
+deploy:
+  provider: pypi
+  user: __token__
+  password:
+    secure: Sk5HY225/KOdukaXGFSfoWOto8y+OWrbDBY0GMoaIC8vABNslfy9v9B+6V2bnees0m3/rABG2KIADgTM1wbJeVv655BIm/UHP1v387JGLqNZEwz4gTPkNUng/gVObqH25vUDxaqBPQB0pAYKrdJPXaicCrt6ybz1hgN3peCp17CshQvTN2oJPmUSrp1q7auay1BRsCO+8NqAT2zZus8iEPkYaCeOWQFsqHnvOSlcjVq9oRbN04TbYnpCMECXLbKyV0mHnr9w0MH++l97x2GQuHCUl30ULcOVHjWzQ8K/y0LrrGTkJeIJYpdviUWwot3OcF5bUuEjd5452Jgaip4V4+7tPynCEYFP8nNO+hb22pCRoI5W11BKupF5dMmKVOduoNtr3U87/bQxRl24NNnA8kzx3j6cghPNHy3SntMnzOSVOTrS4KI756PeZfGA1nQuF8i/sSPzKrrZE4VM5Z7ZDWIc4ACU9OBmB0+Ix89OnTTXllFojJ+1KQzdh1UkkfERDdx4mcH2ThVRWzxr8BxVX3noVgu/Dpx8crJxjpS0sOZ8pVTlgcP1QM0eCaQQ51WbOCFGRHtlmNapaAsR5HrFZghhpTd7FKNCZAZVirJCsJkRAINOfvYlelKEGxFmYtKgGXiglCfMyxLgPZ0f9r1lDZJm7gFouEUyYtNtXeIW2bo=
+  distributions: sdist bdist_wheel
+  edge: true
+  on:
+    python: 3.8
+    tags: true
+    branch: main
