@@ -30,7 +30,7 @@ pip install -e .
 
 ## Features
 
-inFairnesss currently supports:
+inFairness currently supports:
 
 1. Training of individually fair models : [[Docs]](https://ibm.github.io/inFairness/reference/algorithms.html)
 2. Auditing pre-trained ML models for individual fairness : [[Docs]](https://ibm.github.io/inFairness/reference/auditors.html)
