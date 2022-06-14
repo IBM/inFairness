@@ -35,6 +35,11 @@ EXPLORE: Embedded Xenial Pairs Logistic Regression
 .. autoclass:: EXPLOREDistance
     :members:
 
+Logistic Regression Sensitive Subspace distance metric
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.. autoclass:: LogisticRegSensitiveSubspace
+    :members:
+
 Protected Euclidean Distance
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 .. autoclass:: ProtectedEuclideanDistance
