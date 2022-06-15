@@ -1,5 +1,7 @@
 # Examples
 
+> **Warning**
+> Example notebooks will currently fail to execute in Google Colaboratory. This is because Colab provides Python 3.7, while `inFairness` package requires Python 3.8 and above. The Colab team is working on upgrading the Colab environment to Python 3.8 and it is being tracked in the bug [here](https://github.com/googlecolab/colabtools/issues/1880). Users should be able to execute the notebooks on their local systems and on Colab once the environment update is complete.
 
 #### Auditing models for Individual Fairness
 | Task      | Auditor | Fair Metrics |  |
