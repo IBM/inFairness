@@ -8,9 +8,23 @@ from inFairness.utils import datautils
 
 
 class LogisticRegSensitiveSubspace(SensitiveSubspaceDistance):
-    """
-    does a logistic regression on protected attributes and adds the resulting coefficients as
-    a sensitive direction in A. It also adds unitary vectors to A for each protected attribute.
+    """Implements the Softmax Regression model based fair metric as defined in Appendix B.1
+    of "Training individually fair ML models with sensitive subspace robustness" paper.
+
+    This metric assumes that the sensitive attributes are discrete and observed for a small subset
+    of training data. Assuming data of the form :math:`(X_i, K_i, Y_i)` where :math:`K_i` is the
+    sensitive attribute of the i-th subject, the model fits a softmax regression model to the data as:
+
+    .. math:: \mathbb{P}(K_i = l\\mid X_i) = \\frac{\exp(a_l^TX_i+b_l)}{\\sum_{l=1}^k \\exp(a_l^TX_i+b_l)},\\ l=1,\\ldots,k
+
+    Using the span of the matrix :math:`A=[a_1, \cdots, a_k]`, the fair metric is trained as:
+
+    .. math:: d_x(x_1,x_2)^2 = (x_1 - x_2)^T(I - P_{\\text{ran}(A)})(x_1 - x_2)
+
+    References
+    -------------
+        `Yurochkin, Mikhail, Amanda Bower, and Yuekai Sun. "Training individually fair
+        ML models with sensitive subspace robustness." arXiv preprint arXiv:1907.00020 (2019).`
     """
 
     def __init__(self):
@@ -19,8 +33,9 @@ class LogisticRegSensitiveSubspace(SensitiveSubspaceDistance):
 
     def fit(
         self,
-        X_train: torch.Tensor,
-        protected_idxs: Iterable[int],
+        data_X: torch.Tensor,
+        data_SensitiveAttrs: torch.Tensor = None,
+        protected_idxs: Iterable[int] = None,
         keep_protected_idxs: bool = True,
         autoinfer_device: bool = True,
     ):
@@ -28,17 +43,23 @@ class LogisticRegSensitiveSubspace(SensitiveSubspaceDistance):
 
         Parameters
         --------------
-            dataset: torch.Tensor
-                the dataset including column names. The dataset should already be
-                pre-processed for a logistic regression, columns must be in alphabetical order to
-                keep consistency between the feature space computed by the distance and the main
-                model.
+            data_X: torch.Tensor
+                Input data corresponding to either :math:`X_i` or :math:`(X_i, K_i)` in the equation above.
+                If the variable corresponds to :math:`X_i`, then the `y_train` parameter should be specified.
+                If the variable corresponds to :math:`(X_i, K_i)` then the `protected_idxs` parameter
+                should be specified to indicate the sensitive attributes.
+
+            data_SensitiveAttrs: torch.Tensor
+                Represents the sensitive attributes ( :math:`K_i` ) and is used when the `X_train` parameter
+                represents :math:`X_i` from the equation above. **Note**: This parameter is mutually exclusive
+                with the `protected_idxs` parameter. Specififying both the `data_SensitiveAttrs` and `protected_idxs`
+                parameters will raise an error
 
             protected_idxs: Iterable[int]
-                list of indices of the attributes that should be protected,
-                e.g `sex` in a dataset to predict `income`. For each of this attributes two basis
-                vectors are added: one doing a logistic regression on the remaining attributes, and
-                a unit vector for the attribute itself. Only categorical protected attributes supported.
+                If the `X_train` parameter above represents :math:`(X_i, K_i)`, then this parameter is used
+                to provide the indices of sensitive attributes in `X_train`. **Note**: This parameter is mutually exclusive
+                with the `protected_idxs` parameter. Specififying both the `data_SensitiveAttrs` and `protected_idxs`
+                parameters will raise an error
 
             keep_protected_indices: bool
                 True, if while training the model, protected attributes will be part of the training data
@@ -52,17 +73,33 @@ class LogisticRegSensitiveSubspace(SensitiveSubspaceDistance):
                 on CPU.
         """
 
-        basis_vectors_ = self.compute_basis_vectors(
-            X_train, protected_idxs, keep_protected_idxs
-        )
+        if data_SensitiveAttrs is not None and protected_idxs is None:
+            basis_vectors_ = self.compute_basis_vectors_data(
+                X_train=data_X, y_train=data_SensitiveAttrs
+            )
+
+        elif data_SensitiveAttrs is None and protected_idxs is not None:
+            basis_vectors_ = self.compute_basis_vectors_protected_idxs(
+                data_X,
+                protected_idxs=protected_idxs,
+                keep_protected_idxs=keep_protected_idxs,
+            )
+
+        else:
+            raise AssertionError(
+                "Parameters `y_train` and `protected_idxs` are exclusive. Either of these two parameters should be None, and cannot be set to non-None values simultaneously."
+            )
+
         super().fit(basis_vectors_)
         self.basis_vectors_ = basis_vectors_
 
         if autoinfer_device:
-            device = datautils.get_device(X_train)
+            device = datautils.get_device(data_X)
             super().to(device)
 
-    def compute_basis_vectors(self, data, protected_idxs, keep_protected_idxs=True):
+    def compute_basis_vectors_protected_idxs(
+        self, data, protected_idxs, keep_protected_idxs=True
+    ):
 
         dtype = data.dtype
 
@@ -109,6 +146,30 @@ class LogisticRegSensitiveSubspace(SensitiveSubspaceDistance):
             # Protected indices are to be discarded. Therefore, we can
             # simply return back the logistic regression coefficients
             basis_vectors_ = coefs
+
+        basis_vectors_ = torch.tensor(basis_vectors_, dtype=dtype).T
+        basis_vectors_ = basis_vectors_.detach()
+
+        return basis_vectors_
+
+    def compute_basis_vectors_data(self, X_train, y_train):
+
+        dtype = X_train.dtype
+
+        X_train = datautils.convert_tensor_to_numpy(X_train)
+        y_train = datautils.convert_tensor_to_numpy(y_train)
+
+        basis_vectors_ = []
+        outdim = y_train.shape[-1]
+
+        basis_vectors_ = np.array(
+            [
+                LogisticRegression(solver="liblinear", penalty="l1")
+                .fit(X_train, y_train[:, idx])
+                .coef_.squeeze()
+                for idx in range(outdim)
+            ]
+        )
 
         basis_vectors_ = torch.tensor(basis_vectors_, dtype=dtype).T
         basis_vectors_ = basis_vectors_.detach()
