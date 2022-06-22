@@ -115,7 +115,12 @@ for epoch in range(EPOCHS):
 
 ##  Authors
 
-- Mikhail Yurochkin
-- Mayank Agarwal
-- Aldo Pareja
-- Onkar Bhardwaj
+<table>
+  <tr>
+    <td align="center"><a href="http://moonfolk.github.io/"><img src="https://avatars.githubusercontent.com/u/24443134?v=4?s=100" width="150px;" alt=""/><br /><b>Mikhail Yurochkin</b></a></a></td>
+    <td align="center"><a href="http://mayankagarwal.github.io/"><img src="https://avatars.githubusercontent.com/u/991913?v=4?s=100" width="150px;" alt=""/><br /><b>Mayank Agarwal</b></a></a></td>
+    <td align="center"><a href="https://github.com/aldopareja"><img src="https://avatars.githubusercontent.com/u/7622817?v=4?s=100" width="150px;" alt=""/><br /><b>Aldo Pareja</b></a></a></td>
+    <td align="center"><a href="https://github.com/onkarbhardwaj"><img src="https://avatars.githubusercontent.com/u/13560220?v=4?s=100" width="150px;" alt=""/><br /><b>Onkar Bhardwaj</b></a></a></td>
+  </tr>
+</table>
+
