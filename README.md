@@ -1,13 +1,26 @@
-[![Build Status](https://app.travis-ci.com/IBM/inFairness.svg?branch=main)](https://app.travis-ci.com/IBM/inFairness)
-[![Python3.8+](https://img.shields.io/badge/python-3.8+-blue?style=flat-square&logo=python)](https://www.python.org/)
-[![License](https://img.shields.io/badge/license-Apache-yellow?style=flat-square)](https://opensource.org/licenses/Apache-2.0)
-[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg?style=flat-square)](https://github.com/psf/black)
+<p align="center">
+  <a href="https://ibm.github.io/inFairness">
+     <img width="350" height="350" src="https://ibm.github.io/inFairness/_static/infairness-logo.png">
+   </a>
+</p>
+
+<p align="center">
+   <a href="https://pypi.org/project/infairness"><img src="https://img.shields.io/pypi/v/infairness?color=important&label=pypi%20package"></a>
+   <a href="https://ibm.github.io/inFairness"><img src="https://img.shields.io/badge/documentation-up-green"></a>
+   <a href="https://app.travis-ci.com/IBM/inFairness"><img src="https://app.travis-ci.com/IBM/inFairness.svg?branch=main"></a>
+   <a href="https://www.python.org/"><img src="https://img.shields.io/badge/python-3.8+-blue?logo=python"></a>
+   <a href="https://opensource.org/licenses/Apache-2.0"><img src="https://img.shields.io/badge/license-Apache-yellow"></a>
+   <a href="https://github.com/psf/black"><img src="https://img.shields.io/badge/code%20style-black-000000.svg"></a>
+</p>
 
 
-# inFairness
+## Introduction
 
-inFairness is a PyTorch package that allows training individually fair PyTorch models
+inFairness is a PyTorch package that allows training individually fair PyTorch models. Intuitively, an individually fair ML model treats similar users similarly. Formally, the leading notion of individual fairness is metric fairness [(Dwork et al., 2011)](https://dl.acm.org/doi/abs/10.1145/2090236.2090255); it requires:
 
+$$ d_y (h(x_1), h(x_2)) \leq L d_x(x_1, x_2) \quad \forall \quad x_1, x_2 \in X $$
+
+Here, $h: X \rightarrow Y$ is a ML model, where $X$ and $Y$ are input and output spaces; $d_x$ and $d_y$ are metrics on the input and output spaces, and $L \geq 0$ is a Lipchitz constant. The fair metric $d_x$ encodes our intuition of which samples should be treated similarly by the ML model. 
 
 ## Installation
 
