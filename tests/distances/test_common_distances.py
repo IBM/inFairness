@@ -190,3 +190,9 @@ def test_logistic_reg_distance_raises_error():
 
     with pytest.raises(AssertionError):
         dist.fit(X_train, data_SensitiveAttrs=protected_attr, protected_idxs=[1,2])
+
+    protected_attr = torch.randint(low=0, high=6, size=(100, 2)).long()
+    dist = distances.LogisticRegSensitiveSubspace()
+
+    with pytest.raises(AssertionError):
+        dist.fit(X_train, protected_attr)

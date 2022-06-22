@@ -4,7 +4,7 @@ import torch
 from sklearn.linear_model import LogisticRegression
 
 from inFairness.distances import SensitiveSubspaceDistance
-from inFairness.utils import datautils
+from inFairness.utils import datautils, validationutils
 
 
 class LogisticRegSensitiveSubspace(SensitiveSubspaceDistance):
@@ -113,6 +113,8 @@ class LogisticRegSensitiveSubspace(SensitiveSubspaceDistance):
         X_train = data[:, free_idxs]
         Y_train = data[:, protected_idxs]
 
+        self.__assert_sensitiveattrs_binary__(Y_train)
+
         coefs = np.array(
             [
                 LogisticRegression(solver="liblinear", penalty="l1")
@@ -159,6 +161,8 @@ class LogisticRegSensitiveSubspace(SensitiveSubspaceDistance):
         X_train = datautils.convert_tensor_to_numpy(X_train)
         y_train = datautils.convert_tensor_to_numpy(y_train)
 
+        self.__assert_sensitiveattrs_binary__(y_train)
+
         basis_vectors_ = []
         outdim = y_train.shape[-1]
 
@@ -175,3 +179,9 @@ class LogisticRegSensitiveSubspace(SensitiveSubspaceDistance):
         basis_vectors_ = basis_vectors_.detach()
 
         return basis_vectors_
+
+    def __assert_sensitiveattrs_binary__(self, sensitive_attrs):
+
+        assert validationutils.is_tensor_binary(
+            sensitive_attrs
+        ), "Sensitive attributes are required to be binary to learn the metric. Please binarize these attributes before fitting the metric."
