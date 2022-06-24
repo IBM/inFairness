@@ -18,3 +18,9 @@
 | Sentiment Analysis   | [SenSeI](https://ibm.github.io/inFairness/reference/algorithms.html#sensei-sensitive-set-invariance) | [SVDSensitiveSubspaceDistance](https://ibm.github.io/inFairness/reference/distances.html#svd-sensitive-subspace) |  [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://githubtocolab.com/IBM/inFairness/blob/main/examples/sentiment-analysis/sentiment_analysis_demo.ipynb)    |
 | Synthetic Data   | [SenSeI](https://ibm.github.io/inFairness/reference/algorithms.html#sensei-sensitive-set-invariance) | [ProtectedEuclidenDistance](https://ibm.github.io/inFairness/reference/distances.html#protected-euclidean-distance) |  [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://githubtocolab.com/IBM/inFairness/blob/main/examples/synthetic-data/synthetic_data_demo.ipynb)      |
 | Word Embedding Association Tests | --- |  [EXPLOREDistance](https://ibm.github.io/inFairness/reference/distances.html#explore-embedded-xenial-pairs-logistic-regression)  |  [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://githubtocolab.com/IBM/inFairness/blob/main/examples/word-embedding-association-test/weat-explore.ipynb)      |
+
+
+#### Post-processing pre-trained model predictions for Individual Fairness
+| Task      | Fair Metrics | Link |
+| ----------- | ----------- | ----------- |
+| Sentiment Analysis (DistilBERT model from HuggingFace)      | SVDSensitiveSubspaceDistance | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://githubtocolab.com/IBM/inFairness/blob/main/examples/postprocess-sentiment-analysis/postprocess.ipynb)       |
