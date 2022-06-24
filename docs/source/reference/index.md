@@ -10,5 +10,6 @@ This section serves as a showcase for how things look in Furo, and provides a sy
 algorithms
 auditors
 distances
+postprocessing
 utilities
 ```
