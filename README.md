@@ -27,6 +27,10 @@ inFairness is a PyTorch package that supports auditing, training, and post-proce
 
 For an in-depth tutorial of Individual Fairness and the inFairness package, please watch this tutorial. Also, take a look at the [examples](./examples/) folder for illustrative use-cases.
 
+<p align="center">
+  <a href="https://video.ibm.com/recorded/131932983" target="_blank"><img width="700" alt="Watch the tutorial" src="https://user-images.githubusercontent.com/991913/178768336-2bfa5958-487f-4f14-a156-03dacfd68263.png"></a>
+</p>
+
 ## Installation
 
 inFairness can be installed using `pip`:
@@ -120,12 +124,11 @@ for epoch in range(EPOCHS):
 
 ##  Authors
 
-<table>
+<table align="center">
   <tr>
-    <td align="center"><a href="http://moonfolk.github.io/"><img src="https://avatars.githubusercontent.com/u/24443134?v=4?s=100" width="150px;" alt=""/><br /><b>Mikhail Yurochkin</b></a></a></td>
-    <td align="center"><a href="http://mayankagarwal.github.io/"><img src="https://avatars.githubusercontent.com/u/991913?v=4?s=100" width="150px;" alt=""/><br /><b>Mayank Agarwal</b></a></a></td>
-    <td align="center"><a href="https://github.com/aldopareja"><img src="https://avatars.githubusercontent.com/u/7622817?v=4?s=100" width="150px;" alt=""/><br /><b>Aldo Pareja</b></a></a></td>
-    <td align="center"><a href="https://github.com/onkarbhardwaj"><img src="https://avatars.githubusercontent.com/u/13560220?v=4?s=100" width="150px;" alt=""/><br /><b>Onkar Bhardwaj</b></a></a></td>
+    <td align="center"><a href="http://moonfolk.github.io/"><img src="https://avatars.githubusercontent.com/u/24443134?v=4?s=100" width="120px;" alt=""/><br /><b>Mikhail Yurochkin</b></a></a></td>
+    <td align="center"><a href="http://mayankagarwal.github.io/"><img src="https://avatars.githubusercontent.com/u/991913?v=4?s=100" width="120px;" alt=""/><br /><b>Mayank Agarwal</b></a></a></td>
+    <td align="center"><a href="https://github.com/aldopareja"><img src="https://avatars.githubusercontent.com/u/7622817?v=4?s=100" width="120px;" alt=""/><br /><b>Aldo Pareja</b></a></a></td>
+    <td align="center"><a href="https://github.com/onkarbhardwaj"><img src="https://avatars.githubusercontent.com/u/13560220?v=4?s=100" width="120px;" alt=""/><br /><b>Onkar Bhardwaj</b></a></a></td>
   </tr>
 </table>
-
