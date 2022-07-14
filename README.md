@@ -6,7 +6,9 @@
 
 <p align="center">
    <a href="https://pypi.org/project/infairness"><img src="https://img.shields.io/pypi/v/infairness?color=important&label=pypi%20package"></a>
+   <a href="./examples"><img src="https://img.shields.io/badge/example-notebooks-red"></a>
    <a href="https://ibm.github.io/inFairness"><img src="https://img.shields.io/badge/documentation-up-green"></a>
+   <br/>
    <a href="https://app.travis-ci.com/IBM/inFairness"><img src="https://app.travis-ci.com/IBM/inFairness.svg?branch=main"></a>
    <a href="https://pepy.tech/project/infairness"><img src="https://pepy.tech/badge/infairness"></a>
    <a href="https://www.python.org/"><img src="https://img.shields.io/badge/python-3.8+-blue?logo=python"></a>
@@ -21,7 +23,7 @@ Intuitively, an individually fair Machine Learning (ML) model treats similar inp
 
 $$ d_y (h(x_1), h(x_2)) \leq L d_x(x_1, x_2) \quad \forall \quad x_1, x_2 \in X $$
 
-Here, $h: X \rightarrow Y$ is a ML model, where $X$ and $Y$ are input and output spaces; $d_x$ and $d_y$ are metrics on the input and output spaces, and $L \geq 0$ is a Lipchitz constant. This constrained optimization equation states that the distance between the model predictions for inputs $x_1$ and $x_2$ is upper-bounded by the distance between the inputs $x_1$ and $x_2$. Here, the fair metric $d_x$ encodes our intuition of which samples should be treated similarly by the ML model, and in designing so, we ensure that for input samples considered similar by the fair metric $d_x$, the model outputs will be similar as well.
+Here, $h: X \rightarrow Y$ is a ML model, where $X$ and $Y$ are input and output spaces; $d_x$ and $d_y$ are metrics on the input and output spaces, and $L \geq 0$ is a Lipchitz constant. This constrained optimization equation states that the distance between the model predictions for inputs $x_1$ and $x_2$ is upper-bounded by the fair distance between the inputs $x_1$ and $x_2$. Here, the fair metric $d_x$ encodes our intuition of which samples should be treated similarly by the ML model, and in designing so, we ensure that for input samples considered similar by the fair metric $d_x$, the model outputs will be similar as well.
 
 inFairness is a PyTorch package that supports auditing, training, and post-processing ML models for individual fairness. At its core, the library implements the key components of individual fairness pipeline: $d_x$ - distance in the input space, $d_y$ - distance in the output space, and the learning algorithms to optimize for the equation above.
 
@@ -54,16 +56,16 @@ pip install -e .
 
 inFairness currently supports:
 
-1. Training of individually fair models : [[Docs]](https://ibm.github.io/inFairness/reference/algorithms.html)
-2. Auditing pre-trained ML models for individual fairness : [[Docs]](https://ibm.github.io/inFairness/reference/auditors.html)
+1. Learning individually fair metrics : [[Docs]](https://ibm.github.io/inFairness/reference/distances.html)
+2. Training of individually fair models : [[Docs]](https://ibm.github.io/inFairness/reference/algorithms.html)
+3. Auditing pre-trained ML models for individual fairness : [[Docs]](https://ibm.github.io/inFairness/reference/auditors.html)
 
 
 ### Coming soon
 
 We plan to extend the package by integrating the following features:
 1. Post-processing for Individual Fairness : [[Paper]](https://arxiv.org/abs/2110.13796)
-2. Support Individually fair boosting and ranking
-3. Additional individually fair metrics
+2. Individually fair ranking : [[Paper]](https://arxiv.org/abs/2103.11023)
 
 
 ## Contributing
