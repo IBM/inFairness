@@ -1,7 +1,5 @@
 # Algorithms
 
-Algorithms included in the package
-
 ```{eval-rst}
 .. currentmodule:: inFairness.fairalgo
 
