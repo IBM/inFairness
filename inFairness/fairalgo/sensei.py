@@ -82,15 +82,15 @@ class SenSeI(nn.Module):
         X_worst = self.auditor.generate_worst_case_examples(
             self.network, X, lambda_param=self.lamb
         )
-        
+
         dist_x = self.distance_x(X, X_worst)
         mean_dist_x = dist_x.mean()
-        lr_factor = torch.maximum(mean_dist_x, self.eps) / torch.minimum(mean_dist_x, self.eps)
+        lr_factor = torch.maximum(mean_dist_x, self.eps) / torch.minimum(
+            mean_dist_x, self.eps
+        )
 
         self.lamb = torch.max(
-            torch.stack(
-                [minlambda, self.lamb + lr_factor * (mean_dist_x - self.eps)]
-            )
+            torch.stack([minlambda, self.lamb + lr_factor * (mean_dist_x - self.eps)])
         )
 
         Y_pred_worst = self.network(X_worst)

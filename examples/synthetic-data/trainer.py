@@ -1,4 +1,3 @@
-
 class Trainer(object):
     """Main trainer class that orchestrates the entire learning routine
     Use this class to start training a model using individual fairness routines
