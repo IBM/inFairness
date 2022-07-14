@@ -1,26 +1,41 @@
-# Individual Fairness and inFairness
+### inFairness
 
-[![Package version](https://img.shields.io/pypi/v/infairness?color=important&label=pypi%20package)](https://pypi.org/project/infairness)
-[![Source Code](https://img.shields.io/badge/Code-GitHub-g?color=blueviolet)](https://github.com/IBM/inFairness)
-[![Build Status](https://app.travis-ci.com/IBM/inFairness.svg?branch=main)](https://app.travis-ci.com/IBM/inFairness)
-[![License](https://img.shields.io/github/license/ibm/infairness?color=informational)](https://opensource.org/licenses/Apache-2.0)
-[![Python3.8+](https://img.shields.io/badge/python-3.8+-informational?logo=python)](https://www.python.org/)
+<br />
 
+<p align="center">
+   <a href="https://pypi.org/project/infairness"><img src="https://img.shields.io/pypi/v/infairness?color=important&label=pypi%20package"></a>
+   <a href="https://github.com/IBM/inFairness"><img src="https://img.shields.io/badge/code-GitHub-informational?logo=github"></a>
+   <a href="https://github.com/IBM/inFairness/tree/main/examples"><img src="https://img.shields.io/badge/example-notebooks-red?logo=jupyter"></a>
+   <a href="https://ibm.github.io/inFairness"><img src="https://img.shields.io/badge/documentation-up-green?logo=GitBook"></a>
+   <br/>
+   <a href="https://app.travis-ci.com/IBM/inFairness"><img src="https://app.travis-ci.com/IBM/inFairness.svg?branch=main"></a>
+   <a href="https://pepy.tech/project/infairness"><img src="https://pepy.tech/badge/infairness"></a>
+   <a href="https://www.python.org/"><img src="https://img.shields.io/badge/python-3.8+-blue?logo=python"></a>
+   <a href="https://opensource.org/licenses/Apache-2.0"><img src="https://img.shields.io/badge/license-Apache-yellow"></a>
+   <a href="https://github.com/psf/black"><img src="https://img.shields.io/badge/code%20style-black-000000.svg"></a>
+</p>
+
+<br />
 
 Intuitively, an individually fair Machine Learning (ML) model treats similar inputs similarly. Formally, the leading notion of individual fairness is metric fairness [(Dwork et al., 2011)](https://dl.acm.org/doi/abs/10.1145/2090236.2090255); it requires:
 
 $$ d_y (h(x_1), h(x_2)) \leq L d_x(x_1, x_2) \quad \forall \quad x_1, x_2 \in X $$
 
-Here, $h: X \rightarrow Y$ is a ML model, where $X$ and $Y$ are input and output spaces; $d_x$ and $d_y$ are metrics on the input and output spaces, and $L \geq 0$ is a Lipchitz constant. This constrained optimization equation states that the distance between the model predictions for inputs $x_1$ and $x_2$ is upper-bounded by the distance between the inputs $x_1$ and $x_2$. Here, the fair metric $d_x$ encodes our intuition of which samples should be treated similarly by the ML model, and in designing so, we ensure that for input samples considered similar by the fair metric $d_x$, the model outputs will be similar as well.
+Here, $h: X \rightarrow Y$ is a ML model, where $X$ and $Y$ are input and output spaces; $d_x$ and $d_y$ are metrics on the input and output spaces, and $L \geq 0$ is a Lipchitz constant. This constrained optimization equation states that the distance between the model predictions for inputs $x_1$ and $x_2$ is upper-bounded by the fair distance between the inputs $x_1$ and $x_2$. Here, the fair metric $d_x$ encodes our intuition of which samples should be treated similarly by the ML model, and in designing so, we ensure that for input samples considered similar by the fair metric $d_x$, the model outputs will be similar as well.
 
 inFairness is a PyTorch package that supports auditing, training, and post-processing ML models for individual fairness. At its core, the library implements the key components of individual fairness pipeline: $d_x$ - distance in the input space, $d_y$ - distance in the output space, and the learning algorithms to optimize for the equation above.
 
-For an in-depth tutorial of Individual Fairness and the inFairness package, please watch this tutorial. Also, take a look at the [examples](./examples/) for illustrative use-cases.
+For an in-depth tutorial of Individual Fairness and the inFairness package, please watch this tutorial. Also, take a look at the [examples](https://github.com/IBM/inFairness/tree/main/examples) folder for illustrative use-cases.
+
+<p align="center">
+<iframe width="480" height="270" src="https://video.ibm.com/embed/recorded/131932983" scrolling="no" allowfullscreen webkitallowfullscreen frameborder="0" style="border: 0 none transparent;"></iframe>
+</p>
+
 
 ----------------
 
 
-## Installation
+### Installation
 
 inFairness can be installed using `pip`:
 
@@ -38,7 +53,7 @@ pip install -e .
 ```
 
 
-## Features
+### Features
 
 
 inFairness currently supports:
@@ -65,7 +80,7 @@ The package implements the following components:
 
 ----------
 
-## API Documentation
+### API Documentation
 
 ```{toctree}
 :caption: Index

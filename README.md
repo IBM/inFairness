@@ -5,9 +5,9 @@
 </p>
 
 <p align="center">
-   <a href="https://pypi.org/project/infairness"><img src="https://img.shields.io/pypi/v/infairness?color=important&label=pypi%20package"></a>
-   <a href="./examples"><img src="https://img.shields.io/badge/example-notebooks-red"></a>
-   <a href="https://ibm.github.io/inFairness"><img src="https://img.shields.io/badge/documentation-up-green"></a>
+   <a href="https://pypi.org/project/infairness"><img src="https://img.shields.io/pypi/v/infairness?color=important&label=pypi%20package&logo=PyPy"></a>
+   <a href="./examples"><img src="https://img.shields.io/badge/example-notebooks-red?logo=jupyter"></a>
+   <a href="https://ibm.github.io/inFairness"><img src="https://img.shields.io/badge/documentation-up-green?logo=GitBook"></a>
    <br/>
    <a href="https://app.travis-ci.com/IBM/inFairness"><img src="https://app.travis-ci.com/IBM/inFairness.svg?branch=main"></a>
    <a href="https://pepy.tech/project/infairness"><img src="https://pepy.tech/badge/infairness"></a>
