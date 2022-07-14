@@ -6,6 +6,10 @@ import numpy as np
 
 from sklearn.preprocessing import StandardScaler
 from inFairness import distances
+from inFairness.distances.mahalanobis_distance import MahalanobisDistances
+from inFairness.distances.wasserstein_distance import (
+    mahalanobis_distance_to_batched_wasserstein_distance,
+)
 
 
 def test_euclidean_distance():
@@ -168,3 +172,33 @@ def test_squared_euclidean_distance():
 
     distx1x1 = dist(x1, x1)
     assert distx1x1 == 0
+
+
+def test_wasserstein_distance():
+    """
+    uses a SquaredEuclidean special case of a Mahalanobis distance to reduce the set difference between
+    2 batches of elements.
+    """
+    mahalanobis_dist = MahalanobisDistances()
+    mahalanobis_dist.fit(sigma=torch.eye(2))
+
+    wasserstein_dist = mahalanobis_distance_to_batched_wasserstein_distance(
+        mahalanobis_dist
+    )
+
+    x1 = torch.randn(3, 10, 2)
+    x2 = torch.nn.Parameter(torch.rand_like(x1))
+    optimizer = torch.optim.Adam([x2], lr=0.001)
+
+    for i in range(10000):
+        optimizer.zero_grad()
+        loss = wasserstein_dist(x1, x2).sum()
+        loss.backward()
+        optimizer.step()
+
+    """
+    if two sets are close in the euclidean space, the sum of the elements in the two sets must add to a similar 
+    value
+    """
+    assert torch.abs(x1.sum() - x2.sum()) < 0.5
+    
