@@ -13,7 +13,7 @@ setup(
         "setuptools~=52.0.0",
         "pyyaml~=5.4.1",
         "yacs~=0.1.8",
-        # "torch~=1.11.0",
+        "torch~=1.11.0",
         "numpy~=1.22.2",
         "scikit-learn~=0.24.2",
         "cloudpickle~=2.0.0",
