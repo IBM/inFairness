@@ -179,9 +179,27 @@ def test_logistic_reg_distance_no_protected_idx():
     X_train = torch.rand(size=(100, 5))
     protected_attr = torch.randint(low=0, high=2, size=(100, 2)).long()
 
-<<<<<<< HEAD
-    distx1x1 = dist(x1, x1)
-    assert distx1x1 == 0
+    dist = distances.LogisticRegSensitiveSubspace()
+    dist.fit(X_train, data_SensitiveAttrs=protected_attr)
+
+    assert dist.basis_vectors_.shape == (5, 2)
+
+
+def test_logistic_reg_distance_raises_error():
+
+    X_train = torch.rand(size=(100, 5))
+    protected_attr = torch.randint(low=0, high=2, size=(100, 2)).long()
+
+    dist = distances.LogisticRegSensitiveSubspace()
+
+    with pytest.raises(AssertionError):
+        dist.fit(X_train, data_SensitiveAttrs=protected_attr, protected_idxs=[1,2])
+
+    protected_attr = torch.randint(low=0, high=6, size=(100, 2)).long()
+    dist = distances.LogisticRegSensitiveSubspace()
+
+    with pytest.raises(AssertionError):
+        dist.fit(X_train, protected_attr)
 
 
 def test_wasserstein_distance():
@@ -211,27 +229,3 @@ def test_wasserstein_distance():
     value
     """
     assert torch.abs(x1.sum() - x2.sum()) < 0.5
-    
-=======
-    dist = distances.LogisticRegSensitiveSubspace()
-    dist.fit(X_train, data_SensitiveAttrs=protected_attr)
-
-    assert dist.basis_vectors_.shape == (5, 2)
-
-
-def test_logistic_reg_distance_raises_error():
-
-    X_train = torch.rand(size=(100, 5))
-    protected_attr = torch.randint(low=0, high=2, size=(100, 2)).long()
-
-    dist = distances.LogisticRegSensitiveSubspace()
-
-    with pytest.raises(AssertionError):
-        dist.fit(X_train, data_SensitiveAttrs=protected_attr, protected_idxs=[1,2])
-
-    protected_attr = torch.randint(low=0, high=6, size=(100, 2)).long()
-    dist = distances.LogisticRegSensitiveSubspace()
-
-    with pytest.raises(AssertionError):
-        dist.fit(X_train, protected_attr)
->>>>>>> main
