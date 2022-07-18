@@ -41,4 +41,10 @@ Euclidean Distance
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 .. autoclass:: EuclideanDistance
     :members:
+
+Wasserstein Distance
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.. autofunction:: mahalanobis_distance_to_batched_wasserstein_distance
 ```
+
+
