@@ -196,3 +196,31 @@ def test_logistic_reg_distance_raises_error():
 
     with pytest.raises(AssertionError):
         dist.fit(X_train, protected_attr)
+    x1 = torch.randn(3, 10, 2)
+    x2 = torch.nn.Parameter(torch.rand_like(x1))
+    optimizer = torch.optim.Adam([x2], lr=0.001)
+
+    for i in range(10000):
+        optimizer.zero_grad()
+        loss = wasserstein_dist(x1, x2).sum()
+        loss.backward()
+        optimizer.step()
+
+    """
+    if two sets are close in the euclidean space, the sum of the elements in the two sets must add to a similar 
+    value
+    """
+    assert torch.abs(x1.sum() - x2.sum()) < 0.5
+
+def test_batches_of_items_for_mahalanobis_distance():
+    dist = distances.SquaredEuclideanDistance()
+    dist.fit(num_dims=2)
+
+    x = torch.arange(12).reshape(2,3,2)
+    y = x + 1
+
+    dist.batches_of_sets_of_items()
+    result = dist(x,y)
+
+    "only on the last dimension the pairwise squared euclidean function is always 2"
+    assert all(result == 2.0)

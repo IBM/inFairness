@@ -43,6 +43,18 @@ class MahalanobisDistances(Distance):
 
         self.sigma = sigma
 
+    def batches_of_sets_of_items(self):
+        """ changes the signature of forward such that X1 and X2 are of dimensions B,N,D (batch size, number of items, num features)
+        and returns batched pairwise distances B,N,1
+        """
+        def new_forward(X1, X2):
+            x_diff = X1 - X2
+            dist = torch.einsum("bnj,ji,bni -> bn",x_diff,self.sigma,x_diff)
+            dist = dist.reshape(*(tuple(dist.shape) + (1,)))
+            return dist
+
+        self.forward = new_forward
+
     def forward(self, X1, X2):
         """Computes the distance between data samples X1 and X2
 
