@@ -28,10 +28,10 @@ class SenSTIRAuditor():
     -----------
     distance_q: batched wasserstein distance to compare each pair of queries per batch (q and q').
       it should take tensors x, y each with dimensions B,N,D (batch size, num_items and feature size)
-      and return a tensor of size B,1 corresponding to the wasserstein distance between queries in each batch.
+      and return a tensor of size B corresponding to the wasserstein distance between the two queries in each batch.
       You can use a mahalanobis distance to build this by using :class:`~inFairness.distances.BatchedWassersteinDistance`
 
-    distance_y: takes tensors x,y with dimensions B,N,D and returns a tensor with dimensions B,N conitaining the pairwise distace between items.
+    distance_y: takes tensors x,y with dimensions B,N,D and returns a tensor with dimensions B,N,1 conitaining the pairwise distace between items.
       Mahalanobis distance objects can perform this operation by setting parameter `batches_of_sets_of_items` to true when calling
       it's forward method. This would return batched version compatible with this class.
 
@@ -72,6 +72,7 @@ class SenSTIRAuditor():
     """
     assert optimizer is None or issubclass(optimizer, torch.optim.Optimizer)
 
+    batch_size, num_items, _ = Q.shape
     freeze_network(network)
     lambda_param = lambda_param.detach()
 
@@ -85,12 +86,13 @@ class SenSTIRAuditor():
     for _ in range(self.num_steps):
       optimizer.zero_grad()
       Q_worst = Q + delta
-      input_dist = self.distance_x(Q, Q_worst)
-      out_Q = network(Q)
-      out_Q_worst = network(Q_worst)
+      input_dist = self.distance_x(Q, Q_worst) # this is of size B
+      
+      out_Q = network(Q).reshape(batch_size,num_items) # shape B,N,1 scores --> B,N
+      out_Q_worst = network(Q_worst).reshape(batch_size, num_items)
 
-      out_dist = self.distance_y(out_Q, out_Q_worst, batches_of_sets_of_items=True)
-      out_dist = out_dist.sum(dim=1).sum(dim=-1) #distance_y outputs B,N,1
+      out_dist = self.distance_y(out_Q, out_Q_worst)
+      out_dist = out_dist.reshape(-1) #distance_y outputs B,1 whereas input_dist is B.
 
       loss = (-(out_dist - lambda_param  * input_dist)).sum()
       loss.backward()
