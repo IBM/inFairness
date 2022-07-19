@@ -196,6 +196,7 @@ def test_logistic_reg_distance_raises_error():
 
     with pytest.raises(AssertionError):
         dist.fit(X_train, protected_attr)
+<<<<<<< HEAD
 
 
 def test_wasserstein_distance():
@@ -236,3 +237,5 @@ def test_batches_of_items_for_mahalanobis_distance():
     "only on the last dimension the pairwise squared euclidean function is always 2"
     assert tuple(result.shape) == (2,3,1)
     assert (result == 2.0).all()
+=======
+>>>>>>> batched_mahalanobis_distance-2
