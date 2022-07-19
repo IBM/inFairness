@@ -32,6 +32,19 @@ class BatchedWassersteinDistance(Distance):
         self.batch_cost_function = self.batch_and_vectorize(self.mahalanobis_distance)
 
     def forward(self, x, y):
+        """computes a batch wasserstein distance implied by the cost function represented by an
+        underlying mahalanobis distance.
+
+        Parameters
+        ---------
+        x,y: torch.Tensor
+            should be of dimensions B,N,D and B,M,D
+        
+        Returns
+        --------
+        batched_wassenstein_distance: torch.Tensor
+            dimension B
+        """
         batched_wasserstein_distance_loss = SamplesLoss(
             "sinkhorn",
             blur=0.05,
