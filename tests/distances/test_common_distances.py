@@ -201,11 +201,11 @@ def test_batches_of_items_for_mahalanobis_distance():
     dist = distances.SquaredEuclideanDistance()
     dist.fit(num_dims=2)
 
-    x = torch.arange(12).reshape(2,3,2)
+    x = torch.arange(12,dtype=torch.float32).reshape(2,3,2)
     y = x + 1
 
-    dist.batches_of_sets_of_items()
-    result = dist(x,y)
+    result = dist(x,y,batches_of_sets_of_items=True)
 
     "only on the last dimension the pairwise squared euclidean function is always 2"
-    assert all(result == 2.0)
+    assert tuple(result.shape) == (2,3,1)
+    assert (result == 2.0).all()
