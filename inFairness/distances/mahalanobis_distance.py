@@ -43,7 +43,7 @@ class MahalanobisDistances(Distance):
 
         self.sigma = sigma
 
-    def forward(self, X1, X2, batches_of_sets_of_items=False):
+    def forward(self, X1, X2):
         """Computes the distance between data samples X1 and X2
 
         Parameters
@@ -52,9 +52,6 @@ class MahalanobisDistances(Distance):
                 Data samples from batch 1 of shape (n_samples, n_features)
             X2: torch.Tensor
                 Data samples from batch 2 of shape (n_samples, n_features)
-            batches_of_sets_of_items: bool
-                if True, X1 and X2 are expected to have (batch_size, n_samples, n_features)
-                and the function would return (batch_size, n_samples, 1)
 
         Returns
         ----------
@@ -64,15 +61,8 @@ class MahalanobisDistances(Distance):
                 it returns pairwise distance tensor with dims (batch_size, n_samples, 1)
         """
         X_diff = X1 - X2
-
-        if batches_of_sets_of_items:
-            X_diff = X1 - X2
-            dist = torch.einsum("bnj,ji,bni -> bn",X_diff,self.sigma,X_diff)
-            dist = dist.reshape(*(tuple(dist.shape) + (1,)))
-            return dist
-        else:
-            dist = torch.sum((X_diff @ self.sigma) * X_diff, dim=-1, keepdim=True)
-            return dist
+        dist = torch.sum((X_diff @ self.sigma) * X_diff, dim=-1, keepdim=True)
+        return dist
 
 
 class SquaredEuclideanDistance(MahalanobisDistances):
