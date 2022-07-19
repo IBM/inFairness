@@ -43,7 +43,19 @@ class MahalanobisDistances(Distance):
 
         self.sigma = sigma
 
-    def forward(self, X1, X2):
+    def batches_of_sets_of_items(self):
+        """ changes the signature of forward such that X1 and X2 are of dimensions B,N,D (batch size, number of items, num features)
+        and returns batched pairwise distances B,N,1
+        """
+        def new_forward(X1, X2):
+            x_diff = X1 - X2
+            dist = torch.einsum("bnj,ji,bni -> bn",x_diff,self.sigma,x_diff)
+            dist = dist.reshape(*(tuple(dist.shape) + (1,)))
+            return dist
+
+        self.forward = new_forward
+
+    def forward(self, X1, X2, batches_of_sets_of_items=False):
         """Computes the distance between data samples X1 and X2
 
         Parameters
@@ -52,17 +64,27 @@ class MahalanobisDistances(Distance):
                 Data samples from batch 1 of shape (n_samples, n_features)
             X2: torch.Tensor
                 Data samples from batch 2 of shape (n_samples, n_features)
+            batches_of_sets_of_items: bool
+                if True, X1 and X2 are expected to have (batch_size, n_samples, n_features)
+                and the function would return (batch_size, n_samples, 1)
 
         Returns
         ----------
             dist: torch.Tensor
                 Distance between each sample of batch 1 and batch 2.
-                Resulting shape is (n_samples, 1)
+                Resulting shape is (n_samples, 1). If ``batches_of_sets_of_items`` is True
+                it returns pairwise distance tensor with dims (batch_size, n_samples, 1)
         """
-
         X_diff = X1 - X2
-        dist = torch.sum((X_diff @ self.sigma) * X_diff, dim=-1, keepdim=True)
-        return dist
+
+        if batches_of_sets_of_items:
+            X_diff = X1 - X2
+            dist = torch.einsum("bnj,ji,bni -> bn",X_diff,self.sigma,X_diff)
+            dist = dist.reshape(*(tuple(dist.shape) + (1,)))
+            return dist
+        else:
+            dist = torch.sum((X_diff @ self.sigma) * X_diff, dim=-1, keepdim=True)
+            return dist
 
 
 class SquaredEuclideanDistance(MahalanobisDistances):
