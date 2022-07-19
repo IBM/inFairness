@@ -57,8 +57,7 @@ class MahalanobisDistances(Distance):
         ----------
             dist: torch.Tensor
                 Distance between each sample of batch 1 and batch 2.
-                Resulting shape is (n_samples, 1). If ``batches_of_sets_of_items`` is True
-                it returns pairwise distance tensor with dims (batch_size, n_samples, 1)
+                Resulting shape is (n_samples, 1).
         """
         X_diff = X1 - X2
         dist = torch.sum((X_diff @ self.sigma) * X_diff, dim=-1, keepdim=True)
