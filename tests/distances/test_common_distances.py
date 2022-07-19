@@ -208,10 +208,10 @@ def test_wasserstein_distance():
     wasserstein_dist.fit(num_dims=2)
 
     x1 = torch.randn(3, 10, 2)
-    x2 = torch.nn.Parameter(torch.rand_like(x1))
-    optimizer = torch.optim.Adam([x2], lr=0.002)
-    
-    for i in range(5000):
+    x2 = torch.nn.Parameter(torch.ones_like(x1))
+    optimizer = torch.optim.Adam([x2], lr=0.01)
+
+    for i in range(1000):
         optimizer.zero_grad()
         loss = wasserstein_dist(x1, x2).sum()
         loss.backward()
