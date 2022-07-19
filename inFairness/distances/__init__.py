@@ -16,8 +16,9 @@ from inFairness.distances.mahalanobis_distance import (
     SquaredEuclideanDistance,
 )
 
-from inFairness.distances.wasserstein_distance import(
-    mahalanobis_distance_to_batched_wasserstein_distance
+from inFairness.distances.wasserstein_distance import (
+    BatchedWassersteinDistance,
 )
+
 
 __all__ = [symb for symb in globals() if not symb.startswith("_")]
