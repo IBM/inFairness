@@ -1,58 +1,110 @@
-
 from tkinter import Y
 import torch
 from torch import nn
 
 from inFairness.auditor import SenSTIRAuditor
 from inFairness.utils import datautils
+from inFairness.utils.plackett_luce import PlackettLuce
+from inFairness.utils.misc import vect_gather
+from inFairness.utils.normalized_discounted_cumulative_gain import monte_carlo_vect_ndcg
 
 from datainterfaces import FairModelResponse
 
 
 class SenSTIR(nn.Module):
-  def __init__(self, network, distance_q, distance_y, loss_fn, rho, eps, auditor_nsteps, auditor_lr):
-    self.network = network
-    self.distance_q = distance_q
-    self.distance_y = distance_y
-    self.loss_fn = loss_fn
-    self.rho = rho
-    self.eps = eps
-    self.auditor_nsteps = auditor_nsteps
-    self.auditor_lr = auditor_lr
-    self.auditor = self.__init_auditor__()
+    def __init__(
+        self,
+        network,
+        distance_q,
+        distance_y,
+        rho,
+        eps,
+        auditor_nsteps,
+        auditor_lr,
+        monte_carlo_samples_ndcg: int,
+    ):
+        self.network = network
+        self.distance_q = distance_q
+        self.distance_y = distance_y
+        self.rho = rho
+        self.eps = eps
+        self.auditor_nsteps = auditor_nsteps
+        self.auditor_lr = auditor_lr
+        self.monte_carlo_samples_ndcg = monte_carlo_samples_ndcg
 
-  def __init_auditor__(self):
-    auditor = SenSTIRAuditor(
-      self.distance_q,
-      self.distance_y,
-      self.auditor_nsteps,
-      self.auditor_lr,
-    )
-  
-  def forward_train(self, Q, rels):
-    device = datautils.get_device(X)
+        self.auditor = self.__init_auditor__()
 
-    min_lambda = torch.tensor(1e-5, device=device)
+    def __init_auditor__(self):
+        auditor = SenSTIRAuditor(
+            self.distance_q,
+            self.distance_y,
+            self.auditor_nsteps,
+            self.auditor_lr,
+        )
+        return auditor
 
-    if self.lamb is None:
-      self.lamb = torch.tensor(1e-5, device = device)
-    if type(self.eps) is float:
-      self.eps = torch.tensor(self.eps, device=device)
-    
-    Q_worst = self.auditor.generate_worst_case_examples(
-      self.network, Q, self.lamb
-    )
+    def forward_train(self, Q, relevances):
+        batch_size, num_items, num_features = Q.shape
+        device = datautils.get_device(Q)
 
-    mean_dist_q = self.distance_q(Q,Q_worst).mean()
-    lr_factor = torch.maximum(mean_dist_q, self.eps) / torch.minimum(mean_dist_q, self.eps)
-    self.lamb = torch.maximum(min_lambda, self.lamb + lr_factor * (mean_dist_q - self.eps))
+        min_lambda = torch.tensor(1e-5, device=device)
 
-    rels_pred = self.network(Q)
-    rels_pred_worst = self.network(Q_worst)
+        if self.lamb is None:
+            self.lamb = torch.tensor(1e-5, device=device)
+        if type(self.eps) is float:
+            self.eps = torch.tensor(self.eps, device=device)
 
-    fair_loss = torch.mean(
-      self.loss_fn(rels_pred, rels) + self.rho * self.distance_y(rels_pred, rels_pred_worst)
-    )
+        Q_worst = self.auditor.generate_worst_case_examples(self.network, Q, self.lamb)
 
-    response = FairModelResponse(loss=fair_loss, y_pred=rels_pred)
-    return response
+        mean_dist_q = self.distance_q(Q, Q_worst).mean()
+        lr_factor = torch.maximum(mean_dist_q, self.eps) / torch.minimum(
+            mean_dist_q, self.eps
+        )
+        self.lamb = torch.maximum(
+            min_lambda, self.lamb + lr_factor * (mean_dist_q - self.eps)
+        )
+
+        scores = self.network(Q).reshape(batch_size, num_items) #(B,N,1) --> B,N
+        scores_worst = self.network(Q_worst).reshape(batch_size, num_items)
+
+        fair_loss = torch.mean(
+            -self.expected_ndcg(scores, relevances)
+            + self.rho * self.distance_y(scores, scores_worst)
+        )
+
+        response = FairModelResponse(loss=fair_loss, y_pred=scores)
+        return response
+
+    def expected_ndcg(self, scores, relevances):
+        """
+        uses monte carlo samples to estimate the expected normalized discounted cumulative reward
+        by using REINFORCE. See section 2 of the reference bellow.
+
+        Parameters
+        -------------
+        scores: torch.Tensor of dimension B,N
+          predicted scores for the objects in a batch of queries
+
+        relevances: torch.Tensor of dimension B,N
+          corresponding true relevances of such objects
+
+        Returns
+        ------------
+        expected_ndcg: torch.Tensor of dimension B
+          monte carlo approximation of the expected ndcg by sampling from a Plackett-Luce
+          distribution parameterized by :param:`scores`
+
+        References
+        ----------
+            `Amanda Bower, Hamid Eftekhari, Mikhail Yurochkin, Yuekai Sun:
+            Individually Fair Rankings. ICLR 2021`
+        """
+        prob_dist = PlackettLuce(scores)
+        mc_rankings = prob_dist.sample((self.monte_carlo_samples_ndcg,))
+        mc_log_prob = prob_dist.log_prob(mc_rankings)
+
+        mc_relevances = vect_gather(relevances, 1, mc_rankings)
+        mc_ndcg = monte_carlo_vect_ndcg(mc_relevances)
+
+        expected_utility = (mc_ndcg * mc_log_prob).mean(dim=0)
+        return expected_utility
