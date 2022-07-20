@@ -1,28 +1,31 @@
-from tkinter import Y
 import torch
 from torch import nn
 
 from inFairness.auditor import SenSTIRAuditor
+from inFairness.distances.mahalanobis_distance import MahalanobisDistances
+from inFairness.distances.wasserstein_distance import BatchedWassersteinDistance
 from inFairness.utils import datautils
 from inFairness.utils.plackett_luce import PlackettLuce
 from inFairness.utils.misc import vect_gather
 from inFairness.utils.normalized_discounted_cumulative_gain import monte_carlo_vect_ndcg
 
-from datainterfaces import FairModelResponse
+from inFairness.fairalgo.datainterfaces import FairModelResponse
 
 
 class SenSTIR(nn.Module):
     def __init__(
         self,
-        network,
-        distance_q,
-        distance_y,
+        network: torch.nn.Module,
+        distance_q: BatchedWassersteinDistance,
+        distance_y: MahalanobisDistances,
         rho,
         eps,
         auditor_nsteps,
         auditor_lr,
         monte_carlo_samples_ndcg: int,
     ):
+        super().__init__()
+
         self.network = network
         self.distance_q = distance_q
         self.distance_y = distance_y
@@ -31,7 +34,7 @@ class SenSTIR(nn.Module):
         self.auditor_nsteps = auditor_nsteps
         self.auditor_lr = auditor_lr
         self.monte_carlo_samples_ndcg = monte_carlo_samples_ndcg
-
+        self.lamb = None
         self.auditor = self.__init_auditor__()
 
     def __init_auditor__(self):
@@ -50,7 +53,7 @@ class SenSTIR(nn.Module):
         min_lambda = torch.tensor(1e-5, device=device)
 
         if self.lamb is None:
-            self.lamb = torch.tensor(1e-5, device=device)
+            self.lamb = torch.tensor(1.0, device=device)
         if type(self.eps) is float:
             self.eps = torch.tensor(self.eps, device=device)
 
@@ -68,14 +71,43 @@ class SenSTIR(nn.Module):
         scores_worst = self.network(Q_worst).reshape(batch_size, num_items)
 
         fair_loss = torch.mean(
-            -self.expected_ndcg(scores, relevances)
+            -self.expected_ndcg(self.monte_carlo_samples_ndcg, scores, relevances)
             + self.rho * self.distance_y(scores, scores_worst)
         )
 
         response = FairModelResponse(loss=fair_loss, y_pred=scores)
         return response
 
-    def expected_ndcg(self, scores, relevances):
+    def forward_test(self, Q):
+        """Forward method during the test phase"""
+
+        scores = self.network(Q).reshape(Q.shape[:2]) #B,N,1 -> B,N
+        response = FairModelResponse(y_pred=scores)
+        return response
+    
+    def forward(self, Q, relevances, **kwargs):
+        """Defines the computation performed at every call.
+
+        Parameters
+        ------------
+            X: torch.Tensor
+                Input data
+            Y: torch.Tensor
+                Expected output data
+
+        Returns
+        ----------
+            output: torch.Tensor
+                Model output
+        """
+
+        if self.training:
+            return self.forward_train(Q, relevances)
+        else:
+            return self.forward_test(Q)
+    
+    @staticmethod
+    def expected_ndcg(montecarlo_samples, scores, relevances):
         """
         uses monte carlo samples to estimate the expected normalized discounted cumulative reward
         by using REINFORCE. See section 2 of the reference bellow.
@@ -100,7 +132,7 @@ class SenSTIR(nn.Module):
             Individually Fair Rankings. ICLR 2021`
         """
         prob_dist = PlackettLuce(scores)
-        mc_rankings = prob_dist.sample((self.monte_carlo_samples_ndcg,))
+        mc_rankings = prob_dist.sample((montecarlo_samples,))
         mc_log_prob = prob_dist.log_prob(mc_rankings)
 
         mc_relevances = vect_gather(relevances, 1, mc_rankings)
