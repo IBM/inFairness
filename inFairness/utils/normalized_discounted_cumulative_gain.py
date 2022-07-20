@@ -29,8 +29,18 @@ def normalized_discounted_cumulative_gain(relevances):
 
 """
 vectorizes :func: `normalized_discounted_cumulative_gain` to work on a batch of vectors of relevances
-given in a tensor of dimensions B,N
+given in a tensor of dimensions B,N. The output would be the NDCG on the last dimmension. And it's batched
+version would return B samples.
 """
 vect_normalized_discounted_cumulative_gain = vmap(normalized_discounted_cumulative_gain,
   in_dims=(0)
 )
+
+"""
+Adds a further outer dimension to the vectorized normalized discounted cumulative gain so it works 
+on monte carlo samples of rankings (e.g. samples of a plackett-luce distribution).
+
+This function would take a tensor of size S,B,N and return a tensor of size S,B with the
+ndcg of each vector.
+"""
+monte_carlo_vect_ndcg = vmap(vect_normalized_discounted_cumulative_gain, in_dims=(0,))
