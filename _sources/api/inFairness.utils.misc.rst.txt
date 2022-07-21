@@ -1,0 +1,7 @@
+inFairness.utils.misc module
+============================
+
+.. automodule:: inFairness.utils.misc
+   :members:
+   :undoc-members:
+   :show-inheritance:

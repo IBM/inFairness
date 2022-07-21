@@ -1,0 +1,21 @@
+inFairness.utils package
+========================
+
+Submodules
+----------
+
+.. toctree::
+   :maxdepth: 4
+
+   inFairness.utils.datautils
+   inFairness.utils.misc
+   inFairness.utils.params
+   inFairness.utils.validationutils
+
+Module contents
+---------------
+
+.. automodule:: inFairness.utils
+   :members:
+   :undoc-members:
+   :show-inheritance:

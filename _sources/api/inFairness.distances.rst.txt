@@ -1,0 +1,23 @@
+inFairness.distances package
+============================
+
+Submodules
+----------
+
+.. toctree::
+   :maxdepth: 4
+
+   inFairness.distances.distance
+   inFairness.distances.euclidean_dists
+   inFairness.distances.explore_distance
+   inFairness.distances.logistic_sensitive_subspace
+   inFairness.distances.mahalanobis_distance
+   inFairness.distances.sensitive_subspace_dist
+
+Module contents
+---------------
+
+.. automodule:: inFairness.distances
+   :members:
+   :undoc-members:
+   :show-inheritance:

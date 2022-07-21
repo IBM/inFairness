@@ -1,0 +1,7 @@
+inFairness
+==========
+
+.. toctree::
+   :maxdepth: 4
+
+   inFairness

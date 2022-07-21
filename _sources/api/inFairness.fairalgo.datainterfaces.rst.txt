@@ -1,0 +1,7 @@
+inFairness.fairalgo.datainterfaces module
+=========================================
+
+.. automodule:: inFairness.fairalgo.datainterfaces
+   :members:
+   :undoc-members:
+   :show-inheritance:

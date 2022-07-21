@@ -1,0 +1,7 @@
+inFairness.distances.sensitive\_subspace\_dist module
+=====================================================
+
+.. automodule:: inFairness.distances.sensitive_subspace_dist
+   :members:
+   :undoc-members:
+   :show-inheritance:
