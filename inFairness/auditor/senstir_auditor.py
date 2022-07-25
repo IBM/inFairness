@@ -58,7 +58,7 @@ class SenSTIRAuditor:
         self.max_noise = max_noise
         self.min_noise = min_noise
 
-    def generate_worst_case_examples(self, network, Q, lambda_param, optimizer):
+    def generate_worst_case_examples(self, network, Q, lambda_param, optimizer=None):
         """Generate worst case examples given the input sample batch of queries Q (dimensions batch_size,num_items,num_features)
 
         Parameters
@@ -104,7 +104,7 @@ class SenSTIRAuditor:
 
             out_dist = self.distance_y(out_Q, out_Q_worst)
             out_dist = out_dist.reshape(
-                -1
+                batch_size,
             )  # distance_y outputs B,1 whereas input_dist is B.
 
             loss = (-(out_dist - lambda_param * input_dist)).sum()

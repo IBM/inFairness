@@ -57,23 +57,30 @@ class SenSTIR(nn.Module):
         if type(self.eps) is float:
             self.eps = torch.tensor(self.eps, device=device)
 
-        Q_worst = self.auditor.generate_worst_case_examples(self.network, Q, self.lamb)
+        if self.rho > 0.0:
+            Q_worst = self.auditor.generate_worst_case_examples(self.network, Q, self.lamb)
 
-        mean_dist_q = self.distance_q(Q, Q_worst).mean()
-        lr_factor = torch.maximum(mean_dist_q, self.eps) / torch.minimum(
-            mean_dist_q, self.eps
-        )
-        self.lamb = torch.maximum(
-            min_lambda, self.lamb + lr_factor * (mean_dist_q - self.eps)
-        )
+            mean_dist_q = self.distance_q(Q, Q_worst).mean()
+            # lr_factor = torch.maximum(mean_dist_q, self.eps) / torch.minimum(
+            #     mean_dist_q, self.eps
+            # )
+            lr_factor = self.rho * self.auditor_lr
+            self.lamb = torch.maximum(
+                min_lambda, self.lamb + lr_factor * (mean_dist_q - self.eps)
+            )
 
-        scores = self.network(Q).reshape(batch_size, num_items) #(B,N,1) --> B,N
-        scores_worst = self.network(Q_worst).reshape(batch_size, num_items)
+            scores = self.network(Q).reshape(batch_size, num_items) #(B,N,1) --> B,N    
+            scores_worst = self.network(Q_worst).reshape(batch_size, num_items)
 
+        else:
+            scores = self.network(Q).reshape(batch_size, num_items) #(B,N,1) --> B,N
+            scores_worst = torch.ones_like(scores)
+        
         fair_loss = torch.mean(
             -self.expected_ndcg(self.monte_carlo_samples_ndcg, scores, relevances)
             + self.rho * self.distance_y(scores, scores_worst)
         )
+
 
         response = FairModelResponse(loss=fair_loss, y_pred=scores)
         return response
