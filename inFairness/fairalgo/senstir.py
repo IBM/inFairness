@@ -64,7 +64,7 @@ class SenSTIR(nn.Module):
             # lr_factor = torch.maximum(mean_dist_q, self.eps) / torch.minimum(
             #     mean_dist_q, self.eps
             # )
-            lr_factor = self.rho * self.auditor_lr
+            lr_factor = 0.5 * self.rho
             self.lamb = torch.maximum(
                 min_lambda, self.lamb + lr_factor * (mean_dist_q - self.eps)
             )
