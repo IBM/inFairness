@@ -1,76 +1,18 @@
 # Examples
 
+- **Auditing models for Individual Fairness**
 
-Synthetic data
--------------------
+| Task      | Jupyter link | Binder link |
+| ----------- | ----------- | ----------- |
+| Adult Income Prediction <br> <small>Predict if a person makes >$50000 or not. Model should be fair across genders.</small>     |  [![Jupyter notebook](https://img.shields.io/badge/jupyter-notebook-orange?style=flat&logo=Jupyter)](https://github.com/IBM/inFairness/blob/main/examples/adult-income-prediction/adult_income_prediction.ipynb) |  [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/ibm/infairness/main?labpath=examples%2Fadult-income-prediction%2Fadult_income_prediction.ipynb)     |
+| Sentiment Analysis <br> <small>Predict the sentiment of an input sentence. Model should be fair across names from different ethnicities.</small>  | [![Jupyter notebook](https://img.shields.io/badge/jupyter-notebook-orange?style=flat&logo=Jupyter)](https://github.com/IBM/inFairness/blob/main/examples/sentiment-analysis/sentiment_analysis_demo.ipynb) |  [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/ibm/infairness/main?labpath=examples%2Fsentiment-analysis%2Fsentiment_analysis_demo.ipynb)    |
 
-```{eval-rst}
 
-.. list-table::
+- **Training models for Individual Fairness**
 
-    * - In this experiment, we generate random 2-dimensional data, and train a classifier
-        with one dimension explicitly specified as a protected attribute. In the figure here,
-        we x-axis is defined to be a protected attribute, thus, the classifier learns to ignore
-        the protected attribute while making predictions.
-
-        .. button-link:: https://github.com/IBM/inFairness/tree/main/examples/synthetic-data
-            :expand:
-            :color: secondary
-
-            Experiment Link
-
-      - .. figure:: _static/imgs/example-synthetic-data.png
-
-```
-
--------------------
-
-Individually fair sentiment classifier
--------------------
-
-```{eval-rst}
-
-.. list-table::
-
-    * - Ideally, sentiment classifiers should not assign a higher sentiment to
-        names predominant of one particular community over another. Unfortunately,
-        sentiment classifiers trained on standard word embeddings do assign a higher 
-        sentiment to predominantly white names as opposed to predominantly black names.
-        
-        In this example, we first show that standard sentiment classifier exhibit this
-        undesirable property. Thereafter, we train an individually fair sentiment classifier
-        that assigns similar sentiments to names from the two communities.
-
-        .. button-link:: https://github.com/IBM/inFairness/tree/main/examples/sentiment-analysis
-            :expand:
-            :color: secondary
-
-            Experiment Link
-
-      - .. figure:: _static/imgs/example-sentiment-clf.png
-
-```
-
--------------------
-
-Word Embedding Association Tests
--------------------
-
-```{eval-rst}
-
-.. list-table::
-
-    * - Many recent works have observed biases in word embeddings. `Caliskan et al. (2017) <https://arxiv.org/pdf/1608.07187.pdf>`_
-        proposed a methodological way of analyzing various biases through a series of Word Embedding Association Tests (WEATs). 
-        In this experiment, we show that replacing the metric on the word embedding space with a fair metric such as EXPLORE 
-        eliminates most biases in word embeddings.
-
-        .. button-link:: https://github.com/IBM/inFairness/tree/main/examples/word-embedding-association-test
-            :expand:
-            :color: secondary
-
-            Experiment Link
-
-      - .. figure:: _static/imgs/example-weat.png
-
-```
+| Task      | Jupyter link | Binder link |
+| ----------- | ----------- | ----------- |
+| Adult Income Prediction  <br> <small>Predict if a person makes >$50000 or not. Model should be fair across genders.</small>   |  [![Jupyter notebook](https://img.shields.io/badge/jupyter-notebook-orange?style=flat&logo=Jupyter)](https://github.com/IBM/inFairness/blob/main/examples/adult-income-prediction/adult_income_prediction.ipynb) |  [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/ibm/infairness/main?labpath=examples%2Fadult-income-prediction%2Fadult_income_prediction.ipynb)     |
+| Sentiment Analysis  <br> <small>Predict the sentiment of an input sentence. Model should be fair across names from different ethnicities.</small> | [![Jupyter notebook](https://img.shields.io/badge/jupyter-notebook-orange?style=flat&logo=Jupyter)](https://github.com/IBM/inFairness/blob/main/examples/sentiment-analysis/sentiment_analysis_demo.ipynb) |  [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/ibm/infairness/main?labpath=examples%2Fsentiment-analysis%2Fsentiment_analysis_demo.ipynb)    |
+| Synthetic Data <br> <small> Classifier trained on a randomly generated 2-dimensional data with one dimension explicitly specified as a protected attribute.</small>   | [![Jupyter notebook](https://img.shields.io/badge/jupyter-notebook-orange?style=flat&logo=Jupyter)](https://github.com/IBM/inFairness/blob/main/examples/synthetic-data/synthetic_data_demo.ipynb) |  [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/ibm/infairness/main?labpath=examples%2Fsynthetic-data%2Fsynthetic_data_demo.ipynb)    |
+| Word Embedding Association Tests <br> <small> Reduce bias in word embeddings by replacing the metric in the embedding space with an individually fair metric. </small> | [![Jupyter notebook](https://img.shields.io/badge/jupyter-notebook-orange?style=flat&logo=Jupyter)](https://github.com/IBM/inFairness/blob/main/examples/word-embedding-association-test/weat-explore.ipynb)  |  [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/ibm/infairness/main?labpath=examples%2Fword-embedding-association-test%2Fweat-explore.ipynb)      |

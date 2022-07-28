@@ -138,7 +138,20 @@ def test_explore_sensitive_subspace_distance():
     assert dist.requires_grad == True
 
 
-def test_logistic_reg_distance():
+def test_squared_euclidean_distance():
+    x1 = 2 * torch.ones(2)
+    x2 = torch.zeros(2)
+    dist = distances.SquaredEuclideanDistance()
+    dist.fit(num_dims=2)
+
+    distx1x2 = dist(x1, x2)
+    assert distx1x2.item() == 8
+
+    distx1x1 = dist(x1, x1)
+    assert distx1x1 == 0
+
+
+def test_logistic_reg_distance_protected_idx():
 
     X_train = torch.rand(size=(100, 3))
     mean = X_train.mean(dim=0, keepdim=True)
@@ -157,14 +170,29 @@ def test_logistic_reg_distance():
     assert dist.basis_vectors_[0, 0] > dist.basis_vectors_[1, 0]
 
 
-def test_squared_euclidean_distance():
-    x1 = 2 * torch.ones(2)
-    x2 = torch.zeros(2)
-    dist = distances.SquaredEuclideanDistance()
-    dist.fit(num_dims=2)
+def test_logistic_reg_distance_no_protected_idx():
 
-    distx1x2 = dist(x1, x2)
-    assert distx1x2.item() == 8
+    X_train = torch.rand(size=(100, 5))
+    protected_attr = torch.randint(low=0, high=2, size=(100, 2)).long()
 
-    distx1x1 = dist(x1, x1)
-    assert distx1x1 == 0
+    dist = distances.LogisticRegSensitiveSubspace()
+    dist.fit(X_train, data_SensitiveAttrs=protected_attr)
+
+    assert dist.basis_vectors_.shape == (5, 2)
+
+
+def test_logistic_reg_distance_raises_error():
+
+    X_train = torch.rand(size=(100, 5))
+    protected_attr = torch.randint(low=0, high=2, size=(100, 2)).long()
+
+    dist = distances.LogisticRegSensitiveSubspace()
+
+    with pytest.raises(AssertionError):
+        dist.fit(X_train, data_SensitiveAttrs=protected_attr, protected_idxs=[1,2])
+
+    protected_attr = torch.randint(low=0, high=6, size=(100, 2)).long()
+    dist = distances.LogisticRegSensitiveSubspace()
+
+    with pytest.raises(AssertionError):
+        dist.fit(X_train, protected_attr)

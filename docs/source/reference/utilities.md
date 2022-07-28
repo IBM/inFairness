@@ -1,7 +1,5 @@
 # Utilities
 
-Utilites provided in the package
-
 
 ```{eval-rst}
 Data utilities
