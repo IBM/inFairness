@@ -7,7 +7,7 @@ python:
 - '3.9'
 
 install:
-- python -c "import setuptools; print(setuptools.__version__)"
+- pip install setuptools --upgrade
 - pip install -r requirements.txt
 - pip install --upgrade -r build_requirements.txt
 

@@ -1,5 +1,5 @@
 tabulate~=0.8.9
-setuptools~=63.3.0
+# setuptools~=63.3.0
 pyyaml~=5.4.1
 yacs~=0.1.8
 # torch~=1.11.0
