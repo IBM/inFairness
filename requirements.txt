@@ -12,4 +12,4 @@ scipy~=1.7.3
 --extra-index-url https://download.pytorch.org/whl/cu113
 torch~=1.12.0
 functorch~=0.2.0
-geomloss~=0.2.5
+geomloss @ git+https://github.com/josephenguehard/geomloss.git@b8d918bfc54b7b061cc33f9ecc08a4065c07ce8a
