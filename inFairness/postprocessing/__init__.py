@@ -1,4 +1,4 @@
-from inFairness.postprocessing.postprocess import GraphLaplacianIF
+from inFairness.postprocessing.glif import GraphLaplacianIF
 from inFairness.postprocessing.base_postprocessing import BasePostProcessing
 
 
