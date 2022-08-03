@@ -1,4 +1,4 @@
-dist: bionic
+dist: focal
 
 language: python
 
@@ -7,7 +7,8 @@ python:
 - '3.9'
 
 install:
-- pip install -r requirements.txt
+- pip install --upgrade pip
+- pip install --upgrade -r requirements.txt
 - pip install --upgrade -r build_requirements.txt
 
 script:
