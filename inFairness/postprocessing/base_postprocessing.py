@@ -1,7 +1,7 @@
 import torch
 
 from typing import Tuple
-from inFairness.postprocessing.data_ds import Data
+from inFairness.postprocessing.data_ds import PostProcessingDataStore
 
 
 class BasePostProcessing(object):
@@ -16,7 +16,7 @@ class BasePostProcessing(object):
     def __init__(self, distance_x):
 
         self.distance_x = distance_x
-        self.datastore = Data(distance_x)
+        self.datastore = PostProcessingDataStore(distance_x)
 
     @property
     def data(self):

@@ -21,4 +21,4 @@
 #### Post-processing pre-trained model predictions for Individual Fairness
 | Task      | Fair Metrics | Link |
 | ----------- | ----------- | ----------- |
-| Sentiment Analysis (DistilBERT model from HuggingFace)      | [SVDSensitiveSubspaceDistance](https://ibm.github.io/inFairness/reference/distances.html#svd-sensitive-subspace) | [![Binder](https://mybinder.org/badge_logo.svg)](ttps://mybinder.org/v2/gh/ibm/infairness/main?labpath=examples%2Fpostprocess-sentiment-analysis%2Fpostprocess.ipynb)       |
+| Sentiment Analysis (DistilBERT model)      | [SVDSensitiveSubspaceDistance](https://ibm.github.io/inFairness/reference/distances.html#svd-sensitive-subspace) | [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/ibm/infairness/main?labpath=examples%2Fpostprocess-sentiment-analysis%2Fpostprocess.ipynb)       |

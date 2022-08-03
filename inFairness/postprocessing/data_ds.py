@@ -3,7 +3,7 @@ import torch
 from inFairness.postprocessing.distance_ds import DistanceStructure
 
 
-class Data(object):
+class PostProcessingDataStore(object):
     """Data strucuture to hold the data used for post-processing
 
     Parameters

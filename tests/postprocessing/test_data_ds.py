@@ -3,7 +3,7 @@ import torch
 import numpy as np
 
 from inFairness.distances import EuclideanDistance
-from inFairness.postprocessing.data_ds import Data
+from inFairness.postprocessing.data_ds import PostProcessingDataStore
 
 
 def test_add_data():
@@ -11,7 +11,7 @@ def test_add_data():
     ntries = 10
     B, D = 10, 50
     distance_x = EuclideanDistance()
-    data_ds = Data(distance_x)
+    data_ds = PostProcessingDataStore(distance_x)
     counter = 0
 
     for _ in range(ntries):
@@ -32,7 +32,7 @@ def test_reset_data():
 
     B, D = 10, 50
     distance_x = EuclideanDistance()
-    data_ds = Data(distance_x)
+    data_ds = PostProcessingDataStore(distance_x)
 
     X = torch.rand(size=(B, D))
     Y = torch.rand(size=(B,))
