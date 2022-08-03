@@ -5,10 +5,12 @@ from inFairness.distances import (
     BatchedWassersteinDistance,
     MahalanobisDistances,
 )
+from inFairness.auditor import Auditor
+
 from inFairness.utils.params import freeze_network, unfreeze_network
 
 
-class SenSTIRAuditor:
+class SenSTIRAuditor(Auditor):
     """SenSTIR Auditor generates worst-case examples by solving the
     following optimization problem:
 
@@ -114,3 +116,4 @@ class SenSTIRAuditor:
         unfreeze_network(network)
 
         return (Q + delta).detach()
+        

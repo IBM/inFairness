@@ -53,3 +53,9 @@ def test_sestirauditor_generate_worst_case_examples():
 
   # if two sets are close, their sum should add to a similar value
   assert (torch.abs(first_dim_Q.sum(1) - first_dim_Q_worst.sum(1)) < 1.0).all()
+
+  auditor.compute_loss_ratio(Q,Q_worst,)
+
+if __name__ == "__main__":
+  from ipdb import set_trace; set_trace()
+  test_sestirauditor_generate_worst_case_examples()
