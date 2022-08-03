@@ -23,7 +23,7 @@ def test_batch_plackett_luce():
   relevances2 = torch.arange(2,-1,-1, dtype=torch.float)
   relevances = torch.stack([relevances1, relevances2])
 
-  montecarlo_samples = 10
+  montecarlo_samples = 100
   dummy_logits = Parameter(torch.randn(2,3))
   plackett_luce = PlackettLuce(dummy_logits)
 
