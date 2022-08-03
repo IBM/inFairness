@@ -64,19 +64,8 @@ class GraphLaplacianIF(BasePostProcessing):
         D_batch=None,
     ):
 
-        tmp = {
-            "yhat_batch": yhat_batch,
-            "w_batch": W_batch,
-            "y": y,
-            "diag_W_batch": diag_W_batch,
-            "D_inv_batch": D_inv_batch,
-            "D_batch": D_batch,
-        }
-
-        for k, v in tmp.items():
-            if v is not None:
-                print(k, "-->", v.shape)
-
+        W_xy = W_batch.unsqueeze(-1) * y.unsqueeze(0)
+        
         """
         Shapes:
             W_batch: (bsz, nsamples)
@@ -86,7 +75,6 @@ class GraphLaplacianIF(BasePostProcessing):
             numerator: (bsz, ncls-1)
             denominator: (bsz, 1)
         """
-        W_xy = W_batch.unsqueeze(-1) * y.unsqueeze(0)
 
         if D_inv_batch is None:
             W_xy_corr = torch.diagonal(W_xy[:, batchidx], offset=0, dim1=0, dim2=1).T
@@ -116,7 +104,6 @@ class GraphLaplacianIF(BasePostProcessing):
 
         y_hat = self.__get_yhat__()
         y_copy = y_hat.clone()
-        print("y_copy: ", y_copy.shape)
         n_samples = self.datastore.n_samples
 
         W, idxs = build_graph_from_dists(
@@ -180,9 +167,11 @@ class GraphLaplacianIF(BasePostProcessing):
         -------------
             method: str
                 GLIF method type. Possible values are:
+
                 (a) `coordinate-descent` method which is more suitable for
                 large-scale data and post-processes by batching data into minibatches
                 (see section 3.2.2 of the paper), or
+                
                 (b) `exact` method which gets the exact solution but is not appropriate
                 for large-scale data (refer equation 3.3 in the paper).
             lambda_param: float
