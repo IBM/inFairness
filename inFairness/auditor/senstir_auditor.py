@@ -50,8 +50,8 @@ class SenSTIRAuditor(Auditor):
         distance_y: MahalanobisDistances,
         num_steps: int,
         lr: float,
-        max_noise: float= 0.1,
-        min_noise: float= -0.1,
+        max_noise: float = 0.1,
+        min_noise: float = -0.1,
     ):
         self.distance_q = distance_q
         self.distance_y = distance_y
@@ -116,4 +116,3 @@ class SenSTIRAuditor(Auditor):
         unfreeze_network(network)
 
         return (Q + delta).detach()
-        
