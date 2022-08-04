@@ -40,10 +40,14 @@ class DistanceStructure(object):
         if self.distance_matrix is not None:
             distance_matrix_new[:nsamples_old, :nsamples_old] = self.distance_matrix
 
-        for idx in range(nsamples_old, nsamples_total):
-            dist = self.distance_x(data_X[idx : idx + 1], data_X).detach().squeeze()
-
-            distance_matrix_new[idx, :] = dist
-            distance_matrix_new[:, idx] = dist
+        dist = (
+            self.distance_x(
+                data_X[nsamples_old:nsamples_total], data_X, itemwise_dist=False
+            )
+            .detach()
+            .squeeze()
+        )
+        distance_matrix_new[nsamples_old:, :] = dist
+        distance_matrix_new[:, nsamples_old:] = dist.T
 
         self.distance_matrix = distance_matrix_new.clone()

@@ -12,7 +12,7 @@ def test_postprocess_incorrectargs():
     params = (1.0, 1.0, 100.0, True)
     dist_x = EuclideanDistance()
 
-    pp = GraphLaplacianIF(dist_x)
+    pp = GraphLaplacianIF(dist_x, True)
 
     with pytest.raises(AssertionError):
         pp.postprocess(None, *params)
@@ -22,24 +22,29 @@ def test_postprocess_incorrectargs():
 
 
 @pytest.mark.parametrize(
-    "lambda_param,scale,threshold,normalize,dim",
+    "lambda_param,scale,threshold,normalize,dim,output_probas",
     [
-        (1.0, 1.0, 100.0, True, 2),
-        (1.0, 1.0, 100.0, False, 2),
-        (1.0, 1.0, 100.0, True, 10),
-        (1.0, 1.0, 100.0, False, 10),
+        (1.0, 1.0, 100.0, True, 2, True),
+        (1.0, 1.0, 100.0, False, 2, True),
+        (1.0, 1.0, 100.0, True, 10, True),
+        (1.0, 1.0, 100.0, False, 10, True),
+        (1.0, 1.0, 100.0, True, 2, False),
+        (1.0, 1.0, 100.0, False, 2, False),
+        (1.0, 1.0, 100.0, True, 10, False),
+        (1.0, 1.0, 100.0, False, 10, False),
     ],
 )
-def test_postprocess_exact(lambda_param, scale, threshold, normalize, dim):
+def test_postprocess_exact(lambda_param, scale, threshold, normalize, dim, output_probas):
 
     B, E = 50, 100
     X = torch.rand(size=(B, E))
     Y = torch.rand(size=(B, dim))
-    Y = F.softmax(Y, dim=-1)
+    if output_probas:
+        Y = F.softmax(Y, dim=-1)
 
     dist_x = EuclideanDistance()
     
-    pp = GraphLaplacianIF(dist_x)
+    pp = GraphLaplacianIF(dist_x, is_output_probas=output_probas)
     pp.add_datapoints(X, Y)
 
     y_pp = pp.postprocess("exact", lambda_param, scale, threshold, normalize)
@@ -48,24 +53,29 @@ def test_postprocess_exact(lambda_param, scale, threshold, normalize, dim):
 
 
 @pytest.mark.parametrize(
-    "lambda_param,scale,threshold,normalize,dim",
+    "lambda_param,scale,threshold,normalize,dim,output_probas",
     [
-        (1.0, 1.0, 100.0, True, 2),
-        (1.0, 1.0, 100.0, False, 2),
-        (1.0, 1.0, 100.0, True, 10),
-        (1.0, 1.0, 100.0, False, 10),
+        (1.0, 1.0, 100.0, True, 2, True),
+        (1.0, 1.0, 100.0, False, 2, True),
+        (1.0, 1.0, 100.0, True, 10, True),
+        (1.0, 1.0, 100.0, False, 10, True),
+        (1.0, 1.0, 100.0, True, 2, False),
+        (1.0, 1.0, 100.0, False, 2, False),
+        (1.0, 1.0, 100.0, True, 10, False),
+        (1.0, 1.0, 100.0, False, 10, False),
     ],
 )
-def test_postprocess_coo(lambda_param, scale, threshold, normalize, dim):
+def test_postprocess_coo(lambda_param, scale, threshold, normalize, dim, output_probas):
 
     B, E = 50, 100
     X = torch.rand(size=(B, E))
     Y = torch.rand(size=(B, dim))
-    Y = F.softmax(Y, dim=-1)
+    if output_probas:
+        Y = F.softmax(Y, dim=-1)
 
     dist_x = EuclideanDistance()
     
-    pp = GraphLaplacianIF(dist_x)
+    pp = GraphLaplacianIF(dist_x, is_output_probas=output_probas)
     pp.add_datapoints(X, Y)
 
     y_pp = pp.postprocess(

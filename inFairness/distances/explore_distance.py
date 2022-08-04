@@ -93,7 +93,7 @@ class EXPLOREDistance(MahalanobisDistances):
         N = X.shape[0]
         P = X.shape[1]
 
-        sigma_t = np.random.normal(0, 1, P ** 2).reshape(P, P)
+        sigma_t = np.random.normal(0, 1, P**2).reshape(P, P)
         sigma_t = np.matmul(sigma_t, sigma_t.T)
         sigma_t = sigma_t / np.linalg.norm(sigma_t)
 

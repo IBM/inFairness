@@ -11,11 +11,16 @@ class BasePostProcessing(object):
     -------------
         distance_x: inFairness.distances.Distance
             Distance matrix in the input space
+        is_output_probas: bool
+            True if the `data_Y` (model output) are probabilities implying that
+            this is a classification setting, and False if the `data_Y` are
+            in euclidean space implying that this is a regression setting.
     """
 
-    def __init__(self, distance_x):
+    def __init__(self, distance_x, is_output_probas):
 
         self.distance_x = distance_x
+        self.is_output_probas = is_output_probas
         self.datastore = PostProcessingDataStore(distance_x)
 
     @property
@@ -59,3 +64,13 @@ class BasePostProcessing(object):
 
     def postprocess(self, *args, **kwargs):
         raise NotImplementedError("postprocess method not implemented by class")
+
+    def __get_yhat__(self):
+
+        _, data_y = self.data
+
+        if self.is_output_probas:
+            y_hat = torch.log(data_y[:, :-1]) - torch.log(data_y[:, -1]).view(-1, 1)
+            return y_hat
+        else:
+            return data_y

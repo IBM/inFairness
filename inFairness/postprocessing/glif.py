@@ -18,18 +18,17 @@ class GraphLaplacianIF(BasePostProcessing):
     ------------
         distance_x: inFairness.distances.Distance
             Distance metric in the input space
+        is_output_probas: bool
+            True if the `data_Y` (model output) are probabilities implying that
+            this is a classification setting, and False if the `data_Y` are
+            in euclidean space implying that this is a regression setting.
     """
 
-    def __init__(self, distance_x):
-        super().__init__(distance_x)
+    def __init__(self, distance_x, is_output_probas):
 
+        super().__init__(distance_x, is_output_probas=is_output_probas)
         self._METHOD_COORDINATE_KEY = "coordinate-descent"
         self._METHOD_EXACT_KEY = "exact"
-
-    def __get_yhat__(self):
-        _, data_y = self.data
-        y_hat = torch.log(data_y[:, :-1]) - torch.log(data_y[:, -1]).view(-1, 1)
-        return y_hat
 
     def __exact_pp__(self, lambda_param, scale, threshold, normalize):
         """Implements Exact version of post processing"""
@@ -65,7 +64,7 @@ class GraphLaplacianIF(BasePostProcessing):
     ):
 
         W_xy = W_batch.unsqueeze(-1) * y.unsqueeze(0)
-        
+
         """
         Shapes:
             W_batch: (bsz, nsamples)
@@ -171,7 +170,7 @@ class GraphLaplacianIF(BasePostProcessing):
                 (a) `coordinate-descent` method which is more suitable for
                 large-scale data and post-processes by batching data into minibatches
                 (see section 3.2.2 of the paper), or
-                
+
                 (b) `exact` method which gets the exact solution but is not appropriate
                 for large-scale data (refer equation 3.3 in the paper).
             lambda_param: float
@@ -217,8 +216,11 @@ class GraphLaplacianIF(BasePostProcessing):
                 lambda_param, scale, threshold, normalize, batchsize, epochs
             )
 
-        pp_sol = torch.exp(data_y_new) / (
-            1 + torch.exp(data_y_new).sum(axis=1, keepdim=True)
-        )
-        pp_sol = torch.hstack((pp_sol, 1 - pp_sol.sum(axis=1, keepdim=True)))
-        return pp_sol
+        if self.is_output_probas:
+            pp_sol = torch.exp(data_y_new) / (
+                1 + torch.exp(data_y_new).sum(axis=1, keepdim=True)
+            )
+            pp_sol = torch.hstack((pp_sol, 1 - pp_sol.sum(axis=1, keepdim=True)))
+            return pp_sol
+        else:
+            return data_y_new
