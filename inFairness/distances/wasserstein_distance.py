@@ -29,7 +29,6 @@ class BatchedWassersteinDistance(MahalanobisDistances):
             distance, MahalanobisDistances
         ), "only MahalanobisDistances are supported"
         self.distance = distance
-        self.batch_cost_function = self.batch_and_vectorize(super().__compute_dist__)
 
     def forward(self, x, y):
         """computes a batch wasserstein distance implied by the cost function represented by an
