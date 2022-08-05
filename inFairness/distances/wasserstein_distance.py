@@ -5,7 +5,7 @@ from geomloss import SamplesLoss
 from inFairness.distances import MahalanobisDistances, Distance
 
 
-class BatchedWassersteinDistance(Distance):
+class BatchedWassersteinDistance(MahalanobisDistances):
     """computes a batched Wasserstein Distance for pairs of sets of items on each batch in the tensors
     with dimensions B, N, D and B, M, D where B and D are the batch and feature sizes and N and M are the number of items on each batch.
 
@@ -23,13 +23,13 @@ class BatchedWassersteinDistance(Distance):
         Individually Fair Rankings. ICLR 2021`
     """
 
-    def __init__(self, distance: Distance):
+    def __init__(self, distance: MahalanobisDistances):
         super().__init__()
         assert isinstance(
             distance, MahalanobisDistances
         ), "only MahalanobisDistances are supported"
         self.distance = distance
-        self.batch_cost_function = self.batch_and_vectorize(self.mahalanobis_distance)
+        self.batch_cost_function = self.batch_and_vectorize(super().__compute_dist__)
 
     def forward(self, x, y):
         """computes a batch wasserstein distance implied by the cost function represented by an
@@ -48,7 +48,7 @@ class BatchedWassersteinDistance(Distance):
         batched_wasserstein_distance_loss = SamplesLoss(
             "sinkhorn",
             blur=0.05,
-            cost=lambda x, y: self.batch_cost_function(x, y, self.distance.sigma),
+            cost=lambda x, y: self.distance(x, y, itemwise_dist=False),
         )
         return batched_wasserstein_distance_loss(x, y)
 

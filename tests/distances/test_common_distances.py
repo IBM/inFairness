@@ -57,7 +57,11 @@ def test_protected_euclidean_distance():
     assert torch.all(dist(X, Y) == res), f"{dist(X, Y)} :: {res}"
 
 
-def test_svd_sensitive_subspace_distance():
+@pytest.mark.parametrize(
+    "itemwise_dist",
+    [(False), (True)],
+)
+def test_svd_sensitive_subspace_distance(itemwise_dist):
 
     n_samples = 10
     n_features = 50
@@ -72,16 +76,26 @@ def test_svd_sensitive_subspace_distance():
     metric = distances.SVDSensitiveSubspaceDistance()
     metric.fit(X_train, n_components)
 
-    dist = metric(X1, X2)
-    assert list(dist.shape) == [n_samples, 1]
-    assert dist.requires_grad == True
+    dist = metric(X1, X2, itemwise_dist)
 
-    dist = metric(X1, X1)
-    assert torch.all(dist == 0)
-    assert dist.requires_grad == True
+    if itemwise_dist:
+        assert list(dist.shape) == [n_samples, 1]
+        assert dist.requires_grad == True
+    else:
+        assert list(dist.shape) == [1, n_samples, n_samples]
+        assert dist.requires_grad == True
+
+    if itemwise_dist:
+        dist = metric(X1, X1, itemwise_dist)
+        assert torch.all(dist == 0)
+        assert dist.requires_grad == True
 
 
-def test_svd_sensitive_subspace_distance_multiple_similar_data():
+@pytest.mark.parametrize(
+    "itemwise_dist",
+    [(False), (True)],
+)
+def test_svd_sensitive_subspace_distance_multiple_similar_data(itemwise_dist):
 
     n_samples = 10
     n_features = 50
@@ -96,13 +110,19 @@ def test_svd_sensitive_subspace_distance_multiple_similar_data():
     metric = distances.SVDSensitiveSubspaceDistance()
     metric.fit(X_train, n_components)
 
-    dist = metric(X1, X2)
-    assert list(dist.shape) == [n_samples, 1]
-    assert dist.requires_grad == True
+    dist = metric(X1, X2, itemwise_dist)
 
-    dist = metric(X1, X1)
-    assert torch.all(dist == 0)
-    assert dist.requires_grad == True
+    if itemwise_dist:
+        assert list(dist.shape) == [n_samples, 1]
+        assert dist.requires_grad == True
+    else:
+        assert list(dist.shape) == [1, n_samples, n_samples]
+        assert dist.requires_grad == True
+
+    if itemwise_dist:
+        dist = metric(X1, X1, itemwise_dist)
+        assert torch.all(dist == 0)
+        assert dist.requires_grad == True
 
 
 def test_svd_sensitive_subspace_distance_raises_error():
@@ -114,7 +134,11 @@ def test_svd_sensitive_subspace_distance_raises_error():
         metric.fit(X_train, n_components)
 
 
-def test_explore_sensitive_subspace_distance():
+@pytest.mark.parametrize(
+    "itemwise_dist",
+    [(False), (True)],
+)
+def test_explore_sensitive_subspace_distance(itemwise_dist):
 
     n_features = 50
 
@@ -129,13 +153,19 @@ def test_explore_sensitive_subspace_distance():
     metric = distances.EXPLOREDistance()
     metric.fit(X1, X2, Y, iters=100, batchsize=8)
 
-    dist = metric(X1, X2)
-    assert list(dist.shape) == [n_samples, 1]
-    assert dist.requires_grad == True
+    dist = metric(X1, X2, itemwise_dist)
 
-    dist = metric(X1, X1)
-    assert torch.all(dist == 0)
-    assert dist.requires_grad == True
+    if itemwise_dist:
+        assert list(dist.shape) == [n_samples, 1]
+        assert dist.requires_grad == True
+    else:
+        assert list(dist.shape) == [1, n_samples, n_samples]
+        assert dist.requires_grad == True
+
+    if itemwise_dist:
+        dist = metric(X1, X1, itemwise_dist)
+        assert torch.all(dist == 0)
+        assert dist.requires_grad == True
 
 
 def test_squared_euclidean_distance():
@@ -144,10 +174,10 @@ def test_squared_euclidean_distance():
     dist = distances.SquaredEuclideanDistance()
     dist.fit(num_dims=2)
 
-    distx1x2 = dist(x1, x2)
+    distx1x2 = dist(x1, x2, True)
     assert distx1x2.item() == 8
 
-    distx1x1 = dist(x1, x1)
+    distx1x1 = dist(x1, x1, True)
     assert distx1x1 == 0
 
 
@@ -222,3 +252,7 @@ def test_wasserstein_distance():
     value
     """
     assert (torch.abs(x1.sum(dim=1).sum(dim=1) - x2.sum(dim=1).sum(dim=1)) < 3.0).all()
+
+
+if __name__ == "__main__":
+    test_wasserstein_distance()

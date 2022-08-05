@@ -16,6 +16,7 @@ setup(
         "scikit-learn>=0.24.2",
         "pandas>=1.3.5",
         "scipy>=1.5.4",
+        "functorch~=0.1.1"
     ],
     description="inFairness is a Python package to train and audit individually fair PyTorch models",
     long_description=long_description,
