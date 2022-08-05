@@ -17,6 +17,7 @@ setup(
         "pandas>=1.3.5",
         "scipy>=1.5.4",
         "functorch~=0.1.1",
+        "pykeops",
         "geomloss"
     ],
     description="inFairness is a Python package to train and audit individually fair PyTorch models",
