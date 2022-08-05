@@ -233,9 +233,12 @@ def test_wasserstein_distance():
     uses a SquaredEuclidean special case of a Mahalanobis distance to reduce the set difference between
     2 batches of elements.
     """
+    
     squared_euclidean = distances.SquaredEuclideanDistance()
-    wasserstein_dist = distances.BatchedWassersteinDistance(squared_euclidean)
-    wasserstein_dist.fit(num_dims=2)
+    sigma = squared_euclidean.sigma
+
+    wasserstein_dist = distances.WassersteinDistance()
+    wasserstein_dist.fit(sigma)
 
     x1 = torch.randn(3, 10, 2)
     x2 = torch.nn.Parameter(torch.ones_like(x1))

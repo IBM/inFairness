@@ -1,11 +1,10 @@
 import torch
-from functorch import vmap
 from geomloss import SamplesLoss
 
 from inFairness.distances import MahalanobisDistances, Distance
 
 
-class BatchedWassersteinDistance(MahalanobisDistances):
+class WassersteinDistance(MahalanobisDistances):
     """computes a batched Wasserstein Distance for pairs of sets of items on each batch in the tensors
     with dimensions B, N, D and B, M, D where B and D are the batch and feature sizes and N and M are the number of items on each batch.
 
@@ -23,33 +22,31 @@ class BatchedWassersteinDistance(MahalanobisDistances):
         Individually Fair Rankings. ICLR 2021`
     """
 
-    def __init__(self, distance: MahalanobisDistances):
+    def __init__(self):
         super().__init__()
-        assert isinstance(
-            distance, MahalanobisDistances
-        ), "only MahalanobisDistances are supported"
-        self.distance = distance
 
-    def forward(self, x, y):
+    def forward(self, X1: torch.Tensor, X2: torch.Tensor):
         """computes a batch wasserstein distance implied by the cost function represented by an
         underlying mahalanobis distance.
 
         Parameters
-        ---------
-        x,y: torch.Tensor
-            should be of dimensions B,N,D and B,M,D
+        --------------
+        X1: torch.Tensor
+            Data sample of shape (B, N, D)
+        X2: torch.Tensor
+            Data sample of shape (B, M, D)
 
         Returns
         --------
-        batched_wassenstein_distance: torch.Tensor
-            dimension B
+        dist: torch.Tensor
+            Wasserstein distance of shape (B) between batch samples in X1 and X2
         """
-        batched_wasserstein_distance_loss = SamplesLoss(
+        
+        wasserstein_distance_loss = SamplesLoss(
             "sinkhorn",
             blur=0.05,
-            cost=lambda x, y: self.distance(x, y, itemwise_dist=False),
+            cost=lambda x, y: super().forward(x, y, itemwise_dist=False),
         )
-        return batched_wasserstein_distance_loss(x, y)
+        dist = WassersteinDistance(X1, X2)
 
-    def fit(self, *args, **kwargs):
-        self.distance.fit(*args, **kwargs)
+        return dist
