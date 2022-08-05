@@ -8,6 +8,7 @@ from inFairness.distances import (
 from inFairness.auditor import Auditor
 
 from inFairness.utils.params import freeze_network, unfreeze_network
+from inFairness.utils.normalized_discounted_cumulative_gain import log_expected_ndcg
 
 
 class SenSTIRAuditor(Auditor):
@@ -116,3 +117,42 @@ class SenSTIRAuditor(Auditor):
         unfreeze_network(network)
 
         return (Q + delta).detach()
+
+    def compute_loss_ratio(
+        self,
+        X_audit,
+        X_worst,
+        Y_audit,
+        network,
+        loss_fn=lambda x, y: -log_expected_ndcg(50, x, y),
+    ):
+        """Compute a ratio the utility ratio between X_audit and X_worst in a ranking setting. If X_worst was computed using a gradient flow with
+        a sensitive distance, the ratio should be close to 1.
+
+        Parameters
+        --------------
+            X_audit: torch.Tensor
+              Auditing samples. Shape (n_queries, n_items, n_features)
+            X_worst: same shape as X_audit but should be computed using some adversarial attack.
+            Y_audit: torch.Tensor
+              True relevances of items in each query, Shape: (n_queries, n_items)
+            network: model to be audited
+            loss_fn: a ranking function taking scores (n_queries, n_items) and relevances and then computing a negative utility function, usually normalized discounted cummulative gain gets used
+
+        Returns
+        ---------
+            loss_ratios: numpy.ndarray
+                Ratio of loss for samples computed using gradient
+                flow attack to original audit samples
+        """
+
+        with torch.no_grad():
+            scores = network(X_audit).squeeze()
+            scores_worst = network(X_worst).squeeze()
+
+            loss = loss_fn(scores, Y_audit)
+            loss_worst = loss_fn(scores_worst, Y_audit)
+
+        loss_ratio = loss_worst / loss
+
+        return loss_ratio.cpu().numpy()
