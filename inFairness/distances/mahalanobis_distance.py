@@ -19,12 +19,12 @@ class MahalanobisDistances(Distance):
         self.sigma = None
         self.device = torch.device("cpu")
         self.vdist = vmap(
-                vmap(
-                    vmap(self.__compute_dist__, in_dims=(None, 0, None)),
-                    in_dims=(0, None, None),
-                ),
-                in_dims=(0, 0, None),
-            )
+            vmap(
+                vmap(self.__compute_dist__, in_dims=(None, 0, None)),
+                in_dims=(0, None, None),
+            ),
+            in_dims=(0, 0, None),
+        )
 
     def to(self, device):
         """Moves distance metric to a particular device
@@ -79,9 +79,8 @@ class MahalanobisDistances(Distance):
         return dist
 
     @staticmethod
-    def vdist(X1,X2, sigma):
-        """here for reference, this method gets populated in the init method. takes care of the "pairwise fashion" in the forward method
-        """
+    def vdist(X1, X2, sigma):
+        """here for reference, this method gets populated in the init method. takes care of the "pairwise fashion" in the forward method"""
         raise NotImplementedError
 
     def forward(self, X1, X2, itemwise_dist=True):

@@ -39,7 +39,7 @@ class BatchedWassersteinDistance(MahalanobisDistances):
         ---------
         x,y: torch.Tensor
             should be of dimensions B,N,D and B,M,D
-        
+
         Returns
         --------
         batched_wassenstein_distance: torch.Tensor
