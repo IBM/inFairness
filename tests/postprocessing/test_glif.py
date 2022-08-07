@@ -47,40 +47,11 @@ def test_postprocess_exact(lambda_param, scale, threshold, normalize, dim, outpu
     pp = GraphLaplacianIF(dist_x, is_output_probas=output_probas)
     pp.add_datapoints(X, Y)
 
-    y_pp = pp.postprocess("exact", lambda_param, scale, threshold, normalize)
+    exact_solution = pp.postprocess("exact", lambda_param, scale, threshold, normalize)
+    assert np.array_equal(list(Y.shape), list(exact_solution.y_solution.shape))
 
-    assert np.array_equal(list(Y.shape), list(y_pp.shape))
-
-
-@pytest.mark.parametrize(
-    "lambda_param,scale,threshold,normalize,dim,output_probas",
-    [
-        (1.0, 1.0, 100.0, True, 2, True),
-        (1.0, 1.0, 100.0, False, 2, True),
-        (1.0, 1.0, 100.0, True, 10, True),
-        (1.0, 1.0, 100.0, False, 10, True),
-        (1.0, 1.0, 100.0, True, 2, False),
-        (1.0, 1.0, 100.0, False, 2, False),
-        (1.0, 1.0, 100.0, True, 10, False),
-        (1.0, 1.0, 100.0, False, 10, False),
-    ],
-)
-def test_postprocess_coo(lambda_param, scale, threshold, normalize, dim, output_probas):
-
-    B, E = 50, 100
-    X = torch.rand(size=(B, E))
-    Y = torch.rand(size=(B, dim))
-    if output_probas:
-        Y = F.softmax(Y, dim=-1)
-
-    dist_x = EuclideanDistance()
-    
-    pp = GraphLaplacianIF(dist_x, is_output_probas=output_probas)
-    pp.add_datapoints(X, Y)
-
-    y_pp = pp.postprocess(
+    coo_solution = pp.postprocess(
         "coordinate-descent", lambda_param, scale, 
-        threshold, normalize, batchsize=6, epochs=20
+        threshold, normalize, batchsize=16, epochs=200
     )
-
-    assert np.array_equal(list(Y.shape), list(y_pp.shape))
+    assert np.array_equal(list(Y.shape), list(coo_solution.y_solution.shape))

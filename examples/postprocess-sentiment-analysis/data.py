@@ -255,5 +255,6 @@ def get_positive_negative_sents(template=None):
     neg_words = "ordinary boring mediocre unremarkable lackluster mundane plain unimpressive uninteresting vapid average drab dreary dull insipid mind-numbing monotonous run-of-the-mill standard tame trite trivial unamazing unexceptional unexciting uninspired uninspiring vanilla aweless common commonplace customary flat humdrum lifeless normal prosaic routine simple stale typical unmemorable unnoteworthy usual wearisome everyday indifferent pedestrian undistinguished regular traditional familiar conventional household insignificant unpretentious generic characterless bland stereotypical uneventful unstimulating discreet inconspicuous habitual minor predictable quotidian wonted workaday unimportant inferior modest fixed general stock mainstream fair nondescript humble stereotyped cut-and-dry cut-and-dried not special banal day-to-day garden variety OK tedious unmoving tiresome staid quiet discouraging depressing upsetting"
     neg_words = neg_words.split(" ")
     
-    sentences = [template + word for word in pos_words + neg_words]    
-    return sentences
+    pos_sentences = [template + word for word in pos_words]
+    neg_sentences = [template + word for word in neg_words]
+    return pos_sentences, neg_sentences

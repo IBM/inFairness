@@ -7,6 +7,7 @@ from inFairness.utils.postprocessing import (
     laplacian_solve,
 )
 from inFairness.postprocessing.base_postprocessing import BasePostProcessing
+from inFairness.postprocessing.datainterfaces import PostProcessingObjectiveResponse
 
 
 class GraphLaplacianIF(BasePostProcessing):
@@ -49,7 +50,11 @@ class GraphLaplacianIF(BasePostProcessing):
         data_y_new = torch.clone(y_hat)
         data_y_new[idxs] = y
 
-        return data_y_new
+        objective = self.get_objective(
+            data_y_new, lambda_param, scale, threshold, normalize, W, idxs, L
+        )
+
+        return data_y_new, objective
 
     def __coordinate_update__(
         self,
@@ -148,7 +153,84 @@ class GraphLaplacianIF(BasePostProcessing):
 
         pp_sol = y_hat.clone()
         pp_sol[idxs] = y_copy
-        return pp_sol
+
+        objective = self.get_objective(
+            pp_sol, lambda_param, scale, threshold, normalize, W, idxs
+        )
+
+        return pp_sol, objective
+
+    def get_objective(
+        self,
+        y_solution,
+        lambda_param: float,
+        scale: float,
+        threshold: float,
+        normalize: bool = False,
+        W_graph=None,
+        idxs=None,
+        L=None,
+    ):
+        """Compute the objective values for the individual fairness as follows:
+
+        .. math:: \\widehat{\\mathbf{f}} =  \\arg \\min_{\\mathbf{f}} \\ \\|\\mathbf{f} - \\hat{\\mathbf{y}}\\|_2^2 + \\lambda \\ \\mathbf{f}^{\\top}\\mathbb{L_n} \\mathbf{f}
+
+        Refer equation 3.1 in the paper
+
+        Parameters
+        ------------
+            y_solution: torch.Tensor
+                Post-processed solution values of shape (N, C)
+            lambda_param: float
+                Weight for the Laplacian Regularizer
+            scale: float
+                Parameter used to scale the computed distances.
+                Refer equation 2.2 in the proposing paper.
+            threshold: float
+                Parameter used to construct the Graph from distances
+                Distances below provided threshold are considered to be
+                connected edges, while beyond the threshold are considered to
+                be disconnected. Refer equation 2.2 in the proposing paper.
+            normalize: bool
+                Whether to normalize the computed Laplacian or not
+            W_graph: torch.Tensor
+                Adjacency matrix of shape (N, N)
+            idxs: torch.Tensor
+                Indices of data points which are included in the adjacency matrix
+            L: torch.Tensor
+                Laplacian of the adjacency matrix
+
+        Returns
+        ---------
+            objective: PostProcessingObjectiveResponse
+                post-processed solution containing two parts:
+                    (a) Post-processed output probabilities of shape  (N, C)
+                        where N is the number of data samples, and C is the
+                        number of output classes
+                    (b) Objective values. Refer equation 3.1 in the paper
+                        for an explanation of the various parts
+
+        """
+
+        if W_graph is None or idxs is None:
+            W_graph, idxs = build_graph_from_dists(
+                self.distance_matrix, scale, threshold, normalize
+            )
+        if L is None:
+            L = get_laplacian(W_graph, normalize)
+
+        y_hat = self.__get_yhat__()
+        y_dist = ((y_hat - y_solution) ** 2).sum()
+        L_obj = lambda_param * (y_solution[idxs] * (L @ y_solution[idxs])).sum()
+        overall_objective = y_dist + L_obj
+
+        result = {
+            "y_dist": y_dist.item(),
+            "L_objective": L_obj.item(),
+            "overall_objective": overall_objective.item(),
+        }
+
+        return result
 
     def postprocess(
         self,
@@ -193,10 +275,13 @@ class GraphLaplacianIF(BasePostProcessing):
 
         Returns
         -----------
-            solution: torch.Tensor
-                post-processed output probabilities of shape (N, C)
-                where N is the number of data samples, and C is the
-                number of output classes
+            solution: PostProcessingObjectiveResponse
+                post-processed solution containing two parts:
+                    (a) Post-processed output probabilities of shape  (N, C)
+                        where N is the number of data samples, and C is the
+                        number of output classes
+                    (b) Objective values. Refer equation 3.1 in the paper
+                        for an explanation of the various parts
         """
 
         assert method in [
@@ -210,9 +295,11 @@ class GraphLaplacianIF(BasePostProcessing):
             ), f"batchsize and epochs parameter is required but None provided"
 
         if method == self._METHOD_EXACT_KEY:
-            data_y_new = self.__exact_pp__(lambda_param, scale, threshold, normalize)
+            data_y_new, objective = self.__exact_pp__(
+                lambda_param, scale, threshold, normalize
+            )
         elif method == self._METHOD_COORDINATE_KEY:
-            data_y_new = self.__coordinate_pp__(
+            data_y_new, objective = self.__coordinate_pp__(
                 lambda_param, scale, threshold, normalize, batchsize, epochs
             )
 
@@ -220,7 +307,11 @@ class GraphLaplacianIF(BasePostProcessing):
             pp_sol = torch.exp(data_y_new) / (
                 1 + torch.exp(data_y_new).sum(axis=1, keepdim=True)
             )
-            pp_sol = torch.hstack((pp_sol, 1 - pp_sol.sum(axis=1, keepdim=True)))
-            return pp_sol
+            y_solution = torch.hstack((pp_sol, 1 - pp_sol.sum(axis=1, keepdim=True)))
         else:
-            return data_y_new
+            y_solution = data_y_new
+
+        result = PostProcessingObjectiveResponse(
+            y_solution=y_solution, objective=objective
+        )
+        return result
