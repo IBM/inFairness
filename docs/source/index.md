@@ -60,6 +60,7 @@ inFairness currently supports:
 
 1. Training of individually fair models : [[Docs]](https://ibm.github.io/inFairness/reference/algorithms.html)
 2. Auditing pre-trained ML models for individual fairness : [[Docs]](https://ibm.github.io/inFairness/reference/auditors.html)
+3. Post-processing for Individual Fairness : [[Docs]](https://ibm.github.io/inFairness/reference/postprocessing.html)
 
 The package implements the following components:
 
@@ -77,6 +78,10 @@ The package implements the following components:
 
 1. Embedded Xenial Pair Logistic Regression Metric (EXPLORE): [[Paper]](https://proceedings.mlr.press/v119/mukherjee20a.html), [[Docs]](https://ibm.github.io/inFairness/reference/distances.html#explore-embedded-xenial-pairs-logistic-regression)
 2. SVD Sensitive Subspace Metric: [[Paper]](https://arxiv.org/abs/1907.00020), [[Docs]](https://ibm.github.io/inFairness/reference/distances.html#svd-sensitive-subspace)
+
+#### Post-Processing algorithms
+
+1. Graph Laplacian Individual Fairness (GLIF): [[Paper]](https://arxiv.org/abs/2110.13796), [[Docs]](https://ibm.github.io/inFairness/reference/postprocessing.html#graph-laplacian-individual-fairness-glif)
 
 ----------
 
