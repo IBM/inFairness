@@ -91,7 +91,7 @@ class GraphLaplacianIF(BasePostProcessing):
         else:
             W_xy = W_xy * D_inv_batch.unsqueeze(-1)
             W_xy_corr = torch.diagonal(W_xy[:, batchidx], offset=0, dim1=0, dim2=1).T
-            numerator = (yhat_batch + lambda_param * (W_xy.sum(dim=1) - W_xy_corr)) / 2
+            numerator = yhat_batch + (lambda_param * (W_xy.sum(dim=1) - W_xy_corr)) / 2
             denominator = (
                 1
                 + lambda_param
@@ -122,11 +122,11 @@ class GraphLaplacianIF(BasePostProcessing):
             D_inv = 1 / D.reshape(1, -1) + 1 / D.reshape(-1, 1)
 
         for epoch_idx in range(epochs):
-            idxs = np.random.permutation(n_samples)
+            epoch_idxs_random = np.random.permutation(n_samples)
             curridx = 0
 
             while curridx < n_samples:
-                batchidxs = idxs[curridx : curridx + batchsize]
+                batchidxs = epoch_idxs_random[curridx : curridx + batchsize]
 
                 if normalize:
                     y_copy[batchidxs] = self.__coordinate_update__(
