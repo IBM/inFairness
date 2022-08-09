@@ -52,6 +52,12 @@ def test_postprocess_exact(lambda_param, scale, threshold, normalize, dim, outpu
 
     coo_solution = pp.postprocess(
         "coordinate-descent", lambda_param, scale, 
-        threshold, normalize, batchsize=16, epochs=200
+        threshold, normalize, batchsize=16, epochs=50
     )
     assert np.array_equal(list(Y.shape), list(coo_solution.y_solution.shape))
+
+    exact_obj = exact_solution.objective
+    coo_obj = coo_solution.objective
+
+    for key in ['y_dist', 'L_objective', 'overall_objective']:
+        assert abs(exact_obj[key] - coo_obj[key]) < 1e-3
