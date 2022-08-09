@@ -1,5 +1,8 @@
 # Changelog
 
+## 2022-08-09: version 0.2.1
+- Bugs in Graph Laplacian Individual Fairness Coordinate-Descent method resolved.
+
 ## 2022-08-06: version 0.2
 - Graph Laplacian Individual Fairness post-processing algorithm implemented in the package
 - Item-wise and Pair-wise distance computation implemented for distance metrics
