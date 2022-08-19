@@ -235,6 +235,7 @@ def test_wasserstein_distance():
     """
     
     squared_euclidean = distances.SquaredEuclideanDistance()
+    squared_euclidean.fit(num_dims=2)
     sigma = squared_euclidean.sigma
 
     wasserstein_dist = distances.WassersteinDistance()

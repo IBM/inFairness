@@ -1,8 +1,7 @@
 import torch
-from functorch import vmap
 from ot import emd2
 
-from inFairness.distances import MahalanobisDistances, Distance
+from inFairness.distances import MahalanobisDistances
 
 
 class WassersteinDistance(MahalanobisDistances):
