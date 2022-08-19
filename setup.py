@@ -22,7 +22,7 @@ setup(
     description="inFairness is a Python package to train and audit individually fair PyTorch models",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    version="0.1.0",
+    version="0.2.1",
     url="https://github.com/IBM/inFairness",
     author="IBM Research",
     author_email="mayank.agarwal@ibm.com, aldo.pareja@ibm.com, onkarbhardwaj@ibm.com, mikhail.yurochkin@ibm.com",
