@@ -1,5 +1,6 @@
 import torch
-from geomloss import SamplesLoss
+from functorch import vmap
+from ot import emd2
 
 from inFairness.distances import MahalanobisDistances, Distance
 
@@ -41,12 +42,13 @@ class WassersteinDistance(MahalanobisDistances):
         dist: torch.Tensor
             Wasserstein distance of shape (B) between batch samples in X1 and X2
         """
-        
-        wasserstein_distance_loss = SamplesLoss(
-            "sinkhorn",
-            blur=0.05,
-            cost=lambda x, y: super().forward(x, y, itemwise_dist=False),
-        )
-        dist = WassersteinDistance(X1, X2)
 
+        costs = super().forward(X1, X2, itemwise_dist=False)
+        uniform_x1 = torch.ones(X1.shape[1]) / X1.shape[1]
+        uniform_x2 = torch.ones(X2.shape[1]) / X2.shape[1]
+        num_batches = X1.shape[0]
+
+        dist = torch.stack(
+            [emd2(uniform_x1, uniform_x2, costs[j]) for j in range(num_batches)]
+        )
         return dist
