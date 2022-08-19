@@ -41,4 +41,11 @@ Euclidean Distance
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 .. autoclass:: EuclideanDistance
     :members:
+
+Wasserstein Distance
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.. autoclass:: BatchedWassersteinDistance
+    :members:
 ```
+
+

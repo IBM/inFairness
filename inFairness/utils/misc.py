@@ -1,6 +1,9 @@
 from functools import wraps
 import inspect
 
+import torch
+from functorch import vmap
+
 
 def initializer(func):
     """
@@ -36,3 +39,11 @@ def initializer(func):
         func(self, *args, **kwargs)
 
     return wrapper
+
+"""
+vectorizes torch that gather so that the index tensor can have a batch dimension.
+
+it's the same thing as torch.gather but it would perform the same operation on the source
+tensor B times.
+"""
+vect_gather = vmap(torch.gather, (None,None, 0))

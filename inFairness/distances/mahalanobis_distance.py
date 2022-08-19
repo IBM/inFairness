@@ -18,6 +18,13 @@ class MahalanobisDistances(Distance):
 
         self.sigma = None
         self.device = torch.device("cpu")
+        self.vdist = vmap(
+            vmap(
+                vmap(self.__compute_dist__, in_dims=(None, 0, None)),
+                in_dims=(0, None, None),
+            ),
+            in_dims=(0, 0, None),
+        )
 
     def to(self, device):
         """Moves distance metric to a particular device
@@ -71,6 +78,11 @@ class MahalanobisDistances(Distance):
         dist = torch.sum((X_diff @ sigma) * X_diff, dim=-1, keepdim=True)
         return dist
 
+    @staticmethod
+    def vdist(X1, X2, sigma):
+        """here for reference, this method gets populated in the init method. takes care of the "pairwise fashion" in the forward method"""
+        raise NotImplementedError
+
     def forward(self, X1, X2, itemwise_dist=True):
         """Computes the distance between data samples X1 and X2
 
@@ -118,15 +130,7 @@ class MahalanobisDistances(Distance):
             nsamples_x2 = X2.shape[1]
             dist_shape = (-1, nsamples_x1, nsamples_x2)
 
-            vdist = vmap(
-                vmap(
-                    vmap(self.__compute_dist__, in_dims=(None, 0, None)),
-                    in_dims=(0, None, None),
-                ),
-                in_dims=(0, 0, None),
-            )
-
-            dist = vdist(X1, X2, self.sigma).view(dist_shape)
+            dist = self.vdist(X1, X2, self.sigma).view(dist_shape)
 
         return dist
 

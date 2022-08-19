@@ -219,10 +219,36 @@ def test_logistic_reg_distance_raises_error():
     dist = distances.LogisticRegSensitiveSubspace()
 
     with pytest.raises(AssertionError):
-        dist.fit(X_train, data_SensitiveAttrs=protected_attr, protected_idxs=[1,2])
+        dist.fit(X_train, data_SensitiveAttrs=protected_attr, protected_idxs=[1, 2])
 
     protected_attr = torch.randint(low=0, high=6, size=(100, 2)).long()
     dist = distances.LogisticRegSensitiveSubspace()
 
     with pytest.raises(AssertionError):
         dist.fit(X_train, protected_attr)
+
+
+def test_wasserstein_distance():
+    """
+    uses a SquaredEuclidean special case of a Mahalanobis distance to reduce the set difference between
+    2 batches of elements.
+    """
+    squared_euclidean = distances.SquaredEuclideanDistance()
+    wasserstein_dist = distances.BatchedWassersteinDistance(squared_euclidean)
+    wasserstein_dist.fit(num_dims=2)
+
+    x1 = torch.randn(3, 10, 2)
+    x2 = torch.nn.Parameter(torch.ones_like(x1))
+    optimizer = torch.optim.Adam([x2], lr=0.01)
+
+    for i in range(1000):
+        optimizer.zero_grad()
+        loss = wasserstein_dist(x1, x2).sum()
+        loss.backward()
+        optimizer.step()
+
+    """
+    if two sets are close in the euclidean space, the sum of the elements in the two sets must add to a similar 
+    value
+    """
+    assert (torch.abs(x1.sum(dim=1).sum(dim=1) - x2.sum(dim=1).sum(dim=1)) < 3.0).all()
