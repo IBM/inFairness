@@ -3,5 +3,5 @@ scikit-learn>=0.24.2
 pandas>=1.3.5
 scipy>=1.5.4
 torch~=1.11.0
-geomloss @ git+https://github.com/josephenguehard/geomloss.git@b8d918bfc54b7b061cc33f9ecc08a4065c07ce8a
+POT~=0.8.2
 functorch~=0.1.1
