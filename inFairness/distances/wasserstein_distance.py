@@ -1,6 +1,6 @@
 import torch
 from functorch import vmap
-from geomloss import SamplesLoss
+from ot import emd2
 
 from inFairness.distances import MahalanobisDistances, Distance
 
@@ -44,12 +44,14 @@ class BatchedWassersteinDistance(MahalanobisDistances):
         batched_wassenstein_distance: torch.Tensor
             dimension B
         """
-        batched_wasserstein_distance_loss = SamplesLoss(
-            "sinkhorn",
-            blur=0.05,
-            cost=lambda x, y: self.distance(x, y, itemwise_dist=False),
+        costs = self.distance(x, y, itemwise_dist=False)
+        uniformx = torch.ones(x.shape[1]) / x.shape[1]
+        uniformy = torch.ones(y.shape[1]) / y.shape[1]
+        num_batches = x.shape[0]
+        batched_wasserstein_distance_loss = torch.stack(
+            [emd2(uniformx, uniformy, costs[j]) for j in range(num_batches)]
         )
-        return batched_wasserstein_distance_loss(x, y)
+        return batched_wasserstein_distance_loss
 
     def fit(self, *args, **kwargs):
         self.distance.fit(*args, **kwargs)
