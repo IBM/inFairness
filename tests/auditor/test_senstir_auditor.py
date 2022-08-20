@@ -6,7 +6,7 @@ from mock import patch
 from inFairness.auditor import SenSTIRAuditor
 from inFairness.distances import (
     SensitiveSubspaceDistance,
-    BatchedWassersteinDistance,
+    WassersteinDistance,
     SquaredEuclideanDistance,
 )
 
@@ -28,7 +28,7 @@ def test_sestirauditor_generate_worst_case_examples():
     lambda_param = torch.tensor(3000.0)
 
     # let's create a Wasserstein Distance sensitive on the first dimension
-    distance_q = BatchedWassersteinDistance(SensitiveSubspaceDistance())
+    distance_q = WassersteinDistance()
     distance_q.fit(
         basis_vectors=torch.tensor([[0], [1.0]])
     )  # we use the second dimension in the basis vector because the projection complement will give us the first

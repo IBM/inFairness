@@ -7,8 +7,12 @@ class EuclideanDistance(Distance):
     def __init__(self):
         super().__init__()
 
-    def forward(self, x, y):
-        return torch.cdist(x.unsqueeze(1), y.unsqueeze(1)).reshape(-1, 1)
+    def forward(self, x, y, itemwise_dist=True):
+
+        if itemwise_dist:
+            return torch.cdist(x.unsqueeze(1), y.unsqueeze(1)).reshape(-1, 1)
+        else:
+            return torch.cdist(x, y)
 
 
 class ProtectedEuclideanDistance(Distance):
@@ -53,11 +57,15 @@ class ProtectedEuclideanDistance(Distance):
         self.protected_vector = torch.ones(num_attributes)
         self.protected_vector[protected_attributes] = 0.0
 
-    def forward(self, x, y):
+    def forward(self, x, y, itemwise_dist=True):
         """
         :param x, y: a B x D matrices
         :return: B x 1 matrix with the protected distance camputed between x and y
         """
         protected_x = (x * self.protected_vector).unsqueeze(1)
         protected_y = (y * self.protected_vector).unsqueeze(1)
-        return torch.cdist(protected_x, protected_y).reshape(-1, 1)
+
+        if itemwise_dist:
+            return torch.cdist(protected_x, protected_y).reshape(-1, 1)
+        else:
+            return torch.cdist(protected_x, protected_y)

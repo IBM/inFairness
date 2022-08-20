@@ -6,5 +6,6 @@
 algorithms
 auditors
 distances
+postprocessing
 utilities
 ```

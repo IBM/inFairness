@@ -2,7 +2,7 @@ import torch
 from torch.nn.parameter import Parameter
 
 from inFairness.distances import (
-    BatchedWassersteinDistance,
+    WassersteinDistance,
     MahalanobisDistances,
 )
 from inFairness.auditor import Auditor
@@ -31,7 +31,7 @@ class SenSTIRAuditor(Auditor):
       distance_q: batched wasserstein distance to compare each pair of queries per batch (q and q').
         it should take tensors x, y each with dimensions B,N,D (batch size, num_items and feature size)
         and return a tensor of size B corresponding to the wasserstein distance between the two queries in each batch.
-        You can use a mahalanobis distance to build this by using :class:`~inFairness.distances.BatchedWassersteinDistance`
+        You can use a mahalanobis distance to build this by using :class:`~inFairness.distances.WassersteinDistance`
 
       distance_y: takes tensors x,y with dimensions B,N,D and returns a tensor with dimensions B,N,1 conitaining the pairwise distace between items.
         Mahalanobis distance objects can perform this operation by setting parameter `batches_of_sets_of_items` to true when calling
@@ -46,7 +46,7 @@ class SenSTIRAuditor(Auditor):
 
     def __init__(
         self,
-        distance_q: BatchedWassersteinDistance,
+        distance_q: WassersteinDistance,
         distance_y: MahalanobisDistances,
         num_steps: int,
         lr: float,
