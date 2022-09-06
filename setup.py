@@ -32,5 +32,5 @@ setup(
         "trustworthy ai",
         "machine learning",
     ],
-    python_requires=">=3.8",
+    python_requires=">=3.7",
 )
