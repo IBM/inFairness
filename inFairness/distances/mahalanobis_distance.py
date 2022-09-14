@@ -16,10 +16,9 @@ class MahalanobisDistances(Distance):
     def __init__(self):
         super().__init__()
 
-        self.sigma = None
         self.device = torch.device("cpu")
         self._vectorized_dist = None
-        
+        self.register_buffer("sigma", torch.Tensor())
 
     def to(self, device):
         """Moves distance metric to a particular device
@@ -30,7 +29,7 @@ class MahalanobisDistances(Distance):
         """
 
         assert (
-            self.sigma is not None
+            self.sigma is not None or len(self.sigma.size()) == 0
         ), "Please fit the metric before moving parameters to device"
 
         self.device = device
@@ -136,6 +135,10 @@ class MahalanobisDistances(Distance):
             dist = self._vectorized_dist(X1, X2, self.sigma).view(dist_shape)
 
         return dist
+
+    def load_state_dict(self, state_dict, strict = True):
+        for key, val in state_dict.items():
+            setattr(self, key, val)
 
 
 class SquaredEuclideanDistance(MahalanobisDistances):
