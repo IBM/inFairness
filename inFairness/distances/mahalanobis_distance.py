@@ -29,7 +29,7 @@ class MahalanobisDistances(Distance):
         """
 
         assert (
-            self.sigma is not None or len(self.sigma.size()) == 0
+            self.sigma is not None and len(self.sigma.size()) != 0
         ), "Please fit the metric before moving parameters to device"
 
         self.device = device
@@ -135,10 +135,6 @@ class MahalanobisDistances(Distance):
             dist = self._vectorized_dist(X1, X2, self.sigma).view(dist_shape)
 
         return dist
-
-    def load_state_dict(self, state_dict, strict = True):
-        for key, val in state_dict.items():
-            setattr(self, key, val)
 
 
 class SquaredEuclideanDistance(MahalanobisDistances):

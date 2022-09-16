@@ -141,14 +141,11 @@ def test_svd_sensitive_subspace_distance_raises_error():
 def test_explore_sensitive_subspace_distance(itemwise_dist):
 
     n_features = 50
-
-    X1 = torch.rand((100, n_features))
-    X2 = torch.rand((100, n_features))
-    Y = torch.randint(low=0, high=2, size=(100,))
-
-    n_samples = 10
+    n_samples = 100
+    
     X1 = torch.rand((n_samples, n_features)).requires_grad_()
     X2 = torch.rand((n_samples, n_features)).requires_grad_()
+    Y = torch.randint(low=0, high=2, size=(n_samples,))
 
     metric = distances.EXPLOREDistance()
     metric.fit(X1, X2, Y, iters=100, batchsize=8)

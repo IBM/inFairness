@@ -21,7 +21,7 @@ class ProtectedEuclideanDistance(Distance):
 
         self._protected_attributes = None
         self._num_attributes = None
-        self.protected_vector = None
+        self.register_buffer("protected_vector", torch.Tensor())
 
     def to(self, device):
         """Moves distance metric to a particular device
@@ -32,7 +32,7 @@ class ProtectedEuclideanDistance(Distance):
         """
 
         assert (
-            self.protected_vector is not None
+            self.protected_vector is not None and len(self.protected_vector.size()) != 0
         ), "Please fit the metric before moving parameters to device"
 
         self.device = device
