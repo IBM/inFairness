@@ -5,6 +5,7 @@ import pandas as pd
 import numpy as np
 
 from sklearn.preprocessing import StandardScaler
+from sklearn.linear_model import LogisticRegression
 from inFairness import distances
 
 
@@ -196,6 +197,10 @@ def test_logistic_reg_distance_protected_idx():
     assert dist.basis_vectors_.shape == (4, 2)
     assert dist.basis_vectors_[0, 0] > dist.basis_vectors_[1, 0]
 
+    assert len(dist.logistic_regression_models) == 1
+    for model in dist.logistic_regression_models:
+        assert isinstance(model, LogisticRegression)
+
 
 def test_logistic_reg_distance_no_protected_idx():
 
@@ -206,6 +211,9 @@ def test_logistic_reg_distance_no_protected_idx():
     dist.fit(X_train, data_SensitiveAttrs=protected_attr)
 
     assert dist.basis_vectors_.shape == (5, 2)
+    assert len(dist.logistic_regression_models) == 2
+    for model in dist.logistic_regression_models:
+        assert isinstance(model, LogisticRegression)
 
 
 def test_logistic_reg_distance_raises_error():
