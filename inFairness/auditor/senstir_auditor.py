@@ -28,7 +28,7 @@ class SenSTIRAuditor(Auditor):
 
     Parameters
       -----------
-      distance_x: Distance metric in the input space. Should be an instance of 
+      distance_x: Distance metric in the input space. Should be an instance of
       :class:`~inFairness.distances.MahalanobisDistance`
 
       distance_y: takes tensors x,y with dimensions B,N,D and returns a tensor with dimensions B,N,1 conitaining the pairwise distace between items.
