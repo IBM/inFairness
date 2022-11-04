@@ -10,8 +10,8 @@
    <a href="https://ibm.github.io/inFairness"><img src="https://img.shields.io/badge/documentation-up-green?logo=GitBook"></a>
    <br/>
    <a href="https://app.travis-ci.com/IBM/inFairness"><img src="https://app.travis-ci.com/IBM/inFairness.svg?branch=main"></a>
-   <a href="https://pepy.tech/project/infairness"><img src="https://pepy.tech/badge/infairness"></a>
-   <a href="https://www.python.org/"><img src="https://img.shields.io/badge/python-3.8+-blue?logo=python"></a>
+   <a href="https://pypistats.org/packages/infairness"><img alt="PyPI - Downloads" src="https://img.shields.io/pypi/dm/inFairness?color=blue"></a>
+   <a href="https://www.python.org/"><img src="https://img.shields.io/badge/python-3.7+-blue?logo=python"></a>
    <a href="https://opensource.org/licenses/Apache-2.0"><img src="https://img.shields.io/badge/license-Apache-yellow"></a>
    <a href="https://github.com/psf/black"><img src="https://img.shields.io/badge/code%20style-black-000000.svg"></a>
 </p>
@@ -59,13 +59,13 @@ inFairness currently supports:
 1. Learning individually fair metrics : [[Docs]](https://ibm.github.io/inFairness/reference/distances.html)
 2. Training of individually fair models : [[Docs]](https://ibm.github.io/inFairness/reference/algorithms.html)
 3. Auditing pre-trained ML models for individual fairness : [[Docs]](https://ibm.github.io/inFairness/reference/auditors.html)
+4. Post-processing for Individual Fairness : [[Docs]](https://ibm.github.io/inFairness/reference/postprocessing.html)
 
 
 ### Coming soon
 
 We plan to extend the package by integrating the following features:
-1. Post-processing for Individual Fairness : [[Paper]](https://arxiv.org/abs/2110.13796)
-2. Individually fair ranking : [[Paper]](https://arxiv.org/abs/2103.11023)
+1. Individually fair ranking : [[Paper]](https://arxiv.org/abs/2103.11023)
 
 
 ## Contributing

@@ -55,6 +55,9 @@ class EXPLOREDistance(MahalanobisDistances):
                 on CPU.
         """
 
+        assert (
+            X1.shape[0] == X2.shape[0] == Y.shape[0]
+        ), "Number of elements in X1, X2, and Y do not match"
         X = datautils.convert_tensor_to_numpy(X1 - X2)
         Y = datautils.convert_tensor_to_numpy(Y)
         sigma = self.compute_sigma(X, Y, iters, batchsize)
@@ -93,7 +96,7 @@ class EXPLOREDistance(MahalanobisDistances):
         N = X.shape[0]
         P = X.shape[1]
 
-        sigma_t = np.random.normal(0, 1, P ** 2).reshape(P, P)
+        sigma_t = np.random.normal(0, 1, P**2).reshape(P, P)
         sigma_t = np.matmul(sigma_t, sigma_t.T)
         sigma_t = sigma_t / np.linalg.norm(sigma_t)
 

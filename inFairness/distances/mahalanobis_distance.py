@@ -16,15 +16,9 @@ class MahalanobisDistances(Distance):
     def __init__(self):
         super().__init__()
 
-        self.sigma = None
         self.device = torch.device("cpu")
-        self.vdist = vmap(
-            vmap(
-                vmap(self.__compute_dist__, in_dims=(None, 0, None)),
-                in_dims=(0, None, None),
-            ),
-            in_dims=(0, 0, None),
-        )
+        self._vectorized_dist = None
+        self.register_buffer("sigma", torch.Tensor())
 
     def to(self, device):
         """Moves distance metric to a particular device
@@ -35,7 +29,7 @@ class MahalanobisDistances(Distance):
         """
 
         assert (
-            self.sigma is not None
+            self.sigma is not None and len(self.sigma.size()) != 0
         ), "Please fit the metric before moving parameters to device"
 
         self.device = device
@@ -78,10 +72,16 @@ class MahalanobisDistances(Distance):
         dist = torch.sum((X_diff @ sigma) * X_diff, dim=-1, keepdim=True)
         return dist
 
-    @staticmethod
-    def vdist(X1, X2, sigma):
-        """here for reference, this method gets populated in the init method. takes care of the "pairwise fashion" in the forward method"""
-        raise NotImplementedError
+    def __init_vectorized_dist__(self):
+        """Initializes a vectorized version of the distance computation"""
+        if self._vectorized_dist is None:
+            self._vectorized_dist = vmap(
+                vmap(
+                    vmap(self.__compute_dist__, in_dims=(None, 0, None)),
+                    in_dims=(0, None, None),
+                ),
+                in_dims=(0, 0, None),
+            )
 
     def forward(self, X1, X2, itemwise_dist=True):
         """Computes the distance between data samples X1 and X2
@@ -123,6 +123,8 @@ class MahalanobisDistances(Distance):
             )
             dist = self.__compute_dist__(X1, X2, self.sigma)
         else:
+            self.__init_vectorized_dist__()
+
             X1 = X1.unsqueeze(0) if len(X1.shape) == 2 else X1  # (B, N, D)
             X2 = X2.unsqueeze(0) if len(X2.shape) == 2 else X2  # (B, M, D)
 
@@ -130,7 +132,7 @@ class MahalanobisDistances(Distance):
             nsamples_x2 = X2.shape[1]
             dist_shape = (-1, nsamples_x1, nsamples_x2)
 
-            dist = self.vdist(X1, X2, self.sigma).view(dist_shape)
+            dist = self._vectorized_dist(X1, X2, self.sigma).view(dist_shape)
 
         return dist
 
