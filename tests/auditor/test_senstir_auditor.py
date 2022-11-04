@@ -6,7 +6,6 @@ from mock import patch
 from inFairness.auditor import SenSTIRAuditor
 from inFairness.distances import (
     SensitiveSubspaceDistance,
-    WassersteinDistance,
     SquaredEuclideanDistance,
 )
 
@@ -27,18 +26,18 @@ def test_sestirauditor_generate_worst_case_examples():
     min_noise = -0.5
     lambda_param = torch.tensor(3000.0)
 
-    # let's create a Wasserstein Distance sensitive on the first dimension
-    distance_q = WassersteinDistance()
-    distance_q.fit(
-        basis_vectors=torch.tensor([[0], [1.0]])
-    )  # we use the second dimension in the basis vector because the projection complement will give us the first
-
+    # let's create a Sensitive subspace distance in the input space
+    distance_x = SensitiveSubspaceDistance()
+    # we use the second dimension in the basis vector because the projection complement will give us the first
+    basis_vectors_ = torch.tensor([[0], [1.]])
+    distance_x.fit(basis_vectors_)
+    
     # distance between sets of items
     distance_y = SquaredEuclideanDistance()
     distance_y.fit(num_dims=query_size)
 
     auditor = SenSTIRAuditor(
-        distance_q, distance_y, num_steps, lr, max_noise, min_noise
+        distance_x, distance_y, num_steps, lr, max_noise, min_noise
     )
 
     # let's create a dummy network equally sensitive in both dimensions
