@@ -31,9 +31,8 @@ class SenSTIRAuditor(Auditor):
       distance_x: Distance metric in the input space. Should be an instance of
       :class:`~inFairness.distances.MahalanobisDistance`
 
-      distance_y: takes tensors x,y with dimensions B,N,D and returns a tensor with dimensions B,N,1 conitaining the pairwise distace between items.
-        Mahalanobis distance objects can perform this operation by setting parameter `batches_of_sets_of_items` to true when calling
-        it's forward method. This would return batched version compatible with this class.
+      distance_y: Distance metric in the output space. Should be an instance of 
+      :class:`~inFairness.distances.MahalanobisDistance`
 
       num_steps: number of optimization steps taken to produce the worst examples.
 
