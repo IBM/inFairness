@@ -21,7 +21,6 @@ class WassersteinDistance(MahalanobisDistances):
         `Amanda Bower, Hamid Eftekhari, Mikhail Yurochkin, Yuekai Sun:
         Individually Fair Rankings. ICLR 2021`
     """
-
     def __init__(self):
         super().__init__()
 
