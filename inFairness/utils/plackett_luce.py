@@ -1,5 +1,10 @@
 """
-taken from https://github.com/pytorch/pytorch/pull/50362/
+This file implements Plackett-Luce distribution and is taken from the
+following source: 
+
+    Source: Github PyTorch PR#50362 - Add Plackett-Luce Distribution
+    URL: https://github.com/pytorch/pytorch/pull/50362/
+    Author: Jeremy Salwen (https://github.com/jeremysalwen)
 """
 
 
