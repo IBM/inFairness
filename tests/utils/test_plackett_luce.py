@@ -45,5 +45,5 @@ def test_batch_plackett_luce():
   #the dummy logits should be increasing for the increasing relevances and decreasing for the others
   dummy_increasing, dummy_decreasing = dummy_logits[0], dummy_logits[1]
 
-  assert all([(dummy_increasing[i] < dummy_increasing[i+1]).item() for i in range(2)])
-  assert all([(dummy_decreasing[i] > dummy_decreasing[i+1]).item() for i in range(2)])
+  assert all([(dummy_increasing[i] <= dummy_increasing[i+1]).item() for i in range(2)])
+  assert all([(dummy_decreasing[i] >= dummy_decreasing[i+1]).item() for i in range(2)])
