@@ -17,7 +17,7 @@ from inFairness.distances.mahalanobis_distance import (
 )
 
 from inFairness.distances.wasserstein_distance import (
-    BatchedWassersteinDistance,
+    WassersteinDistance,
 )
 
 

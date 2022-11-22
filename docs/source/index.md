@@ -7,10 +7,11 @@
    <a href="https://github.com/IBM/inFairness"><img src="https://img.shields.io/badge/code-GitHub-informational?logo=github"></a>
    <a href="https://github.com/IBM/inFairness/tree/main/examples"><img src="https://img.shields.io/badge/example-notebooks-red?logo=jupyter"></a>
    <a href="https://ibm.github.io/inFairness"><img src="https://img.shields.io/badge/documentation-up-green?logo=GitBook"></a>
+   <a href="https://fairbert.vizhub.ai"><img src="https://img.shields.io/badge/fairness-demonstration-yellow?logo=ibm-watson"></a>
    <br/>
    <a href="https://app.travis-ci.com/IBM/inFairness"><img src="https://app.travis-ci.com/IBM/inFairness.svg?branch=main"></a>
-   <a href="https://pepy.tech/project/infairness"><img src="https://pepy.tech/badge/infairness"></a>
-   <a href="https://www.python.org/"><img src="https://img.shields.io/badge/python-3.8+-blue?logo=python"></a>
+   <a href="https://pypistats.org/packages/infairness"><img alt="PyPI - Downloads" src="https://img.shields.io/pypi/dm/inFairness?color=blue"></a>
+   <a href="https://www.python.org/"><img src="https://img.shields.io/badge/python-3.7+-blue?logo=python"></a>
    <a href="https://opensource.org/licenses/Apache-2.0"><img src="https://img.shields.io/badge/license-Apache-yellow"></a>
    <a href="https://github.com/psf/black"><img src="https://img.shields.io/badge/code%20style-black-000000.svg"></a>
 </p>
@@ -60,6 +61,7 @@ inFairness currently supports:
 
 1. Training of individually fair models : [[Docs]](https://ibm.github.io/inFairness/reference/algorithms.html)
 2. Auditing pre-trained ML models for individual fairness : [[Docs]](https://ibm.github.io/inFairness/reference/auditors.html)
+3. Post-processing for Individual Fairness : [[Docs]](https://ibm.github.io/inFairness/reference/postprocessing.html)
 
 The package implements the following components:
 
@@ -77,6 +79,10 @@ The package implements the following components:
 
 1. Embedded Xenial Pair Logistic Regression Metric (EXPLORE): [[Paper]](https://proceedings.mlr.press/v119/mukherjee20a.html), [[Docs]](https://ibm.github.io/inFairness/reference/distances.html#explore-embedded-xenial-pairs-logistic-regression)
 2. SVD Sensitive Subspace Metric: [[Paper]](https://arxiv.org/abs/1907.00020), [[Docs]](https://ibm.github.io/inFairness/reference/distances.html#svd-sensitive-subspace)
+
+#### Post-Processing algorithms
+
+1. Graph Laplacian Individual Fairness (GLIF): [[Paper]](https://arxiv.org/abs/2110.13796), [[Docs]](https://ibm.github.io/inFairness/reference/postprocessing.html#graph-laplacian-individual-fairness-glif)
 
 ----------
 

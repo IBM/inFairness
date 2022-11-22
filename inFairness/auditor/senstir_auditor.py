@@ -2,7 +2,7 @@ import torch
 from torch.nn.parameter import Parameter
 
 from inFairness.distances import (
-    BatchedWassersteinDistance,
+    WassersteinDistance,
     MahalanobisDistances,
 )
 from inFairness.auditor import Auditor
@@ -28,14 +28,11 @@ class SenSTIRAuditor(Auditor):
 
     Parameters
       -----------
-      distance_q: batched wasserstein distance to compare each pair of queries per batch (q and q').
-        it should take tensors x, y each with dimensions B,N,D (batch size, num_items and feature size)
-        and return a tensor of size B corresponding to the wasserstein distance between the two queries in each batch.
-        You can use a mahalanobis distance to build this by using :class:`~inFairness.distances.BatchedWassersteinDistance`
+      distance_x: Distance metric in the input space. Should be an instance of
+      :class:`~inFairness.distances.MahalanobisDistance`
 
-      distance_y: takes tensors x,y with dimensions B,N,D and returns a tensor with dimensions B,N,1 conitaining the pairwise distace between items.
-        Mahalanobis distance objects can perform this operation by setting parameter `batches_of_sets_of_items` to true when calling
-        it's forward method. This would return batched version compatible with this class.
+      distance_y: Distance metric in the output space. Should be an instance of
+      :class:`~inFairness.distances.MahalanobisDistance`
 
       num_steps: number of optimization steps taken to produce the worst examples.
 
@@ -46,21 +43,31 @@ class SenSTIRAuditor(Auditor):
 
     def __init__(
         self,
-        distance_q: BatchedWassersteinDistance,
+        distance_x: MahalanobisDistances,
         distance_y: MahalanobisDistances,
         num_steps: int,
         lr: float,
         max_noise: float = 0.1,
         min_noise: float = -0.1,
     ):
-        self.distance_q = distance_q
+        self.distance_x = distance_x
         self.distance_y = distance_y
         self.num_steps = num_steps
         self.lr = lr
         self.max_noise = max_noise
         self.min_noise = min_noise
 
-    def generate_worst_case_examples(self, network, Q, lambda_param, optimizer=None):
+        self.distance_q = self.__init_query_distance__()
+
+    def __init_query_distance__(self):
+        """Initialize Wasserstein distance metric from provided input distance metric"""
+
+        sigma_ = self.distance_x.sigma
+        distance_q = WassersteinDistance()
+        distance_q.fit(sigma=sigma_)
+        return distance_q
+
+    def generate_worst_case_examples(self, network, Q, lambda_param, optimizer):
         """Generate worst case examples given the input sample batch of queries Q (dimensions batch_size,num_items,num_features)
 
         Parameters
@@ -106,7 +113,7 @@ class SenSTIRAuditor(Auditor):
 
             out_dist = self.distance_y(out_Q, out_Q_worst)
             out_dist = out_dist.reshape(
-                batch_size,
+                -1
             )  # distance_y outputs B,1 whereas input_dist is B.
 
             loss = (-(out_dist - lambda_param * input_dist)).sum()
