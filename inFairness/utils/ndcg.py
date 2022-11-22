@@ -9,18 +9,19 @@ def discounted_cumulative_gain(relevances):
 
 
 def normalized_discounted_cumulative_gain(relevances):
-    """takes a vector of relevances and computes the normalized discounted cumulative gain
-    taken from (wikipedia)[https://en.wikipedia.org/wiki/Discounted_cumulative_gain]
+    """Takes a vector of relevances and computes the normalized discounted cumulative gain
+    Refer (Wikipedia - Discounted Cumulative Gain)[https://en.wikipedia.org/wiki/Discounted_cumulative_gain]
+    for more information.
 
     Parameters
     ---------
-    relevances: torch.Tensor
-      vector of dimension N where each element is the relevance of some objects in a particular order
+      relevances: torch.Tensor
+        vector of dimension N where each element is the relevance of some objects in a particular order
 
     Returns
     -------
-    normalized_discounted_cumulative_gain: torch.Tensor
-      scalar value corresponding to the normalized discounted cumulative gain
+      normalized_discounted_cumulative_gain: torch.Tensor
+        scalar value corresponding to the normalized discounted cumulative gain
     """
     dcg = discounted_cumulative_gain(relevances)
     sorted_rels, _ = torch.sort(relevances, descending=True)
