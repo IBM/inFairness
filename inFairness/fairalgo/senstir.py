@@ -1,22 +1,21 @@
 import torch
 from torch import nn
+from functorch import vmap
 
 from inFairness.auditor import SenSTIRAuditor
 from inFairness.distances.mahalanobis_distance import MahalanobisDistances
-from inFairness.distances.wasserstein_distance import BatchedWassersteinDistance
+from inFairness.fairalgo.datainterfaces import FairModelResponse
+
 from inFairness.utils import datautils
 from inFairness.utils.plackett_luce import PlackettLuce
-from inFairness.utils.misc import vect_gather
-from inFairness.utils.normalized_discounted_cumulative_gain import monte_carlo_vect_ndcg
-
-from inFairness.fairalgo.datainterfaces import FairModelResponse
+from inFairness.utils.ndcg import monte_carlo_vect_ndcg
 
 
 class SenSTIR(nn.Module):
     def __init__(
         self,
         network: torch.nn.Module,
-        distance_q: BatchedWassersteinDistance,
+        distance_x: MahalanobisDistances,
         distance_y: MahalanobisDistances,
         rho,
         eps,
@@ -27,7 +26,7 @@ class SenSTIR(nn.Module):
         super().__init__()
 
         self.network = network
-        self.distance_q = distance_q
+        self.distance_x = distance_x
         self.distance_y = distance_y
         self.rho = rho
         self.eps = eps
@@ -35,16 +34,20 @@ class SenSTIR(nn.Module):
         self.auditor_lr = auditor_lr
         self.monte_carlo_samples_ndcg = monte_carlo_samples_ndcg
         self.lamb = None
-        self.auditor = self.__init_auditor__()
+        
+        self.auditor, self.distance_q = self.__init_auditor__()
+        self._vect_gather = vmap(torch.gather, (None,None, 0))
 
     def __init_auditor__(self):
         auditor = SenSTIRAuditor(
-            self.distance_q,
+            self.distance_x,
             self.distance_y,
             self.auditor_nsteps,
             self.auditor_lr,
         )
-        return auditor
+
+        distance_q = auditor.distance_q
+        return auditor, distance_q
 
     def forward_train(self, Q, relevances):
         batch_size, num_items, num_features = Q.shape
@@ -113,8 +116,7 @@ class SenSTIR(nn.Module):
         else:
             return self.forward_test(Q)
     
-    @staticmethod
-    def expected_ndcg(montecarlo_samples, scores, relevances):
+    def expected_ndcg(self, montecarlo_samples, scores, relevances):
         """
         uses monte carlo samples to estimate the expected normalized discounted cumulative reward
         by using REINFORCE. See section 2 of the reference bellow.
@@ -138,11 +140,12 @@ class SenSTIR(nn.Module):
             `Amanda Bower, Hamid Eftekhari, Mikhail Yurochkin, Yuekai Sun:
             Individually Fair Rankings. ICLR 2021`
         """
+        
         prob_dist = PlackettLuce(scores)
         mc_rankings = prob_dist.sample((montecarlo_samples,))
         mc_log_prob = prob_dist.log_prob(mc_rankings)
 
-        mc_relevances = vect_gather(relevances, 1, mc_rankings)
+        mc_relevances = self._vect_gather(relevances, 1, mc_rankings)
         mc_ndcg = monte_carlo_vect_ndcg(mc_relevances)
 
         expected_utility = (mc_ndcg * mc_log_prob).mean(dim=0)

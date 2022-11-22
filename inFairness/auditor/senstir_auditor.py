@@ -59,6 +59,10 @@ class SenSTIRAuditor(Auditor):
 
         self.distance_q = self.__init_query_distance__()
 
+    @property
+    def distance_q(self):
+        return self.distance_q
+
     def __init_query_distance__(self):
         """Initialize Wasserstein distance metric from provided input distance metric"""
 

@@ -1,7 +1,6 @@
 import torch
 
 from inFairness.distances import (
-    BatchedWassersteinDistance,
     SensitiveSubspaceDistance,
     SquaredEuclideanDistance,
 )
@@ -34,11 +33,11 @@ def test_senstir():
         num_steps, queries_per_batch, items_per_query
     )
 
-    # dummy wasserstein distance sensitive on the first dimension
-    distance_q = BatchedWassersteinDistance(SensitiveSubspaceDistance())
-    distance_q.fit(
-        basis_vectors=torch.tensor([[0], [1.0]])
-    )  # we use the second dimension in the basis vector because the projection complement will give us the first
+    # let's create a Sensitive subspace distance in the input space
+    distance_x = SensitiveSubspaceDistance()
+    # we use the second dimension in the basis vector because the projection complement will give us the first
+    basis_vectors_ = torch.tensor([[0], [1.]])
+    distance_x.fit(basis_vectors_)
 
     distance_y = SquaredEuclideanDistance()
     distance_y.fit(num_dims=items_per_query)
@@ -51,7 +50,7 @@ def test_senstir():
 
     fair_algo = SenSTIR(
         network,
-        distance_q,
+        distance_x,
         distance_y,
         rho=0.1,
         eps=0.001,
