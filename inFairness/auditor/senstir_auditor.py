@@ -59,10 +59,6 @@ class SenSTIRAuditor(Auditor):
 
         self.distance_q = self.__init_query_distance__()
 
-    @property
-    def distance_q(self):
-        return self.distance_q
-
     def __init_query_distance__(self):
         """Initialize Wasserstein distance metric from provided input distance metric"""
 
@@ -71,7 +67,7 @@ class SenSTIRAuditor(Auditor):
         distance_q.fit(sigma=sigma_)
         return distance_q
 
-    def generate_worst_case_examples(self, network, Q, lambda_param, optimizer):
+    def generate_worst_case_examples(self, network, Q, lambda_param, optimizer=None):
         """Generate worst case examples given the input sample batch of queries Q (dimensions batch_size,num_items,num_features)
 
         Parameters
