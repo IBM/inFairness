@@ -14,4 +14,11 @@ SenSeI: Sensitive Set Invariance
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 .. autoclass:: SenSeI
     :members:
+
+------------------------
+
+SenSTIR: Sensitive Set Transport Invariant Ranking
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.. autoclass:: SenSTIR
+    :members:
 ```

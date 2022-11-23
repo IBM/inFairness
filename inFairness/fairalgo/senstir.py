@@ -12,15 +12,40 @@ from inFairness.utils.ndcg import monte_carlo_vect_ndcg
 
 
 class SenSTIR(nn.Module):
+    """Implementes the Sensitive Subspace Robustness (SenSR) algorithm.
+
+    Proposed in `Individually Fair Ranking <https://arxiv.org/abs/2103.11023>`_
+
+    Parameters
+    ------------
+        network: torch.nn.Module
+            Network architecture
+        distance_x: inFairness.distances.Distance
+            Distance metric in the input space
+        distance_y: inFairness.distances.Distance
+            Distance metric in the output space
+        rho: float
+            :math:`\\rho` parameter in the SenSTIR algorithm (see Algorithm 1)
+        eps: float
+            :math:`\\epsilon` parameter in the SenSTIR algorithm (see Algorithm 1)
+        auditor_nsteps: int
+            Number of update steps for the auditor to find worst-case examples
+        auditor_lr: float
+            Learning rate for the auditor
+        monte_carlo_samples_ndcg: int
+            Number of monte carlo samples required to estimate the gradient of the
+            empirical version of expectation defined in equation SenSTIR in the reference
+    """
+
     def __init__(
         self,
         network: torch.nn.Module,
         distance_x: MahalanobisDistances,
         distance_y: MahalanobisDistances,
-        rho,
-        eps,
-        auditor_nsteps,
-        auditor_lr,
+        rho: float,
+        eps: float,
+        auditor_nsteps: int,
+        auditor_lr: float,
         monte_carlo_samples_ndcg: int,
     ):
         super().__init__()
@@ -82,7 +107,7 @@ class SenSTIR(nn.Module):
             scores_worst = torch.ones_like(scores)
 
         fair_loss = torch.mean(
-            -self.expected_ndcg(self.monte_carlo_samples_ndcg, scores, relevances)
+            -self.__expected_ndcg__(self.monte_carlo_samples_ndcg, scores, relevances)
             + self.rho * self.distance_y(scores, scores_worst)
         )
 
@@ -117,29 +142,24 @@ class SenSTIR(nn.Module):
         else:
             return self.forward_test(Q)
 
-    def expected_ndcg(self, montecarlo_samples, scores, relevances):
+    def __expected_ndcg__(self, montecarlo_samples, scores, relevances):
         """
         uses monte carlo samples to estimate the expected normalized discounted cumulative reward
         by using REINFORCE. See section 2 of the reference bellow.
 
         Parameters
         -------------
-        scores: torch.Tensor of dimension B,N
-          predicted scores for the objects in a batch of queries
+            scores: torch.Tensor of dimension B,N
+                predicted scores for the objects in a batch of queries
 
-        relevances: torch.Tensor of dimension B,N
-          corresponding true relevances of such objects
+            relevances: torch.Tensor of dimension B,N
+                corresponding true relevances of such objects
 
         Returns
         ------------
-        expected_ndcg: torch.Tensor of dimension B
-          monte carlo approximation of the expected ndcg by sampling from a Plackett-Luce
-          distribution parameterized by :param:`scores`
-
-        References
-        ----------
-            `Amanda Bower, Hamid Eftekhari, Mikhail Yurochkin, Yuekai Sun:
-            Individually Fair Rankings. ICLR 2021`
+            expected_ndcg: torch.Tensor of dimension B
+                monte carlo approximation of the expected ndcg by sampling from a Plackett-Luce
+                distribution parameterized by :param:`scores`
         """
 
         prob_dist = PlackettLuce(scores)
