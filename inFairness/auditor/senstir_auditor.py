@@ -19,26 +19,25 @@ class SenSTIRAuditor(Auditor):
     At a high level, it will find :math:`q^{'}` such that it maximizes the score difference, while keeping
     a fair set distance `distance_q` with the original query `q` small.
 
-    for more information see equation 3.4 of the reference bellow
+    Proposed in `Individually Fair Rankings <https://arxiv.org/abs/2103.11023>`_
 
-      References
-      ----------
-          `Amanda Bower, Hamid Eftekhari, Mikhail Yurochkin, Yuekai Sun:
-          Individually Fair Rankings. ICLR 2021`
 
     Parameters
-      -----------
-      distance_x: Distance metric in the input space. Should be an instance of
-      :class:`~inFairness.distances.MahalanobisDistance`
-
-      distance_y: Distance metric in the output space. Should be an instance of
-      :class:`~inFairness.distances.MahalanobisDistance`
-
-      num_steps: number of optimization steps taken to produce the worst examples.
-
-      lr: learning rate of the optimization
-
-      max/min_noise: range of a uniform distribution determining the initial noise added to q to form q'
+    -----------
+      distance_x: inFairness.distances.Distance
+        Distance metric in the input space. Should be an instance of
+        :class:`~inFairness.distances.MahalanobisDistance`
+      distance_y: inFairness.distances.Distance
+        Distance metric in the output space. Should be an instance of
+        :class:`~inFairness.distances.MahalanobisDistance`
+      num_steps: int 
+        number of optimization steps taken to produce the worst examples.
+      lr: float
+        learning rate of the optimization
+      max_noise: float 
+        range of a uniform distribution determining the initial noise added to q to form q'
+      min_noise: float
+        range of a uniform distribution determining the initial noise added to q to form q'
     """
 
     def __init__(
@@ -67,7 +66,7 @@ class SenSTIRAuditor(Auditor):
         distance_q.fit(sigma=sigma_)
         return distance_q
 
-    def generate_worst_case_examples(self, network, Q, lambda_param, optimizer):
+    def generate_worst_case_examples(self, network, Q, lambda_param, optimizer=None):
         """Generate worst case examples given the input sample batch of queries Q (dimensions batch_size,num_items,num_features)
 
         Parameters

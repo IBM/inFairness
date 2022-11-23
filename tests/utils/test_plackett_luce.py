@@ -10,7 +10,6 @@ from inFairness.utils.ndcg import vect_normalized_discounted_cumulative_gain as 
 vect_gather = vmap(torch.gather, in_dims=(None,None, 0))
 batched_v_ndcg = vmap(v_ndcg, in_dims=(0))
 
-
 def test_batch_plackett_luce():
   """
   the idea of this test is to use normalized discounted cumulative gain to evaluate how
