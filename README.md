@@ -61,12 +61,7 @@ inFairness currently supports:
 2. Training of individually fair models : [[Docs]](https://ibm.github.io/inFairness/reference/algorithms.html)
 3. Auditing pre-trained ML models for individual fairness : [[Docs]](https://ibm.github.io/inFairness/reference/auditors.html)
 4. Post-processing for Individual Fairness : [[Docs]](https://ibm.github.io/inFairness/reference/postprocessing.html)
-
-
-### Coming soon
-
-We plan to extend the package by integrating the following features:
-1. Individually fair ranking : [[Paper]](https://arxiv.org/abs/2103.11023)
+5. Individually fair ranking : [[Docs]](https://ibm.github.io/inFairness/reference/algorithms.html)
 
 
 ## Contributing
