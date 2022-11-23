@@ -10,7 +10,7 @@ class Trainer(object):
         max_iterations (int): Number of training steps
     """
 
-    def __init__(self, dataloader, model, optimizer, max_iterations):
+    def __init__(self, dataloader, model, optimizer, max_iterations, print_loss_period=0):
 
         self.dataloader = dataloader
         self.model = model
@@ -18,6 +18,7 @@ class Trainer(object):
         self.max_iterations = max_iterations
 
         self._dataloader_iter = iter(self.dataloader)
+        self.print_loss_period = print_loss_period
 
     def run_step(self):
 
@@ -36,6 +37,10 @@ class Trainer(object):
                 "Data format not recognized. Only `list`, `tuple`, and `dict` are recognized."
             )
 
+        if self.print_loss_period:
+            if self.step_count % self.print_loss_period == 0:
+                print(f'loss {self.step_count}', model_output.loss)
+
         self.optimizer.zero_grad()
         model_output.loss.backward()
 
@@ -45,5 +50,5 @@ class Trainer(object):
 
         self.model.train(True)
 
-        for step_count in range(self.max_iterations):
+        for self.step_count in range(self.max_iterations):
             self.run_step()
