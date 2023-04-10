@@ -11,13 +11,12 @@ setup(
     ],
     package_dir={"": ".",},
     install_requires=[
-        "functorch~=0.1.1",
         "numpy>=1.21.6",
         "pandas>=1.3.5",
         "POT>=0.8.0",
         "scikit-learn>=0.24.2",
         "scipy>=1.5.4",
-        "torch>=1.11.0",
+        "torch>=1.13.0"
     ],
     description="inFairness is a Python package to train and audit individually fair PyTorch models",
     long_description=long_description,
