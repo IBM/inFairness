@@ -1,9 +1,11 @@
 import os
 import requests
 import pandas as pd
+import numpy as np
 import torch
 
 from sklearn.preprocessing import StandardScaler
+from sklearn.utils.random import sample_without_replacement
 
 
 def _download_data_(rootdir=None):
@@ -137,3 +139,56 @@ def convert_df_to_tensor(data_X_df, data_Y_df):
     data_Y = torch.tensor(data_Y_df.values)
 
     return data_X, data_Y
+
+
+def generate_pairs(len1, len2, n_pairs=100):
+    """
+    vanilla sampler of random pairs (might sample same pair up to permutation)
+    n_pairs > len1*len2 should be satisfied
+    """
+    idx = sample_without_replacement(len1*len2, n_pairs)
+    return np.vstack(np.unravel_index(idx, (len1, len2)))
+
+
+def create_data_pairs(X_train, Y_train, Y_gender_train, n_comparable=10000, n_incomparable=10000):
+    y_gender_train_np = Y_gender_train.detach().numpy()
+    y_train_np = Y_train.detach().numpy()
+    X_train_np = X_train.detach().numpy()
+
+    # Create comparable pairs
+    comparable_X1 = None
+    comparable_X2 = None
+
+    K = 2
+    for i in range(K):
+        c0_idx = np.where((1*(y_gender_train_np==0) + (y_train_np==i))==2)[0]
+        c1_idx = np.where((1*(y_gender_train_np==1) + (y_train_np==i))==2)[0]
+        pairs_idx = generate_pairs(len(c0_idx), len(c1_idx), n_pairs=n_comparable // K)
+        if comparable_X1 is None:
+            comparable_X1 = X_train_np[c0_idx[pairs_idx[0]]]
+            comparable_X2 = X_train_np[c1_idx[pairs_idx[1]]]
+        else:
+            comparable_X1 = np.vstack((comparable_X1, X_train_np[c0_idx[pairs_idx[0]]]))
+            comparable_X2 = np.vstack((comparable_X2, X_train_np[c1_idx[pairs_idx[1]]]))
+
+    # Create incomparable pairs
+    c0_idx = np.where(y_train_np==0)[0]
+    c1_idx = np.where(y_train_np==1)[0]
+    pairs_idx = generate_pairs(len(c0_idx), len(c1_idx), n_pairs=n_incomparable)
+
+    incomparable_X1 = X_train_np[c0_idx[pairs_idx[0]]]
+    incomparable_X2 = X_train_np[c1_idx[pairs_idx[1]]]
+
+
+    # Join the two sets (comparable and incomparable) to create X and Y
+    X1 = np.vstack((comparable_X1, incomparable_X1))
+    X2 = np.vstack((comparable_X2, incomparable_X2))
+
+    Y_pairs = np.zeros(n_comparable + n_incomparable)
+    Y_pairs[:n_comparable] = 1
+
+    X1 = torch.from_numpy(X1)
+    X2 = torch.from_numpy(X2)
+    Y_pairs = torch.from_numpy(Y_pairs)
+
+    return X1, X2, Y_pairs

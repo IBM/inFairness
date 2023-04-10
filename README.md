@@ -8,6 +8,7 @@
    <a href="https://pypi.org/project/infairness"><img src="https://img.shields.io/pypi/v/infairness?color=important&label=pypi%20package&logo=PyPy"></a>
    <a href="./examples"><img src="https://img.shields.io/badge/example-notebooks-red?logo=jupyter"></a>
    <a href="https://ibm.github.io/inFairness"><img src="https://img.shields.io/badge/documentation-up-green?logo=GitBook"></a>
+   <a href="https://fairbert.vizhub.ai"><img src="https://img.shields.io/badge/fairness-demonstration-yellow?logo=ibm-watson"></a>
    <br/>
    <a href="https://app.travis-ci.com/IBM/inFairness"><img src="https://app.travis-ci.com/IBM/inFairness.svg?branch=main"></a>
    <a href="https://pypistats.org/packages/infairness"><img alt="PyPI - Downloads" src="https://img.shields.io/pypi/dm/inFairness?color=blue"></a>
@@ -27,7 +28,7 @@ Here, $h: X \rightarrow Y$ is a ML model, where $X$ and $Y$ are input and output
 
 inFairness is a PyTorch package that supports auditing, training, and post-processing ML models for individual fairness. At its core, the library implements the key components of individual fairness pipeline: $d_x$ - distance in the input space, $d_y$ - distance in the output space, and the learning algorithms to optimize for the equation above.
 
-For an in-depth tutorial of Individual Fairness and the inFairness package, please watch this tutorial. Also, take a look at the [examples](./examples/) folder for illustrative use-cases. For more group fairness examples see [AIF360](https://aif360.mybluemix.net/).
+For an in-depth tutorial of Individual Fairness and the inFairness package, please watch this tutorial. Also, take a look at the [examples](./examples/) folder for illustrative use-cases and try the [Fairness Playground demo](https://fairbert.vizhub.ai). For more group fairness examples see [AIF360](https://aif360.mybluemix.net/).
 
 <p align="center">
   <a href="https://video.ibm.com/recorded/131932983" target="_blank"><img width="700" alt="Watch the tutorial" src="https://user-images.githubusercontent.com/991913/178768336-2bfa5958-487f-4f14-a156-03dacfd68263.png"></a>
@@ -60,12 +61,7 @@ inFairness currently supports:
 2. Training of individually fair models : [[Docs]](https://ibm.github.io/inFairness/reference/algorithms.html)
 3. Auditing pre-trained ML models for individual fairness : [[Docs]](https://ibm.github.io/inFairness/reference/auditors.html)
 4. Post-processing for Individual Fairness : [[Docs]](https://ibm.github.io/inFairness/reference/postprocessing.html)
-
-
-### Coming soon
-
-We plan to extend the package by integrating the following features:
-1. Individually fair ranking : [[Paper]](https://arxiv.org/abs/2103.11023)
+5. Individually fair ranking : [[Docs]](https://ibm.github.io/inFairness/reference/algorithms.html)
 
 
 ## Contributing

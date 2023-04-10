@@ -84,6 +84,22 @@ source_suffix = {
 html_theme = 'furo'
 html_theme_options = {
     "sidebar_hide_name": True,
+    "announcement": ('<p><small>Check out our demonstration exploring '
+        'individual and group fairness of three BERT-based '
+        'toxic text classification models '
+        '<a class="sd-sphinx-override sd-badge sd-text-wrap '
+            'sd-bg-dark sd-bg-text-dark reference external" target="_blank"'
+            'href="https://fairbert.vizhub.ai">'
+        f'<span>Demonstration</span></a></small></p>'),
+    
+    "dark_css_variables": {
+        "color-announcement-background": "#935610",
+        "color-announcement-text": "#FFFFFF",
+    },
+    "light_css_variables": {
+        "color-announcement-background": "#935610",
+        "color-announcement-text": "#FFFFFF",
+    },
 }
 
 # Add any paths that contain custom static files (such as style sheets) here,

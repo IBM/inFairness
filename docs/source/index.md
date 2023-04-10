@@ -7,6 +7,7 @@
    <a href="https://github.com/IBM/inFairness"><img src="https://img.shields.io/badge/code-GitHub-informational?logo=github"></a>
    <a href="https://github.com/IBM/inFairness/tree/main/examples"><img src="https://img.shields.io/badge/example-notebooks-red?logo=jupyter"></a>
    <a href="https://ibm.github.io/inFairness"><img src="https://img.shields.io/badge/documentation-up-green?logo=GitBook"></a>
+   <a href="https://fairbert.vizhub.ai"><img src="https://img.shields.io/badge/fairness-demonstration-yellow?logo=ibm-watson"></a>
    <br/>
    <a href="https://app.travis-ci.com/IBM/inFairness"><img src="https://app.travis-ci.com/IBM/inFairness.svg?branch=main"></a>
    <a href="https://pypistats.org/packages/infairness"><img alt="PyPI - Downloads" src="https://img.shields.io/pypi/dm/inFairness?color=blue"></a>

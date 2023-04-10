@@ -15,4 +15,10 @@ SenSeI Auditor
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 .. autoclass:: SenSeIAuditor
     :members:
+
+SenSTIR Auditor
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.. autoclass:: SenSTIRAuditor
+    :members:
+
 ```
