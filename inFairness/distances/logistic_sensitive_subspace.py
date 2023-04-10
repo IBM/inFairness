@@ -30,6 +30,16 @@ class LogisticRegSensitiveSubspace(SensitiveSubspaceDistance):
     def __init__(self):
         super().__init__()
         self.basis_vectors_ = None
+        self._logreg_models = None
+
+    @property
+    def logistic_regression_models(self):
+        """Logistic Regression models trained by the metric to predict each sensitive attribute
+        given inputs. The property is a list of logistic regression models each corresponding to
+        :math:`\mathbb{P}(K_i = l\\mid X_i)`. This property can be used to measure the performance
+        of the logistic regression models.
+        """
+        return self._logreg_models
 
     def fit(
         self,
@@ -115,11 +125,15 @@ class LogisticRegSensitiveSubspace(SensitiveSubspaceDistance):
 
         self.__assert_sensitiveattrs_binary__(Y_train)
 
+        self._logreg_models = [
+            LogisticRegression(solver="liblinear", penalty="l1")
+            .fit(X_train, Y_train[:, idx])
+            for idx in range(len(protected_idxs))
+        ]
+
         coefs = np.array(
             [
-                LogisticRegression(solver="liblinear", penalty="l1")
-                .fit(X_train, Y_train[:, idx])
-                .coef_.squeeze()
+                self._logreg_models[idx].coef_.squeeze()
                 for idx in range(len(protected_idxs))
             ]
         )  # ( |protected_idxs|, |free_idxs| )
@@ -166,11 +180,15 @@ class LogisticRegSensitiveSubspace(SensitiveSubspaceDistance):
         basis_vectors_ = []
         outdim = y_train.shape[-1]
 
+        self._logreg_models = [
+            LogisticRegression(solver="liblinear", penalty="l1")
+            .fit(X_train, y_train[:, idx])
+            for idx in range(outdim)
+        ]
+
         basis_vectors_ = np.array(
             [
-                LogisticRegression(solver="liblinear", penalty="l1")
-                .fit(X_train, y_train[:, idx])
-                .coef_.squeeze()
+                self._logreg_models[idx].coef_.squeeze()
                 for idx in range(outdim)
             ]
         )
