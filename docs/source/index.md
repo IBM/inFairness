@@ -29,7 +29,7 @@ inFairness is a PyTorch package that supports auditing, training, and post-proce
 For an in-depth tutorial of Individual Fairness and the inFairness package, please watch this tutorial. Also, take a look at the [examples](https://github.com/IBM/inFairness/tree/main/examples) folder for illustrative use-cases.
 
 <p align="center">
-<iframe width="480" height="270" src="https://video.ibm.com/embed/recorded/131932983" scrolling="no" allowfullscreen webkitallowfullscreen frameborder="0" style="border: 0 none transparent;"></iframe>
+  <a href="https://ibm.box.com/v/fairness-tutorial-2022" target="_blank"><img width="480" alt="Watch the tutorial" src="https://user-images.githubusercontent.com/991913/178768336-2bfa5958-487f-4f14-a156-03dacfd68263.png"></a>
 </p>
 
 

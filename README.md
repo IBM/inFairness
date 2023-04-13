@@ -31,7 +31,7 @@ inFairness is a PyTorch package that supports auditing, training, and post-proce
 For an in-depth tutorial of Individual Fairness and the inFairness package, please watch this tutorial. Also, take a look at the [examples](./examples/) folder for illustrative use-cases and try the [Fairness Playground demo](https://fairbert.vizhub.ai). For more group fairness examples see [AIF360](https://aif360.mybluemix.net/).
 
 <p align="center">
-  <a href="https://video.ibm.com/recorded/131932983" target="_blank"><img width="700" alt="Watch the tutorial" src="https://user-images.githubusercontent.com/991913/178768336-2bfa5958-487f-4f14-a156-03dacfd68263.png"></a>
+  <a href="https://ibm.box.com/v/fairness-tutorial-2022" target="_blank"><img width="700" alt="Watch the tutorial" src="https://user-images.githubusercontent.com/991913/178768336-2bfa5958-487f-4f14-a156-03dacfd68263.png"></a>
 </p>
 
 ## Installation
