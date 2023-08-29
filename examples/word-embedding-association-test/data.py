@@ -67,10 +67,7 @@ def load_nyc_names(embeddings, names_path):
     names_df['Child\'s First Name'] = [n.lower() for n in names_df['Child\'s First Name']]
     
     names_from_df = names_df['Child\'s First Name'].values.tolist()
-    idx_keep = []
-    for i, n in enumerate(names_from_df):
-        if n in embeddings.index:
-            idx_keep.append(i)
+    idx_keep = [i for i, n in enumerate(names_from_df) if n in embeddings.index]
     
     names_df = names_df.iloc[idx_keep]
     names_from_df = names_df['Child\'s First Name'].values.tolist()
