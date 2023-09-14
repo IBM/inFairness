@@ -11,7 +11,8 @@
    <a href="https://fairbert.vizhub.ai"><img src="https://img.shields.io/badge/fairness-demonstration-yellow?logo=ibm-watson"></a>
    <br/>
    <a href="https://app.travis-ci.com/IBM/inFairness"><img src="https://app.travis-ci.com/IBM/inFairness.svg?branch=main"></a>
-   <a href="https://pypistats.org/packages/infairness"><img alt="PyPI - Downloads" src="https://img.shields.io/pypi/dm/inFairness?color=blue"></a>
+<!--    <a href="https://pypistats.org/packages/infairness"><img alt="PyPI - Downloads" src="https://img.shields.io/pypi/dm/inFairness?color=blue"></a> -->
+   <a href="https://www.pepy.tech/projects/infairness"><img alt="Total downloads for the project" src="https://static.pepy.tech/badge/infairness"></a>
    <a href="https://www.python.org/"><img src="https://img.shields.io/badge/python-3.7+-blue?logo=python"></a>
    <a href="https://opensource.org/licenses/Apache-2.0"><img src="https://img.shields.io/badge/license-Apache-yellow"></a>
    <a href="https://github.com/psf/black"><img src="https://img.shields.io/badge/code%20style-black-000000.svg"></a>
