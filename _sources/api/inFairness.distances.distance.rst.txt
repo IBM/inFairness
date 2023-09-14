@@ -1,0 +1,7 @@
+inFairness.distances.distance module
+====================================
+
+.. automodule:: inFairness.distances.distance
+   :members:
+   :undoc-members:
+   :show-inheritance:

@@ -1,0 +1,7 @@
+inFairness.postprocessing.distance\_ds module
+=============================================
+
+.. automodule:: inFairness.postprocessing.distance_ds
+   :members:
+   :undoc-members:
+   :show-inheritance:

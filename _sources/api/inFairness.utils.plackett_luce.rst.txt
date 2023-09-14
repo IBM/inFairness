@@ -1,0 +1,7 @@
+inFairness.utils.plackett\_luce module
+======================================
+
+.. automodule:: inFairness.utils.plackett_luce
+   :members:
+   :undoc-members:
+   :show-inheritance:

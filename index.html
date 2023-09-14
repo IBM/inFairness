@@ -1,0 +1,601 @@
+<!doctype html>
+<html class="no-js" lang="en" data-content_root="./">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-3QDFV4L7YB"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            
+            gtag('config', 'G-3QDFV4L7YB');
+            
+        </script>
+    <link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="Tutorial" href="tutorial.html" />
+
+    <!-- Generated with Sphinx 7.2.6 and Furo 2023.09.10 -->
+        <title>inFairness</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=135e06be" />
+    <link rel="stylesheet" type="text/css" href="_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?v=36a5483c" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #f8f8f8;
+  --color-code-foreground: black;
+  --color-announcement-background: #935610;
+  --color-announcement-text: #FFFFFF;
+  
+  }
+  @media not print {
+    body[data-theme="dark"] {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  --color-announcement-background: #935610;
+  --color-announcement-text: #FFFFFF;
+  
+    }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  --color-announcement-background: #935610;
+  --color-announcement-text: #FFFFFF;
+  
+      }
+    }
+  }
+</style></head>
+  <body>
+    
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-half" viewBox="0 0 24 24">
+    <title>Auto light/dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-shadow">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M13 12h5" />
+      <path d="M13 15h4" />
+      <path d="M13 18h1" />
+      <path d="M13 9h4" />
+      <path d="M13 6h1" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+<div class="announcement">
+  <aside class="announcement-content">
+     <p><small>Check out our demonstration exploring individual and group fairness of three BERT-based toxic text classification models <a class="sd-sphinx-override sd-badge sd-text-wrap sd-bg-dark sd-bg-text-dark reference external" target="_blank"href="https://fairbert.vizhub.ai"><span>Demonstration</span></a></small></p> 
+  </aside>
+</div>
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="#"><div class="brand">inFairness</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon no-toc" for="__toc">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="#">
+  
+  <div class="sidebar-logo-container">
+    <img class="sidebar-logo" src="_static/infairness-logo.png" alt="Logo"/>
+  </div>
+  
+  
+</a><form class="sidebar-search-container" method="get" action="search.html" role="search">
+  <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <p class="caption" role="heading"><span class="caption-text">Index</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorial.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="papers.html">Papers implemented</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Package Reference</span></p>
+<ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="reference/index.html">API Documentation</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of API Documentation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="reference/algorithms.html">Algorithms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference/auditors.html">Auditors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference/distances.html">Distances</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference/postprocessing.html">Post-Processing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference/utilities.html">Utilities</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="development/index.html">Development</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of Development</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="development/auditors.html">Auditors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="development/distances.html">Distances</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/IBM/inFairness">GitHub Repository</a></li>
+</ul>
+
+</div>
+</div>
+
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
+          
+<div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon no-toc" for="__toc">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <article role="main">
+          <section id="infairness">
+<h1>inFairness<a class="headerlink" href="#infairness" title="Link to this heading">#</a></h1>
+<br />
+<p align="center">
+   <a href="https://pypi.org/project/infairness"><img src="https://img.shields.io/pypi/v/infairness?color=important&label=pypi%20package"></a>
+   <a href="https://github.com/IBM/inFairness"><img src="https://img.shields.io/badge/code-GitHub-informational?logo=github"></a>
+   <a href="https://github.com/IBM/inFairness/tree/main/examples"><img src="https://img.shields.io/badge/example-notebooks-red?logo=jupyter"></a>
+   <a href="https://ibm.github.io/inFairness"><img src="https://img.shields.io/badge/documentation-up-green?logo=GitBook"></a>
+   <a href="https://fairbert.vizhub.ai"><img src="https://img.shields.io/badge/fairness-demonstration-yellow?logo=ibm-watson"></a>
+   <br/>
+   <a href="https://app.travis-ci.com/IBM/inFairness"><img src="https://app.travis-ci.com/IBM/inFairness.svg?branch=main"></a>
+   <a href="https://pypistats.org/packages/infairness"><img alt="PyPI - Downloads" src="https://img.shields.io/pypi/dm/inFairness?color=blue"></a>
+   <a href="https://www.python.org/"><img src="https://img.shields.io/badge/python-3.7+-blue?logo=python"></a>
+   <a href="https://opensource.org/licenses/Apache-2.0"><img src="https://img.shields.io/badge/license-Apache-yellow"></a>
+   <a href="https://github.com/psf/black"><img src="https://img.shields.io/badge/code%20style-black-000000.svg"></a>
+</p>
+<br />
+<p>Intuitively, an individually fair Machine Learning (ML) model treats similar inputs similarly. Formally, the leading notion of individual fairness is metric fairness <a class="reference external" href="https://dl.acm.org/doi/abs/10.1145/2090236.2090255">(Dwork et al., 2011)</a>; it requires:</p>
+<div class="math-wrapper docutils container">
+<div class="math notranslate nohighlight">
+\[ d_y (h(x_1), h(x_2)) \leq L d_x(x_1, x_2) \quad \forall \quad x_1, x_2 \in X \]</div>
+</div>
+<p>Here, <span class="math notranslate nohighlight">\(h: X \rightarrow Y\)</span> is a ML model, where <span class="math notranslate nohighlight">\(X\)</span> and <span class="math notranslate nohighlight">\(Y\)</span> are input and output spaces; <span class="math notranslate nohighlight">\(d_x\)</span> and <span class="math notranslate nohighlight">\(d_y\)</span> are metrics on the input and output spaces, and <span class="math notranslate nohighlight">\(L \geq 0\)</span> is a Lipchitz constant. This constrained optimization equation states that the distance between the model predictions for inputs <span class="math notranslate nohighlight">\(x_1\)</span> and <span class="math notranslate nohighlight">\(x_2\)</span> is upper-bounded by the fair distance between the inputs <span class="math notranslate nohighlight">\(x_1\)</span> and <span class="math notranslate nohighlight">\(x_2\)</span>. Here, the fair metric <span class="math notranslate nohighlight">\(d_x\)</span> encodes our intuition of which samples should be treated similarly by the ML model, and in designing so, we ensure that for input samples considered similar by the fair metric <span class="math notranslate nohighlight">\(d_x\)</span>, the model outputs will be similar as well.</p>
+<p>inFairness is a PyTorch package that supports auditing, training, and post-processing ML models for individual fairness. At its core, the library implements the key components of individual fairness pipeline: <span class="math notranslate nohighlight">\(d_x\)</span> - distance in the input space, <span class="math notranslate nohighlight">\(d_y\)</span> - distance in the output space, and the learning algorithms to optimize for the equation above.</p>
+<p>For an in-depth tutorial of Individual Fairness and the inFairness package, please watch this tutorial. Also, take a look at the <a class="reference external" href="https://github.com/IBM/inFairness/tree/main/examples">examples</a> folder for illustrative use-cases.</p>
+<p align="center">
+  <a href="https://ibm.box.com/v/fairness-tutorial-2022" target="_blank"><img width="480" alt="Watch the tutorial" src="https://user-images.githubusercontent.com/991913/178768336-2bfa5958-487f-4f14-a156-03dacfd68263.png"></a>
+</p>
+<hr class="docutils" />
+</section>
+<section id="installation">
+<h1>Installation<a class="headerlink" href="#installation" title="Link to this heading">#</a></h1>
+<p>inFairness can be installed using <code class="docutils literal notranslate"><span class="pre">pip</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">inFairness</span>
+</pre></div>
+</div>
+<p>Alternatively, if you wish to install the latest development version, you can install directly by cloning the code repository from the GitHub repo:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">clone</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">IBM</span><span class="o">/</span><span class="n">inFairness</span>
+<span class="n">cd</span> <span class="n">inFairness</span>
+<span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">e</span> <span class="o">.</span>
+</pre></div>
+</div>
+</section>
+<section id="features">
+<h1>Features<a class="headerlink" href="#features" title="Link to this heading">#</a></h1>
+<p>inFairness currently supports:</p>
+<ol class="arabic simple">
+<li><p>Training of individually fair models : <a class="reference external" href="https://ibm.github.io/inFairness/reference/algorithms.html">[Docs]</a></p></li>
+<li><p>Auditing pre-trained ML models for individual fairness : <a class="reference external" href="https://ibm.github.io/inFairness/reference/auditors.html">[Docs]</a></p></li>
+<li><p>Post-processing for Individual Fairness : <a class="reference external" href="https://ibm.github.io/inFairness/reference/postprocessing.html">[Docs]</a></p></li>
+</ol>
+<p>The package implements the following components:</p>
+<section id="algorithms">
+<h2>Algorithms<a class="headerlink" href="#algorithms" title="Link to this heading">#</a></h2>
+<ol class="arabic simple">
+<li><p>Sensitive Set Invariance (SenSeI): <a class="reference external" href="https://arxiv.org/abs/2006.14168">[Paper]</a>, <a class="reference external" href="https://ibm.github.io/inFairness/reference/algorithms.html#sensei-sensitive-set-invariance">[Docs]</a></p></li>
+<li><p>Sensitive Subspace Robustness (SenSR): <a class="reference external" href="https://arxiv.org/abs/1907.00020">[Paper]</a>, <a class="reference external" href="https://ibm.github.io/inFairness/reference/algorithms.html#sensr-sensitive-subspace-robustness">[Docs]</a></p></li>
+</ol>
+</section>
+<section id="auditors">
+<h2>Auditors<a class="headerlink" href="#auditors" title="Link to this heading">#</a></h2>
+<ol class="arabic simple">
+<li><p>Sensitive Set Invariance (SenSeI) Auditor: <a class="reference external" href="https://arxiv.org/abs/2006.14168">[Paper]</a>, <a class="reference external" href="https://ibm.github.io/inFairness/reference/auditors.html#sensei-auditor">[Docs]</a></p></li>
+<li><p>Sensitive Subspace Robustness (SenSR) Auditor: <a class="reference external" href="https://arxiv.org/abs/1907.00020">[Paper]</a>, <a class="reference external" href="https://ibm.github.io/inFairness/reference/auditors.html#sensr-auditor">[Docs]</a></p></li>
+</ol>
+</section>
+<section id="metrics">
+<h2>Metrics<a class="headerlink" href="#metrics" title="Link to this heading">#</a></h2>
+<ol class="arabic simple">
+<li><p>Embedded Xenial Pair Logistic Regression Metric (EXPLORE): <a class="reference external" href="https://proceedings.mlr.press/v119/mukherjee20a.html">[Paper]</a>, <a class="reference external" href="https://ibm.github.io/inFairness/reference/distances.html#explore-embedded-xenial-pairs-logistic-regression">[Docs]</a></p></li>
+<li><p>SVD Sensitive Subspace Metric: <a class="reference external" href="https://arxiv.org/abs/1907.00020">[Paper]</a>, <a class="reference external" href="https://ibm.github.io/inFairness/reference/distances.html#svd-sensitive-subspace">[Docs]</a></p></li>
+</ol>
+</section>
+<section id="post-processing-algorithms">
+<h2>Post-Processing algorithms<a class="headerlink" href="#post-processing-algorithms" title="Link to this heading">#</a></h2>
+<ol class="arabic simple">
+<li><p>Graph Laplacian Individual Fairness (GLIF): <a class="reference external" href="https://arxiv.org/abs/2110.13796">[Paper]</a>, <a class="reference external" href="https://ibm.github.io/inFairness/reference/postprocessing.html#graph-laplacian-individual-fairness-glif">[Docs]</a></p></li>
+</ol>
+<hr class="docutils" />
+</section>
+</section>
+<section id="api-documentation">
+<h1>API Documentation<a class="headerlink" href="#api-documentation" title="Link to this heading">#</a></h1>
+<div class="toctree-wrapper compound">
+<p class="caption" role="heading"><span class="caption-text">Index</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorial.html">Tutorial</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="tutorial.html#minimal-example">Minimal example</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="papers.html">Papers implemented</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="papers.html#algorithms">Algorithms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="papers.html#auditing">Auditing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="papers.html#metrics">Metrics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="papers.html#post-processing">Post-processing</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<p class="caption" role="heading"><span class="caption-text">Package Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="reference/index.html">API Documentation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="reference/algorithms.html">Algorithms</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="reference/algorithms.html#sensr-sensitive-subspace-robustness">SenSR: Sensitive Subspace Robustness</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="reference/algorithms.html#inFairness.fairalgo.SenSR"><code class="docutils literal notranslate"><span class="pre">SenSR</span></code></a><ul>
+<li class="toctree-l5"><a class="reference internal" href="reference/algorithms.html#inFairness.fairalgo.SenSR.forward"><code class="docutils literal notranslate"><span class="pre">SenSR.forward()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="reference/algorithms.html#inFairness.fairalgo.SenSR.forward_test"><code class="docutils literal notranslate"><span class="pre">SenSR.forward_test()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="reference/algorithms.html#inFairness.fairalgo.SenSR.forward_train"><code class="docutils literal notranslate"><span class="pre">SenSR.forward_train()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="reference/algorithms.html#sensei-sensitive-set-invariance">SenSeI: Sensitive Set Invariance</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="reference/algorithms.html#inFairness.fairalgo.SenSeI"><code class="docutils literal notranslate"><span class="pre">SenSeI</span></code></a><ul>
+<li class="toctree-l5"><a class="reference internal" href="reference/algorithms.html#inFairness.fairalgo.SenSeI.forward"><code class="docutils literal notranslate"><span class="pre">SenSeI.forward()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="reference/algorithms.html#inFairness.fairalgo.SenSeI.forward_test"><code class="docutils literal notranslate"><span class="pre">SenSeI.forward_test()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="reference/algorithms.html#inFairness.fairalgo.SenSeI.forward_train"><code class="docutils literal notranslate"><span class="pre">SenSeI.forward_train()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="reference/algorithms.html#senstir-sensitive-set-transport-invariant-ranking">SenSTIR: Sensitive Set Transport Invariant Ranking</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="reference/algorithms.html#inFairness.fairalgo.SenSTIR"><code class="docutils literal notranslate"><span class="pre">SenSTIR</span></code></a><ul>
+<li class="toctree-l5"><a class="reference internal" href="reference/algorithms.html#inFairness.fairalgo.SenSTIR.forward"><code class="docutils literal notranslate"><span class="pre">SenSTIR.forward()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="reference/algorithms.html#inFairness.fairalgo.SenSTIR.forward_test"><code class="docutils literal notranslate"><span class="pre">SenSTIR.forward_test()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="reference/auditors.html">Auditors</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="reference/auditors.html#sensr-auditor">SenSR Auditor</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="reference/auditors.html#inFairness.auditor.SenSRAuditor"><code class="docutils literal notranslate"><span class="pre">SenSRAuditor</span></code></a><ul>
+<li class="toctree-l5"><a class="reference internal" href="reference/auditors.html#inFairness.auditor.SenSRAuditor.audit"><code class="docutils literal notranslate"><span class="pre">SenSRAuditor.audit()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="reference/auditors.html#inFairness.auditor.SenSRAuditor.generate_worst_case_examples"><code class="docutils literal notranslate"><span class="pre">SenSRAuditor.generate_worst_case_examples()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="reference/auditors.html#sensei-auditor">SenSeI Auditor</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="reference/auditors.html#inFairness.auditor.SenSeIAuditor"><code class="docutils literal notranslate"><span class="pre">SenSeIAuditor</span></code></a><ul>
+<li class="toctree-l5"><a class="reference internal" href="reference/auditors.html#inFairness.auditor.SenSeIAuditor.audit"><code class="docutils literal notranslate"><span class="pre">SenSeIAuditor.audit()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="reference/auditors.html#inFairness.auditor.SenSeIAuditor.generate_worst_case_examples"><code class="docutils literal notranslate"><span class="pre">SenSeIAuditor.generate_worst_case_examples()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="reference/auditors.html#senstir-auditor">SenSTIR Auditor</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="reference/auditors.html#inFairness.auditor.SenSTIRAuditor"><code class="docutils literal notranslate"><span class="pre">SenSTIRAuditor</span></code></a><ul>
+<li class="toctree-l5"><a class="reference internal" href="reference/auditors.html#inFairness.auditor.SenSTIRAuditor.generate_worst_case_examples"><code class="docutils literal notranslate"><span class="pre">SenSTIRAuditor.generate_worst_case_examples()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="reference/distances.html">Distances</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="reference/distances.html#mahalanobis-distance">Mahalanobis distance</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="reference/distances.html#inFairness.distances.MahalanobisDistances"><code class="docutils literal notranslate"><span class="pre">MahalanobisDistances</span></code></a><ul>
+<li class="toctree-l5"><a class="reference internal" href="reference/distances.html#inFairness.distances.MahalanobisDistances.fit"><code class="docutils literal notranslate"><span class="pre">MahalanobisDistances.fit()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="reference/distances.html#inFairness.distances.MahalanobisDistances.forward"><code class="docutils literal notranslate"><span class="pre">MahalanobisDistances.forward()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="reference/distances.html#inFairness.distances.MahalanobisDistances.to"><code class="docutils literal notranslate"><span class="pre">MahalanobisDistances.to()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="reference/distances.html#sensitive-subspace-distance">Sensitive Subspace distance</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="reference/distances.html#inFairness.distances.SensitiveSubspaceDistance"><code class="docutils literal notranslate"><span class="pre">SensitiveSubspaceDistance</span></code></a><ul>
+<li class="toctree-l5"><a class="reference internal" href="reference/distances.html#inFairness.distances.SensitiveSubspaceDistance.compute_projection_complement"><code class="docutils literal notranslate"><span class="pre">SensitiveSubspaceDistance.compute_projection_complement()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="reference/distances.html#inFairness.distances.SensitiveSubspaceDistance.fit"><code class="docutils literal notranslate"><span class="pre">SensitiveSubspaceDistance.fit()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="reference/distances.html#svd-sensitive-subspace">SVD Sensitive Subspace</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="reference/distances.html#inFairness.distances.SVDSensitiveSubspaceDistance"><code class="docutils literal notranslate"><span class="pre">SVDSensitiveSubspaceDistance</span></code></a><ul>
+<li class="toctree-l5"><a class="reference internal" href="reference/distances.html#inFairness.distances.SVDSensitiveSubspaceDistance.compute_basis_vectors"><code class="docutils literal notranslate"><span class="pre">SVDSensitiveSubspaceDistance.compute_basis_vectors()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="reference/distances.html#inFairness.distances.SVDSensitiveSubspaceDistance.fit"><code class="docutils literal notranslate"><span class="pre">SVDSensitiveSubspaceDistance.fit()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="reference/distances.html#explore-embedded-xenial-pairs-logistic-regression">EXPLORE: Embedded Xenial Pairs Logistic Regression</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="reference/distances.html#inFairness.distances.EXPLOREDistance"><code class="docutils literal notranslate"><span class="pre">EXPLOREDistance</span></code></a><ul>
+<li class="toctree-l5"><a class="reference internal" href="reference/distances.html#inFairness.distances.EXPLOREDistance.fit"><code class="docutils literal notranslate"><span class="pre">EXPLOREDistance.fit()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="reference/distances.html#logistic-regression-sensitive-subspace-distance-metric">Logistic Regression Sensitive Subspace distance metric</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="reference/distances.html#inFairness.distances.LogisticRegSensitiveSubspace"><code class="docutils literal notranslate"><span class="pre">LogisticRegSensitiveSubspace</span></code></a><ul>
+<li class="toctree-l5"><a class="reference internal" href="reference/distances.html#inFairness.distances.LogisticRegSensitiveSubspace.fit"><code class="docutils literal notranslate"><span class="pre">LogisticRegSensitiveSubspace.fit()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="reference/distances.html#inFairness.distances.LogisticRegSensitiveSubspace.logistic_regression_models"><code class="docutils literal notranslate"><span class="pre">LogisticRegSensitiveSubspace.logistic_regression_models</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="reference/distances.html#protected-euclidean-distance">Protected Euclidean Distance</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="reference/distances.html#inFairness.distances.ProtectedEuclideanDistance"><code class="docutils literal notranslate"><span class="pre">ProtectedEuclideanDistance</span></code></a><ul>
+<li class="toctree-l5"><a class="reference internal" href="reference/distances.html#inFairness.distances.ProtectedEuclideanDistance.fit"><code class="docutils literal notranslate"><span class="pre">ProtectedEuclideanDistance.fit()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="reference/distances.html#inFairness.distances.ProtectedEuclideanDistance.forward"><code class="docutils literal notranslate"><span class="pre">ProtectedEuclideanDistance.forward()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="reference/distances.html#inFairness.distances.ProtectedEuclideanDistance.to"><code class="docutils literal notranslate"><span class="pre">ProtectedEuclideanDistance.to()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="reference/distances.html#euclidean-distance">Euclidean Distance</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="reference/distances.html#inFairness.distances.EuclideanDistance"><code class="docutils literal notranslate"><span class="pre">EuclideanDistance</span></code></a><ul>
+<li class="toctree-l5"><a class="reference internal" href="reference/distances.html#inFairness.distances.EuclideanDistance.forward"><code class="docutils literal notranslate"><span class="pre">EuclideanDistance.forward()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="reference/distances.html#wasserstein-distance">Wasserstein Distance</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="reference/distances.html#inFairness.distances.WassersteinDistance"><code class="docutils literal notranslate"><span class="pre">WassersteinDistance</span></code></a><ul>
+<li class="toctree-l5"><a class="reference internal" href="reference/distances.html#inFairness.distances.WassersteinDistance.forward"><code class="docutils literal notranslate"><span class="pre">WassersteinDistance.forward()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="reference/postprocessing.html">Post-Processing</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="reference/postprocessing.html#base-post-processing-class">Base post-processing class</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="reference/postprocessing.html#inFairness.postprocessing.BasePostProcessing"><code class="docutils literal notranslate"><span class="pre">BasePostProcessing</span></code></a><ul>
+<li class="toctree-l5"><a class="reference internal" href="reference/postprocessing.html#inFairness.postprocessing.BasePostProcessing.add_datapoints"><code class="docutils literal notranslate"><span class="pre">BasePostProcessing.add_datapoints()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="reference/postprocessing.html#inFairness.postprocessing.BasePostProcessing.data"><code class="docutils literal notranslate"><span class="pre">BasePostProcessing.data</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="reference/postprocessing.html#inFairness.postprocessing.BasePostProcessing.distance_matrix"><code class="docutils literal notranslate"><span class="pre">BasePostProcessing.distance_matrix</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="reference/postprocessing.html#inFairness.postprocessing.BasePostProcessing.reset_datapoints"><code class="docutils literal notranslate"><span class="pre">BasePostProcessing.reset_datapoints()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="reference/postprocessing.html#graph-laplacian-individual-fairness-glif">Graph Laplacian Individual Fairness (GLIF)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="reference/postprocessing.html#inFairness.postprocessing.GraphLaplacianIF"><code class="docutils literal notranslate"><span class="pre">GraphLaplacianIF</span></code></a><ul>
+<li class="toctree-l5"><a class="reference internal" href="reference/postprocessing.html#inFairness.postprocessing.GraphLaplacianIF.get_objective"><code class="docutils literal notranslate"><span class="pre">GraphLaplacianIF.get_objective()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="reference/postprocessing.html#inFairness.postprocessing.GraphLaplacianIF.postprocess"><code class="docutils literal notranslate"><span class="pre">GraphLaplacianIF.postprocess()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="reference/utilities.html">Utilities</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="reference/utilities.html#module-inFairness.utils.datautils">Data utilities</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="reference/utilities.html#inFairness.utils.datautils.convert_tensor_to_numpy"><code class="docutils literal notranslate"><span class="pre">convert_tensor_to_numpy()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/utilities.html#inFairness.utils.datautils.generate_data_pairs"><code class="docutils literal notranslate"><span class="pre">generate_data_pairs()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/utilities.html#inFairness.utils.datautils.get_device"><code class="docutils literal notranslate"><span class="pre">get_device()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/utilities.html#inFairness.utils.datautils.include_exclude_terms"><code class="docutils literal notranslate"><span class="pre">include_exclude_terms()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="reference/utilities.html#module-inFairness.utils.postprocessing">Post-Processing utilities</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="reference/utilities.html#inFairness.utils.postprocessing.build_graph_from_dists"><code class="docutils literal notranslate"><span class="pre">build_graph_from_dists()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/utilities.html#inFairness.utils.postprocessing.get_laplacian"><code class="docutils literal notranslate"><span class="pre">get_laplacian()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/utilities.html#inFairness.utils.postprocessing.laplacian_solve"><code class="docutils literal notranslate"><span class="pre">laplacian_solve()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="development/index.html">Development</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="development/auditors.html">Auditors</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="development/auditors.html#inFairness.auditor.Auditor"><code class="docutils literal notranslate"><span class="pre">Auditor</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="development/auditors.html#inFairness.auditor.Auditor.audit"><code class="docutils literal notranslate"><span class="pre">Auditor.audit()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="development/auditors.html#inFairness.auditor.Auditor.compute_audit_result"><code class="docutils literal notranslate"><span class="pre">Auditor.compute_audit_result()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="development/auditors.html#inFairness.auditor.Auditor.compute_loss_ratio"><code class="docutils literal notranslate"><span class="pre">Auditor.compute_loss_ratio()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="development/auditors.html#inFairness.auditor.Auditor.generate_worst_case_examples"><code class="docutils literal notranslate"><span class="pre">Auditor.generate_worst_case_examples()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="development/distances.html">Distances</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="development/distances.html#distance-base-class">Distance base class</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="development/distances.html#inFairness.distances.distance.Distance"><code class="docutils literal notranslate"><span class="pre">Distance</span></code></a><ul>
+<li class="toctree-l5"><a class="reference internal" href="development/distances.html#inFairness.distances.distance.Distance.fit"><code class="docutils literal notranslate"><span class="pre">Distance.fit()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="development/distances.html#inFairness.distances.distance.Distance.forward"><code class="docutils literal notranslate"><span class="pre">Distance.forward()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="development/distances.html#inFairness.distances.distance.Distance.load_state_dict"><code class="docutils literal notranslate"><span class="pre">Distance.load_state_dict()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="development/distances.html#mahalanobis-distance">Mahalanobis distance</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="development/distances.html#inFairness.distances.MahalanobisDistances"><code class="docutils literal notranslate"><span class="pre">MahalanobisDistances</span></code></a><ul>
+<li class="toctree-l5"><a class="reference internal" href="development/distances.html#inFairness.distances.MahalanobisDistances.fit"><code class="docutils literal notranslate"><span class="pre">MahalanobisDistances.fit()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="development/distances.html#inFairness.distances.MahalanobisDistances.forward"><code class="docutils literal notranslate"><span class="pre">MahalanobisDistances.forward()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="development/distances.html#inFairness.distances.MahalanobisDistances.to"><code class="docutils literal notranslate"><span class="pre">MahalanobisDistances.to()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="development/distances.html#sensitive-subspace-distance">Sensitive Subspace distance</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="development/distances.html#inFairness.distances.SensitiveSubspaceDistance"><code class="docutils literal notranslate"><span class="pre">SensitiveSubspaceDistance</span></code></a><ul>
+<li class="toctree-l5"><a class="reference internal" href="development/distances.html#inFairness.distances.SensitiveSubspaceDistance.compute_projection_complement"><code class="docutils literal notranslate"><span class="pre">SensitiveSubspaceDistance.compute_projection_complement()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="development/distances.html#inFairness.distances.SensitiveSubspaceDistance.fit"><code class="docutils literal notranslate"><span class="pre">SensitiveSubspaceDistance.fit()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="changelog.html">Changelog</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#version-0-2-1">2022-08-09: version 0.2.1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#version-0-2">2022-08-06: version 0.2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#version-0-1">2022-06-10: version 0.1</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/IBM/inFairness">GitHub Repository</a></li>
+</ul>
+</div>
+</section>
+
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          <a class="next-page" href="tutorial.html">
+              <div class="page-info">
+                <div class="context">
+                  <span>Next</span>
+                </div>
+                <div class="title">Tutorial</div>
+              </div>
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+            </a>
+          
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; 2022, IBM Research
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+          </div>
+          <div class="right-details">
+            
+          </div>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer no-toc">
+      
+      
+      
+    </aside>
+  </div>
+</div><script src="_static/documentation_options.js?v=5929fcd5"></script>
+    <script src="_static/doctools.js?v=888ff710"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/scripts/furo.js?v=32e29ea5"></script>
+    <script src="_static/design-tabs.js?v=36754332"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    </body>
+</html>

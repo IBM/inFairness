@@ -1,0 +1,7 @@
+inFairness.distances.wasserstein\_distance module
+=================================================
+
+.. automodule:: inFairness.distances.wasserstein_distance
+   :members:
+   :undoc-members:
+   :show-inheritance:

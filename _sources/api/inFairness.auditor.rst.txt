@@ -1,0 +1,22 @@
+inFairness.auditor package
+==========================
+
+Submodules
+----------
+
+.. toctree::
+   :maxdepth: 4
+
+   inFairness.auditor.auditor
+   inFairness.auditor.datainterface
+   inFairness.auditor.sensei_auditor
+   inFairness.auditor.sensr_auditor
+   inFairness.auditor.senstir_auditor
+
+Module contents
+---------------
+
+.. automodule:: inFairness.auditor
+   :members:
+   :undoc-members:
+   :show-inheritance:

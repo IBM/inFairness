@@ -1,0 +1,7 @@
+inFairness.distances.logistic\_sensitive\_subspace module
+=========================================================
+
+.. automodule:: inFairness.distances.logistic_sensitive_subspace
+   :members:
+   :undoc-members:
+   :show-inheritance:

@@ -1,0 +1,21 @@
+inFairness.fairalgo package
+===========================
+
+Submodules
+----------
+
+.. toctree::
+   :maxdepth: 4
+
+   inFairness.fairalgo.datainterfaces
+   inFairness.fairalgo.sensei
+   inFairness.fairalgo.sensr
+   inFairness.fairalgo.senstir
+
+Module contents
+---------------
+
+.. automodule:: inFairness.fairalgo
+   :members:
+   :undoc-members:
+   :show-inheritance:

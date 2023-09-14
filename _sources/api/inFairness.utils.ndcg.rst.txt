@@ -1,0 +1,7 @@
+inFairness.utils.ndcg module
+============================
+
+.. automodule:: inFairness.utils.ndcg
+   :members:
+   :undoc-members:
+   :show-inheritance:

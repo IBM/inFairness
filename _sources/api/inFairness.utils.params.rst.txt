@@ -1,0 +1,7 @@
+inFairness.utils.params module
+==============================
+
+.. automodule:: inFairness.utils.params
+   :members:
+   :undoc-members:
+   :show-inheritance:

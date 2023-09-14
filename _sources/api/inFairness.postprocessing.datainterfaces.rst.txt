@@ -1,0 +1,7 @@
+inFairness.postprocessing.datainterfaces module
+===============================================
+
+.. automodule:: inFairness.postprocessing.datainterfaces
+   :members:
+   :undoc-members:
+   :show-inheritance:

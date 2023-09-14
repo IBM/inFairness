@@ -1,0 +1,7 @@
+inFairness.distances.euclidean\_dists module
+============================================
+
+.. automodule:: inFairness.distances.euclidean_dists
+   :members:
+   :undoc-members:
+   :show-inheritance:

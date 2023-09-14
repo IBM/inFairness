@@ -1,0 +1,7 @@
+inFairness.fairalgo.sensei module
+=================================
+
+.. automodule:: inFairness.fairalgo.sensei
+   :members:
+   :undoc-members:
+   :show-inheritance:

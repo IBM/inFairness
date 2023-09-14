@@ -1,0 +1,7 @@
+inFairness.distances.mahalanobis\_distance module
+=================================================
+
+.. automodule:: inFairness.distances.mahalanobis_distance
+   :members:
+   :undoc-members:
+   :show-inheritance:

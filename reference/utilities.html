@@ -1,0 +1,488 @@
+<!doctype html>
+<html class="no-js" lang="en" data-content_root="../">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-3QDFV4L7YB"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            
+            gtag('config', 'G-3QDFV4L7YB');
+            
+        </script>
+    <link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Development" href="../development/index.html" /><link rel="prev" title="Post-Processing" href="postprocessing.html" />
+
+    <!-- Generated with Sphinx 7.2.6 and Furo 2023.09.10 -->
+        <title>Utilities - inFairness</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=135e06be" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?v=36a5483c" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #f8f8f8;
+  --color-code-foreground: black;
+  --color-announcement-background: #935610;
+  --color-announcement-text: #FFFFFF;
+  
+  }
+  @media not print {
+    body[data-theme="dark"] {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  --color-announcement-background: #935610;
+  --color-announcement-text: #FFFFFF;
+  
+    }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  --color-announcement-background: #935610;
+  --color-announcement-text: #FFFFFF;
+  
+      }
+    }
+  }
+</style></head>
+  <body>
+    
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-half" viewBox="0 0 24 24">
+    <title>Auto light/dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-shadow">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M13 12h5" />
+      <path d="M13 15h4" />
+      <path d="M13 18h1" />
+      <path d="M13 9h4" />
+      <path d="M13 6h1" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+<div class="announcement">
+  <aside class="announcement-content">
+     <p><small>Check out our demonstration exploring individual and group fairness of three BERT-based toxic text classification models <a class="sd-sphinx-override sd-badge sd-text-wrap sd-bg-dark sd-bg-text-dark reference external" target="_blank"href="https://fairbert.vizhub.ai"><span>Demonstration</span></a></small></p> 
+  </aside>
+</div>
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="../index.html"><div class="brand">inFairness</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="../index.html">
+  
+  <div class="sidebar-logo-container">
+    <img class="sidebar-logo" src="../_static/infairness-logo.png" alt="Logo"/>
+  </div>
+  
+  
+</a><form class="sidebar-search-container" method="get" action="../search.html" role="search">
+  <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <p class="caption" role="heading"><span class="caption-text">Index</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../papers.html">Papers implemented</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Package Reference</span></p>
+<ul class="current">
+<li class="toctree-l1 current has-children"><a class="reference internal" href="index.html">API Documentation</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of API Documentation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="algorithms.html">Algorithms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="auditors.html">Auditors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="distances.html">Distances</a></li>
+<li class="toctree-l2"><a class="reference internal" href="postprocessing.html">Post-Processing</a></li>
+<li class="toctree-l2 current current-page"><a class="current reference internal" href="#">Utilities</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../development/index.html">Development</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of Development</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../development/auditors.html">Auditors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../development/distances.html">Distances</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/IBM/inFairness">GitHub Repository</a></li>
+</ul>
+
+</div>
+</div>
+
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
+          
+<div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <article role="main">
+          <section class="tex2jax_ignore mathjax_ignore" id="utilities">
+<h1>Utilities<a class="headerlink" href="#utilities" title="Link to this heading">#</a></h1>
+<section id="module-inFairness.utils.datautils">
+<span id="data-utilities"></span><h2>Data utilities<a class="headerlink" href="#module-inFairness.utils.datautils" title="Link to this heading">#</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="inFairness.utils.datautils.convert_tensor_to_numpy">
+<span class="sig-prename descclassname"><span class="pre">inFairness.utils.datautils.</span></span><span class="sig-name descname"><span class="pre">convert_tensor_to_numpy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tensor</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/inFairness/utils/datautils.html#convert_tensor_to_numpy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#inFairness.utils.datautils.convert_tensor_to_numpy" title="Link to this definition">#</a></dt>
+<dd><p>Converts a PyTorch tensor to numpy array</p>
+<p>If the provided <cite>tensor</cite> is not a PyTorch tensor, it returns the same object back
+with no modifications</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>tensor</strong> (<a class="reference external" href="https://pytorch.org/docs/1.9.0/tensors.html#torch.Tensor" title="(in PyTorch v1.9.0a0+gitd69c22d)"><em>torch.Tensor</em></a>) – Tensor to be converted to numpy array</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>array_np</strong> – Numpy array of the provided tensor</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.25)">numpy.ndarray</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="inFairness.utils.datautils.generate_data_pairs">
+<span class="sig-prename descclassname"><span class="pre">inFairness.utils.datautils.</span></span><span class="sig-name descname"><span class="pre">generate_data_pairs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_pairs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">datasamples_1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">datasamples_2</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">comparator</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/inFairness/utils/datautils.html#generate_data_pairs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#inFairness.utils.datautils.generate_data_pairs" title="Link to this definition">#</a></dt>
+<dd><p>Utility function to generate (in)comparable data pairs given data samples. Use case includes
+creating a dataset of comparable and incomparable data for the EXPLORE distance metric which
+learns from such data samples.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>n_pairs</strong> (<em>int</em>) – Number of pairs to construct</p></li>
+<li><p><strong>datasamples_1</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.25)"><em>numpy.ndarray</em></a>) – Array of data samples of shape (N_1, <a href="#id1"><span class="problematic" id="id2">*</span></a>)</p></li>
+<li><p><strong>datasamples_2</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.25)"><em>numpy.ndarray</em></a>) – (Optional) array of data samples of shape (N_2, <a href="#id3"><span class="problematic" id="id4">*</span></a>).
+If datasamples_2 is provided, then data pairs are constructed between
+datasamples_1 and datasamples_2.
+If datasamples_2 is not provided, then data pairs are constructed within
+datasamples_1</p></li>
+<li><p><strong>comparator</strong> (<em>function</em>) – A lambda function that given two samples returns True if they should
+be paired, and False if not.
+If <cite>comparator</cite> is not defined, then random data samples are paired together.
+Example: <cite>comparator = lambda x, y: (x == y)</cite></p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>idxs</strong> – A (n_pairs, 2) shaped array with indices of data sample pairs</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.25)">numpy.ndarray</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="inFairness.utils.datautils.get_device">
+<span class="sig-prename descclassname"><span class="pre">inFairness.utils.datautils.</span></span><span class="sig-name descname"><span class="pre">get_device</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/inFairness/utils/datautils.html#get_device"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#inFairness.utils.datautils.get_device" title="Link to this definition">#</a></dt>
+<dd><p>Returns a device (cpu/cuda) based on the type of the reference object</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>obj</strong> (<a class="reference external" href="https://pytorch.org/docs/1.9.0/tensors.html#torch.Tensor" title="(in PyTorch v1.9.0a0+gitd69c22d)"><em>torch.Tensor</em></a>) – </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="inFairness.utils.datautils.include_exclude_terms">
+<span class="sig-prename descclassname"><span class="pre">inFairness.utils.datautils.</span></span><span class="sig-name descname"><span class="pre">include_exclude_terms</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data_terms</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">include</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">()</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">exclude</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">()</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/inFairness/utils/datautils.html#include_exclude_terms"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#inFairness.utils.datautils.include_exclude_terms" title="Link to this definition">#</a></dt>
+<dd><p>given a set of data terms, return a resulting set depending on specified included and excluded terms.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data_terms</strong> (<em>string iterable</em>) – set of terms to be filtered</p></li>
+<li><p><strong>include</strong> (<em>string iterable</em>) – set of terms to be included, if not specified all data_terms are included</p></li>
+<li><p><strong>exclude</strong> (<em>string iterable</em>) – set of terms to be excluded from data_terms</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>terms</strong> – resulting terms in alphabetical order.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list of strings</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-inFairness.utils.postprocessing">
+<span id="post-processing-utilities"></span><h2>Post-Processing utilities<a class="headerlink" href="#module-inFairness.utils.postprocessing" title="Link to this heading">#</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="inFairness.utils.postprocessing.build_graph_from_dists">
+<span class="sig-prename descclassname"><span class="pre">inFairness.utils.postprocessing.</span></span><span class="sig-name descname"><span class="pre">build_graph_from_dists</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dists</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://pytorch.org/docs/1.9.0/tensors.html#torch.Tensor" title="(in PyTorch v1.9.0a0+gitd69c22d)"><span class="pre">Tensor</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">scale</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">threshold</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">normalize</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/inFairness/utils/postprocessing.html#build_graph_from_dists"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#inFairness.utils.postprocessing.build_graph_from_dists" title="Link to this definition">#</a></dt>
+<dd><p>Build the adjacency matrix <cite>W</cite> given distances</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dists</strong> (<a class="reference external" href="https://pytorch.org/docs/1.9.0/tensors.html#torch.Tensor" title="(in PyTorch v1.9.0a0+gitd69c22d)"><em>torch.Tensor</em></a>) – Distance matrix between data points. Shape: (N, N)</p></li>
+<li><p><strong>scale</strong> (<em>float</em>) – Parameter used to scale the computed distances</p></li>
+<li><p><strong>threshold</strong> (<em>float</em>) – Parameter used to determine if two data points are connected or not.
+Distances below threshold value are connected, and beyond
+threshold value are disconnected.</p></li>
+<li><p><strong>normalize</strong> (<em>bool</em>) – Whether to normalize the adjacency matrix or not</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>W</strong> (<em>torch.Tensor</em>) – Adjancency matrix. It contains data points which are connected
+to atleast one other datapoint. Isolated datapoints, or ones which
+are not connected to any other datapoints, are not included in the
+adjancency matrix.</p></li>
+<li><p><strong>idxs_in</strong> (<em>torch.Tensor</em>) – Indices of data points which are included in the adjacency matrix</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="inFairness.utils.postprocessing.get_laplacian">
+<span class="sig-prename descclassname"><span class="pre">inFairness.utils.postprocessing.</span></span><span class="sig-name descname"><span class="pre">get_laplacian</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">W</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://pytorch.org/docs/1.9.0/tensors.html#torch.Tensor" title="(in PyTorch v1.9.0a0+gitd69c22d)"><span class="pre">Tensor</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">normalize</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/inFairness/utils/postprocessing.html#get_laplacian"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#inFairness.utils.postprocessing.get_laplacian" title="Link to this definition">#</a></dt>
+<dd><p>Get the Laplacian of the matrix <cite>W</cite></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>W</strong> (<a class="reference external" href="https://pytorch.org/docs/1.9.0/tensors.html#torch.Tensor" title="(in PyTorch v1.9.0a0+gitd69c22d)"><em>torch.Tensor</em></a>) – Adjacency matrix of shape (N, N)</p></li>
+<li><p><strong>normalize</strong> (<em>bool</em>) – Whether to normalize the computed laplacian or not</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>Laplacian</strong> – Laplacian of the adjacency matrix</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://pytorch.org/docs/1.9.0/tensors.html#torch.Tensor" title="(in PyTorch v1.9.0a0+gitd69c22d)">torch.Tensor</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="inFairness.utils.postprocessing.laplacian_solve">
+<span class="sig-prename descclassname"><span class="pre">inFairness.utils.postprocessing.</span></span><span class="sig-name descname"><span class="pre">laplacian_solve</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">L</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://pytorch.org/docs/1.9.0/tensors.html#torch.Tensor" title="(in PyTorch v1.9.0a0+gitd69c22d)"><span class="pre">Tensor</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_hat</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://pytorch.org/docs/1.9.0/tensors.html#torch.Tensor" title="(in PyTorch v1.9.0a0+gitd69c22d)"><span class="pre">Tensor</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">lambda_param</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/inFairness/utils/postprocessing.html#laplacian_solve"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#inFairness.utils.postprocessing.laplacian_solve" title="Link to this definition">#</a></dt>
+<dd><p>Solves a system of linear equations to get the post-processed output.
+The system of linear equation it solves is:
+<span class="math notranslate nohighlight">\(\hat{{f}} = {(I + \lambda * L)}^{-1} \hat{y}\)</span></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>L</strong> (<a class="reference external" href="https://pytorch.org/docs/1.9.0/tensors.html#torch.Tensor" title="(in PyTorch v1.9.0a0+gitd69c22d)"><em>torch.Tensor</em></a>) – Laplacian matrix</p></li>
+<li><p><strong>y_hat</strong> (<a class="reference external" href="https://pytorch.org/docs/1.9.0/tensors.html#torch.Tensor" title="(in PyTorch v1.9.0a0+gitd69c22d)"><em>torch.Tensor</em></a>) – Model predicted output class probabilities</p></li>
+<li><p><strong>lambda_param</strong> (<em>float</em>) – Weight for the laplacian regularizer</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>y</strong> – Post-processed solution according to the equation above</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://pytorch.org/docs/1.9.0/tensors.html#torch.Tensor" title="(in PyTorch v1.9.0a0+gitd69c22d)">torch.Tensor</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+</section>
+
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          <a class="next-page" href="../development/index.html">
+              <div class="page-info">
+                <div class="context">
+                  <span>Next</span>
+                </div>
+                <div class="title">Development</div>
+              </div>
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+            </a>
+          <a class="prev-page" href="postprocessing.html">
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+              <div class="page-info">
+                <div class="context">
+                  <span>Previous</span>
+                </div>
+                
+                <div class="title">Post-Processing</div>
+                
+              </div>
+            </a>
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; 2022, IBM Research
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+          </div>
+          <div class="right-details">
+            
+          </div>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer">
+      
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            On this page
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">Utilities</a><ul>
+<li><a class="reference internal" href="#module-inFairness.utils.datautils">Data utilities</a><ul>
+<li><a class="reference internal" href="#inFairness.utils.datautils.convert_tensor_to_numpy"><code class="docutils literal notranslate"><span class="pre">convert_tensor_to_numpy()</span></code></a></li>
+<li><a class="reference internal" href="#inFairness.utils.datautils.generate_data_pairs"><code class="docutils literal notranslate"><span class="pre">generate_data_pairs()</span></code></a></li>
+<li><a class="reference internal" href="#inFairness.utils.datautils.get_device"><code class="docutils literal notranslate"><span class="pre">get_device()</span></code></a></li>
+<li><a class="reference internal" href="#inFairness.utils.datautils.include_exclude_terms"><code class="docutils literal notranslate"><span class="pre">include_exclude_terms()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-inFairness.utils.postprocessing">Post-Processing utilities</a><ul>
+<li><a class="reference internal" href="#inFairness.utils.postprocessing.build_graph_from_dists"><code class="docutils literal notranslate"><span class="pre">build_graph_from_dists()</span></code></a></li>
+<li><a class="reference internal" href="#inFairness.utils.postprocessing.get_laplacian"><code class="docutils literal notranslate"><span class="pre">get_laplacian()</span></code></a></li>
+<li><a class="reference internal" href="#inFairness.utils.postprocessing.laplacian_solve"><code class="docutils literal notranslate"><span class="pre">laplacian_solve()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
+      
+      
+    </aside>
+  </div>
+</div><script src="../_static/documentation_options.js?v=5929fcd5"></script>
+    <script src="../_static/doctools.js?v=888ff710"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/scripts/furo.js?v=32e29ea5"></script>
+    <script src="../_static/design-tabs.js?v=36754332"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    </body>
+</html>

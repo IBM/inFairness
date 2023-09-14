@@ -1,0 +1,22 @@
+inFairness.postprocessing package
+=================================
+
+Submodules
+----------
+
+.. toctree::
+   :maxdepth: 4
+
+   inFairness.postprocessing.base_postprocessing
+   inFairness.postprocessing.data_ds
+   inFairness.postprocessing.datainterfaces
+   inFairness.postprocessing.distance_ds
+   inFairness.postprocessing.glif
+
+Module contents
+---------------
+
+.. automodule:: inFairness.postprocessing
+   :members:
+   :undoc-members:
+   :show-inheritance:

@@ -1,0 +1,22 @@
+inFairness package
+==================
+
+Subpackages
+-----------
+
+.. toctree::
+   :maxdepth: 4
+
+   inFairness.auditor
+   inFairness.distances
+   inFairness.fairalgo
+   inFairness.postprocessing
+   inFairness.utils
+
+Module contents
+---------------
+
+.. automodule:: inFairness
+   :members:
+   :undoc-members:
+   :show-inheritance:

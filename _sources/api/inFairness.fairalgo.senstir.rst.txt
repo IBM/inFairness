@@ -1,0 +1,7 @@
+inFairness.fairalgo.senstir module
+==================================
+
+.. automodule:: inFairness.fairalgo.senstir
+   :members:
+   :undoc-members:
+   :show-inheritance:

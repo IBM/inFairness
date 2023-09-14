@@ -1,0 +1,7 @@
+inFairness.auditor.senstir\_auditor module
+==========================================
+
+.. automodule:: inFairness.auditor.senstir_auditor
+   :members:
+   :undoc-members:
+   :show-inheritance:

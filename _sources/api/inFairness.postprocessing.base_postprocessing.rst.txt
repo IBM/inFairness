@@ -1,0 +1,7 @@
+inFairness.postprocessing.base\_postprocessing module
+=====================================================
+
+.. automodule:: inFairness.postprocessing.base_postprocessing
+   :members:
+   :undoc-members:
+   :show-inheritance:

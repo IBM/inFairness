@@ -1,0 +1,7 @@
+inFairness.auditor.sensei\_auditor module
+=========================================
+
+.. automodule:: inFairness.auditor.sensei_auditor
+   :members:
+   :undoc-members:
+   :show-inheritance:
